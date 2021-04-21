@@ -1,4 +1,6 @@
 import React from 'react';
+import axios from 'axios';
+
 import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from '../movie-view/movie-view';
 /*essentially telling React to create a new MainView component using the generic React.Component template as its foundation */
@@ -11,13 +13,22 @@ export class MainView extends React.Component {
     //prettier-ignore
     this.state = {
       /*represents the moment a component is created in the memory */
-      movies: [
-        { _id: 1, Title: 'Inception', Description: 'desc1...', ImagePath: 'https://via.placeholder.com/150' },
-        { _id: 2, Title: 'The Shawshank Redemption', Description: 'desc2...', ImagePath: 'https://via.placeholder.com/150' },
-        { _id: 3, Title: 'Gladiator', Description: 'desc3...', ImagePath: 'https://via.placeholder.com/150' },
-      ],
+      movies: [],
       selectedMovie: null,
     };
+  }
+
+  componentDidMount() {
+    axios
+      .get('https://jennysflix.herokuapp.com/movies')
+      .then((response) => {
+        this.setState({
+          movies: response.data,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   setSelectedMovie(newSelectedMovie) {
@@ -31,7 +42,7 @@ export class MainView extends React.Component {
 
     // if (selectedMovie) return <MovieView movieData={selectedMovie} />;
 
-    if (movies.length === 0) return <div className="main-view">The list is empty!</div>;
+    if (movies.length === 0) return <div className="main-view" />;
 
     return (
       <div className="main-view">
