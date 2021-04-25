@@ -1,0 +1,101 @@
+var helpers = require("../../../../../AppData/Roaming/npm/node_modules/parcel/node_modules/@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+helpers.prelude(module);
+try {
+  var _parcelHelpers = require("@parcel/transformer-js/lib/esmodule-helpers.js");
+  _parcelHelpers.defineInteropFlag(exports);
+  _parcelHelpers.export(exports, "MainView", function () {
+    return MainView;
+  });
+  var _react = require('react');
+  var _reactDefault = _parcelHelpers.interopDefault(_react);
+  var _axios = require('axios');
+  var _axiosDefault = _parcelHelpers.interopDefault(_axios);
+  var _movieCardMovieCard = require('../movie-card/movie-card');
+  var _movieViewMovieView = require('../movie-view/movie-view');
+  var _jsxFileName = "C:\\Users\\jenny\\git_projects\\myFlix-client\\src\\components\\main-view\\main-view.jsx";
+  class MainView extends _reactDefault.default.Component {
+    /*the export keyword exposes the MainView component, and the rest of the line creates the MainView component, extends from React.Component*/
+    constructor() {
+      /*where you initialize a state's values*/
+      super();
+      /*means call the constructor of the parent class(React.Component) ...  initializes your component’s state, and without it, you’ll get an error if you try to use this.state inside constructor()*/
+      // prettier-ignore
+      this.state = {
+        /*represents the moment a component is created in the memory*/
+        movies: [],
+        selectedMovie: null
+      };
+    }
+    componentDidMount() {
+      _axiosDefault.default.get('https://jennysflix.herokuapp.com/movies').then(response => {
+        this.setState({
+          movies: response.data
+        });
+      }).catch(error => {
+        console.log(error);
+      });
+    }
+    setSelectedMovie(newSelectedMovie) {
+      this.setState({
+        selectedMovie: newSelectedMovie
+      });
+    }
+    /*prettier-ignore*/
+    render() {
+      const {movies, selectedMovie} = this.state;
+      // if (selectedMovie) return <MovieView movieData={selectedMovie} />;
+      if (movies.length === 0) return (
+        /*#__PURE__*/_reactDefault.default.createElement("div", {
+          className: "main-view",
+          __self: this,
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 45,
+            columnNumber: 37
+          }
+        })
+      );
+      return (
+        /*#__PURE__*/_reactDefault.default.createElement("div", {
+          className: "main-view",
+          __self: this,
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 48,
+            columnNumber: 7
+          }
+        }, selectedMovie ? /*#__PURE__*/_reactDefault.default.createElement(_movieViewMovieView.MovieView, {
+          movieData: selectedMovie,
+          onBackClick: newSelectedMovie => {
+            this.setSelectedMovie(newSelectedMovie);
+          },
+          __self: this,
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 51,
+            columnNumber: 11
+          }
+        }) : movies.map(movie => /*#__PURE__*/_reactDefault.default.createElement(_movieCardMovieCard.MovieCard, {
+          key: movie._id,
+          movieData: movie,
+          onMovieClick: movie => {
+            this.setSelectedMovie(movie);
+          },
+          __self: this,
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 53,
+            columnNumber: 11
+          }
+        })))
+      );
+    }
+  }
+  exports.default = MainView;
+  helpers.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
