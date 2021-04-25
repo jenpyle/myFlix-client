@@ -5,8 +5,9 @@ export function LoginView(props) {
   const [username, setUsername] = useState(''); // assigns an empty string to the username variable—and assigns to the setUsername variable a method to update the username variable
   const [password, setPassword] = useState('');
 
+  console.log('in login view');
   const handleSubmit = (e) => {
-    console.log('===============HERE');
+    console.log('===============inside handleSubmit');
     //the callback function
     e.preventDefault(); //prevents the default refresh/change of the page
     console.log(username, password);
@@ -15,8 +16,17 @@ export function LoginView(props) {
     props.onLoggedIn(username);
   };
 
+  const handleRegister = (e) => {
+    console.log('===============inside handleRegister');
+    props.onRegisterNewUser(username);
+  };
+
   return (
     <form>
+      <button type="button" onClick={handleRegister}>
+        Register New User
+      </button>
+      <br></br>
       <label>
         Username:
         <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />

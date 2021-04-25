@@ -26288,6 +26288,7 @@ try {
   var _reactDefault = _parcelHelpers.interopDefault(_react);
   var _axios = require('axios');
   var _axiosDefault = _parcelHelpers.interopDefault(_axios);
+  var _registrationViewRegistrationView = require('../registration-view/registration-view');
   var _loginViewLoginView = require('../login-view/login-view');
   var _movieCardMovieCard = require('../movie-card/movie-card');
   var _movieViewMovieView = require('../movie-view/movie-view');
@@ -26303,7 +26304,8 @@ try {
         /*represents the moment a component is created in the memory*/
         movies: [],
         selectedMovie: null,
-        user: null
+        user: null,
+        newUser: null
       };
     }
     componentDidMount() {
@@ -26323,23 +26325,53 @@ try {
     }
     /*When a user successfully logs in, this function updates the `user` property in state to that *particular user*/
     onLoggedIn(user) {
-      console.log('-----------------------HERE');
+      console.log('-----------------------inside onLoggedIn');
+      console.log('user = ', user);
       this.setState({
         user
       });
     }
+    onRegisterNewUser(newUser) {
+      console.log('-----------------------inside OnRegistetrNewUser');
+      console.log(' newUser = ', newUser);
+      this.setState({
+        newUser
+      });
+    }
+    onLoggedOut() {
+      console.log('-----------------------inside onLoggedOut');
+      this.setState({
+        user: null,
+        newUser: null
+      });
+    }
     /*prettier-ignore*/
     render() {
-      const {movies, selectedMovie, user} = this.state;
-      /*If there is no user, the LoginView is rendered. If there is a user logged in, the user details are *passed as a prop to the LoginView*/
-      if (!user) return (
-        /*#__PURE__*/_reactDefault.default.createElement(_loginViewLoginView.LoginView, {
+      const {movies, selectedMovie, user, newUser} = this.state;
+      console.log("user , new user = ", user, ", ", newUser);
+      if (newUser !== null && user === null) return (
+        /*#__PURE__*/_reactDefault.default.createElement(_registrationViewRegistrationView.RegistrationView, {
+          user: user,
+          newUser: newUser,
           onLoggedIn: user => this.onLoggedIn(user),
           __self: this,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 54,
-            columnNumber: 22
+            lineNumber: 74,
+            columnNumber: 50
+          }
+        })
+      );
+      /*If there is no user, the LoginView is rendered. If there is a user logged in, the user details are *passed as a prop to the LoginView*/
+      if (user === null) return (
+        /*#__PURE__*/_reactDefault.default.createElement(_loginViewLoginView.LoginView, {
+          onRegisterNewUser: newUser => this.onRegisterNewUser(newUser),
+          onLoggedIn: user => this.onLoggedIn(user),
+          __self: this,
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 77,
+            columnNumber: 30
           }
         })
       );
@@ -26351,7 +26383,7 @@ try {
           __self: this,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 60,
+            lineNumber: 80,
             columnNumber: 37
           }
         })
@@ -26362,7 +26394,7 @@ try {
           __self: this,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 63,
+            lineNumber: 83,
             columnNumber: 7
           }
         }, selectedMovie ? /*#__PURE__*/_reactDefault.default.createElement(_movieViewMovieView.MovieView, {
@@ -26373,7 +26405,7 @@ try {
           __self: this,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 66,
+            lineNumber: 86,
             columnNumber: 11
           }
         }) : movies.map(movie => /*#__PURE__*/_reactDefault.default.createElement(_movieCardMovieCard.MovieCard, {
@@ -26385,10 +26417,19 @@ try {
           __self: this,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 68,
+            lineNumber: 88,
             columnNumber: 11
           }
-        })))
+        })), /*#__PURE__*/_reactDefault.default.createElement("button", {
+          type: "button",
+          onClick: this.onLoggedOut,
+          __self: this,
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 91,
+            columnNumber: 7
+          }
+        }, "Log Out"))
       );
     }
   }
@@ -26399,7 +26440,7 @@ try {
   window.$RefreshSig$ = prevRefreshSig;
 }
 
-},{"react":"3b2NM","axios":"7rA65","../movie-card/movie-card":"7v6h3","../movie-view/movie-view":"3xBbr","@parcel/transformer-js/lib/esmodule-helpers.js":"21LXs","../../../../../AppData/Roaming/npm/node_modules/parcel/node_modules/@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"4zI3T","../login-view/login-view":"6M7fu"}],"7rA65":[function(require,module,exports) {
+},{"react":"3b2NM","axios":"7rA65","../movie-card/movie-card":"7v6h3","../movie-view/movie-view":"3xBbr","@parcel/transformer-js/lib/esmodule-helpers.js":"21LXs","../../../../../AppData/Roaming/npm/node_modules/parcel/node_modules/@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"4zI3T","../login-view/login-view":"6M7fu","../registration-view/registration-view":"7gvH2"}],"7rA65":[function(require,module,exports) {
 module.exports = require('./lib/axios');
 },{"./lib/axios":"4qfhW"}],"4qfhW":[function(require,module,exports) {
 'use strict';
@@ -29364,8 +29405,9 @@ try {
     const [username, setUsername] = _react.useState('');
     // assigns an empty string to the username variable—and assigns to the setUsername variable a method to update the username variable
     const [password, setPassword] = _react.useState('');
+    console.log('in login view');
     const handleSubmit = e => {
-      console.log('===============HERE');
+      console.log('===============inside handleSubmit');
       // the callback function
       e.preventDefault();
       // prevents the default refresh/change of the page
@@ -29374,19 +29416,39 @@ try {
       /*then call props.onLoggedIn(username)*/
       props.onLoggedIn(username);
     };
+    const handleRegister = e => {
+      console.log('===============inside handleRegister');
+      props.onRegisterNewUser(username);
+    };
     return (
       /*#__PURE__*/_reactDefault.default.createElement("form", {
         __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 19,
+          lineNumber: 25,
           columnNumber: 5
         }
-      }, /*#__PURE__*/_reactDefault.default.createElement("label", {
+      }, /*#__PURE__*/_reactDefault.default.createElement("button", {
+        type: "button",
+        onClick: handleRegister,
         __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 20,
+          lineNumber: 26,
+          columnNumber: 7
+        }
+      }, "Register New User"), /*#__PURE__*/_reactDefault.default.createElement("br", {
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 29,
+          columnNumber: 7
+        }
+      }), /*#__PURE__*/_reactDefault.default.createElement("label", {
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 30,
           columnNumber: 7
         }
       }, "Username:", /*#__PURE__*/_reactDefault.default.createElement("input", {
@@ -29396,14 +29458,14 @@ try {
         __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 22,
+          lineNumber: 32,
           columnNumber: 9
         }
       })), /*#__PURE__*/_reactDefault.default.createElement("label", {
         __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 24,
+          lineNumber: 34,
           columnNumber: 7
         }
       }, "Password:", /*#__PURE__*/_reactDefault.default.createElement("input", {
@@ -29413,7 +29475,7 @@ try {
         __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 26,
+          lineNumber: 36,
           columnNumber: 9
         }
       })), /*#__PURE__*/_reactDefault.default.createElement("button", {
@@ -29422,7 +29484,7 @@ try {
         __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 28,
+          lineNumber: 38,
           columnNumber: 7
         }
       }, "Submit"))
@@ -29432,6 +29494,136 @@ try {
   _c = LoginView;
   var _c;
   $RefreshReg$(_c, "LoginView");
+  helpers.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+
+},{"react":"3b2NM","@parcel/transformer-js/lib/esmodule-helpers.js":"21LXs","../../../../../AppData/Roaming/npm/node_modules/parcel/node_modules/@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"4zI3T"}],"7gvH2":[function(require,module,exports) {
+var helpers = require("../../../../../AppData/Roaming/npm/node_modules/parcel/node_modules/@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+helpers.prelude(module);
+try {
+  var _parcelHelpers = require("@parcel/transformer-js/lib/esmodule-helpers.js");
+  _parcelHelpers.defineInteropFlag(exports);
+  _parcelHelpers.export(exports, "RegistrationView", function () {
+    return RegistrationView;
+  });
+  var _react = require('react');
+  var _reactDefault = _parcelHelpers.interopDefault(_react);
+  var _jsxFileName = "C:\\Users\\jenny\\git_projects\\myFlix-client\\src\\components\\registration-view\\registration-view.jsx", _s = $RefreshSig$();
+  function RegistrationView(props) {
+    _s();
+    // excluding the 'extends React.Component' bc this is a function component, not class component. And can use hooks
+    const [username, setUsername] = _react.useState('');
+    // assigns an empty string to the username variable—and assigns to the setUsername variable a method to update the username variable
+    const [password, setPassword] = _react.useState('');
+    const [email, setEmail] = _react.useState('');
+    const [birthday, setBirthday] = _react.useState('');
+    const handleSubmit = e => {
+      console.log('===============HERE in handleSubmit of registration view');
+      // the callback function
+      e.preventDefault();
+      // prevents the default refresh/change of the page
+      console.log(username, password, email, birthday);
+      /*Send a request to the server for authentication*/
+      /*then call props.onLoggedIn(username)*/
+      props.onLoggedIn(username);
+    };
+    return (
+      /*#__PURE__*/_reactDefault.default.createElement("form", {
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 21,
+          columnNumber: 5
+        }
+      }, /*#__PURE__*/_reactDefault.default.createElement("label", {
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 22,
+          columnNumber: 7
+        }
+      }, "Username:", /*#__PURE__*/_reactDefault.default.createElement("input", {
+        type: "text",
+        value: username,
+        onChange: e => setUsername(e.target.value),
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 24,
+          columnNumber: 9
+        }
+      })), /*#__PURE__*/_reactDefault.default.createElement("label", {
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 26,
+          columnNumber: 7
+        }
+      }, "Password:", /*#__PURE__*/_reactDefault.default.createElement("input", {
+        type: "password",
+        value: password,
+        onChange: e => setPassword(e.target.value),
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 28,
+          columnNumber: 9
+        }
+      })), /*#__PURE__*/_reactDefault.default.createElement("label", {
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 30,
+          columnNumber: 7
+        }
+      }, "Email:", /*#__PURE__*/_reactDefault.default.createElement("input", {
+        type: "email",
+        value: email,
+        onChange: e => setEmail(e.target.value),
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 32,
+          columnNumber: 9
+        }
+      })), /*#__PURE__*/_reactDefault.default.createElement("label", {
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 34,
+          columnNumber: 7
+        }
+      }, "Birthday:", /*#__PURE__*/_reactDefault.default.createElement("input", {
+        type: "date",
+        value: birthday,
+        onChange: e => setBirthday(e.target.value),
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 36,
+          columnNumber: 9
+        }
+      })), /*#__PURE__*/_reactDefault.default.createElement("button", {
+        type: "submit",
+        onClick: handleSubmit,
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 38,
+          columnNumber: 7
+        }
+      }, "Submit"))
+    );
+  }
+  _s(RegistrationView, "tdA1KK8yaZidqYo0wscqshHt/KE=");
+  _c = RegistrationView;
+  var _c;
+  $RefreshReg$(_c, "RegistrationView");
   helpers.postlude(module);
 } finally {
   window.$RefreshReg$ = prevRefreshReg;
