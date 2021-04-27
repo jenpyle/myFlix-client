@@ -20,6 +20,7 @@ export class MainView extends React.Component {
       user: null,
       newUser: null,
     };
+    // this.onLoggedOut = this.onLoggedOut.bind(this);
   }
 
   componentDidMount() {
@@ -71,7 +72,7 @@ export class MainView extends React.Component {
     const { movies, selectedMovie, user, newUser } = this.state;
     console.log("user , new user = ", user, ", ", newUser);
 
-    if(newUser !== null && user === null) return <RegistrationView user={user} newUser={newUser} onLoggedIn={user => this.onLoggedIn(user) }/>;
+    if(newUser !== null && user === null){ return <RegistrationView user={user} newUser={newUser} onLoggedIn={user => this.onLoggedIn(user) }/>;}
 
     /* If there is no user, the LoginView is rendered. If there is a user logged in, the user details are *passed as a prop to the LoginView*/
     if(user === null) return <LoginView onRegisterNewUser={newUser => this.onRegisterNewUser(newUser)} onLoggedIn={user => this.onLoggedIn(user) } />;//A method, onLoggedIn, will be passed as a prop with the same name to LoginView
@@ -88,7 +89,7 @@ export class MainView extends React.Component {
           <MovieCard key={movie._id} movieData={movie} onMovieClick={(movie) => { this.setSelectedMovie(movie) }}/>
         ))
       }
-      <button type="button" onClick={this.onLoggedOut}>
+      <button type="button" onClick={() => this.onLoggedOut()}>
         Log Out
       </button>
       </div>
