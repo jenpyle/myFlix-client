@@ -5,6 +5,9 @@ import { RegistrationView } from '../registration-view/registration-view';
 import { LoginView } from '../login-view/login-view'; //LoginView will need to get the user details from the MainView. If LoginView is not imported here, there would be no way of passing the user details to it
 import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from '../movie-view/movie-view';
+
+import './main-view.scss';
+
 /*essentially telling React to create a new MainView component using the generic React.Component template as its foundation */
 export class MainView extends React.Component {
   /*the export keyword exposes the MainView component, and the rest of the line creates the MainView component, extends from React.Component */
@@ -75,7 +78,7 @@ export class MainView extends React.Component {
     if(newUser !== null && user === null){ return <RegistrationView user={user} newUser={newUser} onLoggedIn={user => this.onLoggedIn(user) }/>;}
 
     /* If there is no user, the LoginView is rendered. If there is a user logged in, the user details are *passed as a prop to the LoginView*/
-    if(user === null) return <LoginView onRegisterNewUser={newUser => this.onRegisterNewUser(newUser)} onLoggedIn={user => this.onLoggedIn(user) } />;//A method, onLoggedIn, will be passed as a prop with the same name to LoginView
+    if(user === null){ return <LoginView onRegisterNewUser={newUser => this.onRegisterNewUser(newUser)} onLoggedIn={user => this.onLoggedIn(user) }/>; }//A method, onLoggedIn, will be passed as a prop with the same name to LoginView
     //This method will update the user state of the MainView component and will be called when the user has successfully logged in... to change the user state to valid instead of null?
 
     if (movies.length === 0) return <div className="main-view" />;

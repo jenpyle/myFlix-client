@@ -26365,18 +26365,20 @@ try {
         );
       }
       /*If there is no user, the LoginView is rendered. If there is a user logged in, the user details are *passed as a prop to the LoginView*/
-      if (user === null) return (
-        /*#__PURE__*/_reactDefault.default.createElement(_loginViewLoginView.LoginView, {
-          onRegisterNewUser: newUser => this.onRegisterNewUser(newUser),
-          onLoggedIn: user => this.onLoggedIn(user),
-          __self: this,
-          __source: {
-            fileName: _jsxFileName,
-            lineNumber: 78,
-            columnNumber: 30
-          }
-        })
-      );
+      if (user === null) {
+        return (
+          /*#__PURE__*/_reactDefault.default.createElement(_loginViewLoginView.LoginView, {
+            onRegisterNewUser: newUser => this.onRegisterNewUser(newUser),
+            onLoggedIn: user => this.onLoggedIn(user),
+            __self: this,
+            __source: {
+              fileName: _jsxFileName,
+              lineNumber: 78,
+              columnNumber: 31
+            }
+          })
+        );
+      }
       // A method, onLoggedIn, will be passed as a prop with the same name to LoginView
       // This method will update the user state of the MainView component and will be called when the user has successfully logged in... to change the user state to valid instead of null?
       if (movies.length === 0) return (

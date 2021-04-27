@@ -1,4 +1,5 @@
 import React, { useState } from 'react'; //useState is a react hook
+import './registration-view.scss';
 
 export function RegistrationView(props) {
   //excluding the 'extends React.Component' bc this is a function component, not class component. And can use hooks
