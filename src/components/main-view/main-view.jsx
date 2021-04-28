@@ -5,6 +5,8 @@ import { RegistrationView } from '../registration-view/registration-view';
 import { LoginView } from '../login-view/login-view'; //LoginView will need to get the user details from the MainView. If LoginView is not imported here, there would be no way of passing the user details to it
 import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from '../movie-view/movie-view';
+// import Row from 'react-bootstrap/Row';
+import { Container, Row, Col, Button } from 'react-bootstrap';
 
 import './main-view.scss';
 
@@ -70,32 +72,62 @@ export class MainView extends React.Component {
     });
   }
 
-  //prettier-ignore
   render() {
     const { movies, selectedMovie, user, newUser } = this.state;
-    console.log("user , new user = ", user, ", ", newUser);
+    console.log('user , new user = ', user, ', ', newUser);
 
-    if(newUser !== null && user === null){ return <RegistrationView user={user} newUser={newUser} onLoggedIn={user => this.onLoggedIn(user) }/>;}
+    if (newUser !== null && user === null) {
+      return <RegistrationView user={user} newUser={newUser} onLoggedIn={(user) => this.onLoggedIn(user)} />;
+    }
 
     /* If there is no user, the LoginView is rendered. If there is a user logged in, the user details are *passed as a prop to the LoginView*/
-    if(user === null){ return <LoginView onRegisterNewUser={newUser => this.onRegisterNewUser(newUser)} onLoggedIn={user => this.onLoggedIn(user) }/>; }//A method, onLoggedIn, will be passed as a prop with the same name to LoginView
+    if (user === null) {
+      return (
+        <LoginView
+          onRegisterNewUser={(newUser) => this.onRegisterNewUser(newUser)}
+          onLoggedIn={(user) => this.onLoggedIn(user)}
+        />
+      );
+    } //A method, onLoggedIn, will be passed as a prop with the same name to LoginView
     //This method will update the user state of the MainView component and will be called when the user has successfully logged in... to change the user state to valid instead of null?
 
     if (movies.length === 0) return <div className="main-view" />;
-
     return (
-      <div className="main-view">
+      <Container>
+        <Button variant="secondary" type="button" onClick={() => this.onLoggedOut()}>
+          Log Out
+        </Button>
+        <div>
+          <br></br>
+        </div>
         {/*If the state of `selectedMovie` is not null, that selected movie will be returned otherwise, all *movies will be returned*/}
-        {selectedMovie
-        ? <MovieView movieData={selectedMovie} onBackClick={(newSelectedMovie) => { this.setSelectedMovie(newSelectedMovie); }}/>
-        : movies.map(movie => (
-          <MovieCard key={movie._id} movieData={movie} onMovieClick={(movie) => { this.setSelectedMovie(movie) }}/>
-        ))
-      }
-      <button type="button" onClick={() => this.onLoggedOut()}>
-        Log Out
-      </button>
-      </div>
+        {selectedMovie ? (
+          <Row className="main-view justify-content-md-center">
+            <Col md={8}>
+              <MovieView
+                movieData={selectedMovie}
+                onBackClick={(newSelectedMovie) => {
+                  this.setSelectedMovie(newSelectedMovie);
+                }}
+              />
+            </Col>
+          </Row>
+        ) : (
+          <Row className="main-view justify-content-md-center">
+            {movies.map((movie) => (
+              <Col md={3}>
+                <MovieCard
+                  key={movie._id}
+                  movieData={movie}
+                  onMovieClick={(newSelectedMovie) => {
+                    this.setSelectedMovie(newSelectedMovie);
+                  }}
+                />
+              </Col>
+            ))}
+          </Row>
+        )}
+      </Container>
     );
   }
 }
