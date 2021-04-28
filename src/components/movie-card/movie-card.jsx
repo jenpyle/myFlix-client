@@ -12,11 +12,11 @@ export class MovieCard extends React.Component {
     // return <div className="movie-card" onClick={() => { onMovieClick(movieData); }}>{movieData.Title}</div>;
     return (
       <Card>
-        <Card.Img style={{ width: '18rem' }} variant="top" src={movieData.ImagePath}/>
+        <Card.Img style={{ width: '15rem' }} variant="top" onClick={() => onMovieClick(movieData)} src={movieData.ImagePath}/>
         <Card.Body>
           <Card.Title>{movieData.Title}</Card.Title>
           <Card.Text>{movieData.Description}</Card.Text>
-          <Button onClick={() => onMovieClick(movieData)} variant="link">Open</Button>
+          <Button onClick={() => onMovieClick(movieData)} variant="info">Open</Button>
         </Card.Body>
       </Card>
     );
