@@ -26320,13 +26320,16 @@ try {
       };
     }
     componentDidMount() {
-      _axiosDefault.default.get('https://jennysflix.herokuapp.com/movies').then(response => {
+      // this happens every time the user loads the page
+      // code executed right after component is added to the DOM
+      let accessToken = localStorage.getItem('token');
+      if (accessToken !== null) {
+        // if the access token is present it means the user is already logged in
         this.setState({
-          movies: response.data
+          user: localStorage.getItem('user')
         });
-      }).catch(error => {
-        console.log(error);
-      });
+        this.getMovies(accessToken);
+      }
     }
     /*When a movie is clicked, this function is invoked and updates the state of the `selectedMovie` *property to that movie*/
     setSelectedMovie(newSelectedMovie) {
@@ -26335,12 +26338,18 @@ try {
       });
     }
     /*When a user successfully logs in, this function updates the `user` property in state to that *particular user*/
-    onLoggedIn(user) {
-      console.log('-----------------------inside onLoggedIn');
-      console.log('user = ', user);
+    onLoggedIn(authData) {
+      // This happens the moment the user logs in
+      // This updates the state with the logged in authData
+      console.log('-----------------------inside onLoggedIn MAIN-VIEW');
+      console.log('authUser = ', authData);
       this.setState({
-        user
+        user: authData.user.Username
       });
+      localStorage.setItem('token', authData.token);
+      // store token and username in localStorage: a way to store data in client's browser. Next time the user opens their browser, localStorage will contain stored authentication information (token and username), and the user won’t be required to log in again
+      localStorage.setItem('user', authData.user.Username);
+      this.getMovies(authData.token);
     }
     onRegisterNewUser(newUser) {
       console.log('-----------------------inside OnRegistetrNewUser');
@@ -26350,10 +26359,27 @@ try {
       });
     }
     onLoggedOut() {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
       console.log('-----------------------inside onLoggedOut');
       this.setState({
         user: null,
         newUser: null
+      });
+    }
+    getMovies(token) {
+      console.log('inside getMovies');
+      _axiosDefault.default.get('https://jennysflix.herokuapp.com/movies', {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }).then(response => {
+        // Assign the result to the state
+        this.setState({
+          movies: response.data
+        });
+      }).catch(function (error) {
+        console.log(error);
       });
     }
     render() {
@@ -26364,11 +26390,11 @@ try {
           /*#__PURE__*/_reactDefault.default.createElement(_registrationViewRegistrationView.RegistrationView, {
             user: user,
             newUser: newUser,
-            onLoggedIn: user => this.onLoggedIn(user),
+            onLoggedOut: () => this.onLoggedOut(),
             __self: this,
             __source: {
               fileName: _jsxFileName,
-              lineNumber: 80,
+              lineNumber: 104,
               columnNumber: 14
             }
           })
@@ -26383,7 +26409,7 @@ try {
             __self: this,
             __source: {
               fileName: _jsxFileName,
-              lineNumber: 86,
+              lineNumber: 110,
               columnNumber: 9
             }
           })
@@ -26397,7 +26423,7 @@ try {
           __self: this,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 94,
+            lineNumber: 118,
             columnNumber: 37
           }
         })
@@ -26407,7 +26433,7 @@ try {
           __self: this,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 96,
+            lineNumber: 120,
             columnNumber: 7
           }
         }, /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Button, {
@@ -26417,21 +26443,21 @@ try {
           __self: this,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 97,
+            lineNumber: 121,
             columnNumber: 9
           }
         }, "Log Out"), /*#__PURE__*/_reactDefault.default.createElement("div", {
           __self: this,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 100,
+            lineNumber: 124,
             columnNumber: 9
           }
         }, /*#__PURE__*/_reactDefault.default.createElement("br", {
           __self: this,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 101,
+            lineNumber: 125,
             columnNumber: 11
           }
         })), selectedMovie ? /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Row, {
@@ -26439,7 +26465,7 @@ try {
           __self: this,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 105,
+            lineNumber: 129,
             columnNumber: 11
           }
         }, /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Col, {
@@ -26447,7 +26473,7 @@ try {
           __self: this,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 106,
+            lineNumber: 130,
             columnNumber: 13
           }
         }, /*#__PURE__*/_reactDefault.default.createElement(_movieViewMovieView.MovieView, {
@@ -26458,7 +26484,7 @@ try {
           __self: this,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 107,
+            lineNumber: 131,
             columnNumber: 15
           }
         }))) : /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Row, {
@@ -26466,7 +26492,7 @@ try {
           __self: this,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 116,
+            lineNumber: 140,
             columnNumber: 11
           }
         }, movies.map(movie => /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Col, {
@@ -26474,7 +26500,7 @@ try {
           __self: this,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 118,
+            lineNumber: 142,
             columnNumber: 15
           }
         }, /*#__PURE__*/_reactDefault.default.createElement(_movieCardMovieCard.MovieCard, {
@@ -26486,7 +26512,7 @@ try {
           __self: this,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 119,
+            lineNumber: 143,
             columnNumber: 17
           }
         })))))
@@ -28259,6 +28285,8 @@ try {
   var _react = require('react');
   var _reactDefault = _parcelHelpers.interopDefault(_react);
   var _reactBootstrap = require('react-bootstrap');
+  var _axios = require('axios');
+  var _axiosDefault = _parcelHelpers.interopDefault(_axios);
   require('./registration-view.scss');
   var _jsxFileName = "C:\\Users\\jenny\\git_projects\\myFlix-client\\src\\components\\registration-view\\registration-view.jsx", _s = $RefreshSig$();
   function RegistrationView(props) {
@@ -28270,43 +28298,31 @@ try {
     const [email, setEmail] = _react.useState('');
     const [birthday, setBirthday] = _react.useState('');
     const handleSubmit = e => {
-      console.log('===============HERE in handleSubmit of registration view');
-      // the callback function
+      console.log('========in handleSubmit of registration view');
       e.preventDefault();
       // prevents the default refresh/change of the page
       console.log(username, password, email, birthday);
-      /*Send a request to the server for authentication*/
-      /*then call props.onLoggedIn(username)*/
-      props.onLoggedIn(username);
+      _axiosDefault.default.post('https://jennysflix.herokuapp.com/users', {
+        Username: username,
+        Password: password,
+        Email: email,
+        Birthday: birthday
+      }).then(() => {
+        props.onLoggedOut();
+      }).catch(e => {
+        console.log('Something went wrong with user registration! check that fields are valid');
+      });
+    };
+    const handleBackClick = e => {
+      console.log('handleBackClick of Registration-View');
+      props.onLoggedOut();
     };
     return (
-      /*#__PURE__*/
-      // <form>
-      // <label>
-      // Username:
-      // <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
-      // </label>
-      // <label>
-      // Password:
-      // <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-      // </label>
-      // <label>
-      // Email:
-      // <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-      // </label>
-      // <label>
-      // Birthday:
-      // <input type="date" value={birthday} onChange={(e) => setBirthday(e.target.value)} />
-      // </label>
-      // <button type="submit" onClick={handleSubmit}>
-      // Submit
-      // </button>
-      // </form>
-      _reactDefault.default.createElement(_reactBootstrap.Form, {
+      /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Form, {
         __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 45,
+          lineNumber: 39,
           columnNumber: 5
         }
       }, /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Form.Group, {
@@ -28314,14 +28330,14 @@ try {
         __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 46,
+          lineNumber: 40,
           columnNumber: 7
         }
       }, /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Form.Label, {
         __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 47,
+          lineNumber: 41,
           columnNumber: 9
         }
       }, "Username:"), /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Form.Control, {
@@ -28330,7 +28346,7 @@ try {
         __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 48,
+          lineNumber: 42,
           columnNumber: 9
         }
       })), /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Form.Group, {
@@ -28338,14 +28354,14 @@ try {
         __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 51,
+          lineNumber: 45,
           columnNumber: 7
         }
       }, /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Form.Label, {
         __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 52,
+          lineNumber: 46,
           columnNumber: 9
         }
       }, "Password:"), /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Form.Control, {
@@ -28354,7 +28370,7 @@ try {
         __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 53,
+          lineNumber: 47,
           columnNumber: 9
         }
       })), /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Form.Group, {
@@ -28362,14 +28378,14 @@ try {
         __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 56,
+          lineNumber: 50,
           columnNumber: 7
         }
       }, /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Form.Label, {
         __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 57,
+          lineNumber: 51,
           columnNumber: 9
         }
       }, "Email:"), /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Form.Control, {
@@ -28378,7 +28394,7 @@ try {
         __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 58,
+          lineNumber: 52,
           columnNumber: 9
         }
       })), /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Form.Group, {
@@ -28386,14 +28402,14 @@ try {
         __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 61,
+          lineNumber: 55,
           columnNumber: 7
         }
       }, /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Form.Label, {
         __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 62,
+          lineNumber: 56,
           columnNumber: 9
         }
       }, "Birthday"), /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Form.Control, {
@@ -28402,7 +28418,7 @@ try {
         __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 63,
+          lineNumber: 57,
           columnNumber: 9
         }
       })), /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Button, {
@@ -28412,10 +28428,20 @@ try {
         __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 66,
+          lineNumber: 60,
           columnNumber: 7
         }
-      }, "Submit"))
+      }, "Submit"), /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Button, {
+        variant: "secondary",
+        type: "button",
+        onClick: handleBackClick,
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 63,
+          columnNumber: 7
+        }
+      }, "Back"))
     );
   }
   _s(RegistrationView, "tdA1KK8yaZidqYo0wscqshHt/KE=");
@@ -28428,7 +28454,7 @@ try {
   window.$RefreshSig$ = prevRefreshSig;
 }
 
-},{"react":"3b2NM","./registration-view.scss":"22HWg","@parcel/transformer-js/lib/esmodule-helpers.js":"21LXs","../../../../../AppData/Roaming/npm/node_modules/parcel/node_modules/@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"4zI3T","react-bootstrap":"4n7hB"}],"22HWg":[function() {},{}],"21LXs":[function(require,module,exports) {
+},{"react":"3b2NM","./registration-view.scss":"22HWg","@parcel/transformer-js/lib/esmodule-helpers.js":"21LXs","../../../../../AppData/Roaming/npm/node_modules/parcel/node_modules/@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"4zI3T","react-bootstrap":"4n7hB","axios":"7rA65"}],"22HWg":[function() {},{}],"21LXs":[function(require,module,exports) {
 "use strict";
 
 exports.interopDefault = function (a) {
@@ -42725,10 +42751,9 @@ try {
   });
   var _react = require('react');
   var _reactDefault = _parcelHelpers.interopDefault(_react);
-  var _reactBootstrapForm = require('react-bootstrap/Form');
-  var _reactBootstrapFormDefault = _parcelHelpers.interopDefault(_reactBootstrapForm);
-  var _reactBootstrapButton = require('react-bootstrap/Button');
-  var _reactBootstrapButtonDefault = _parcelHelpers.interopDefault(_reactBootstrapButton);
+  var _reactBootstrap = require('react-bootstrap');
+  var _axios = require('axios');
+  var _axiosDefault = _parcelHelpers.interopDefault(_axios);
   require('./login-view.scss');
   var _jsxFileName = "C:\\Users\\jenny\\git_projects\\myFlix-client\\src\\components\\login-view\\login-view.jsx", _s = $RefreshSig$();
   function LoginView(props) {
@@ -42737,114 +42762,101 @@ try {
     const [username, setUsername] = _react.useState('');
     // assigns an empty string to the username variable—and assigns to the setUsername variable a method to update the username variable
     const [password, setPassword] = _react.useState('');
-    console.log('in login view');
     const handleSubmit = e => {
-      console.log('===============inside handleSubmit');
-      // the callback function
+      console.log('===============inside handleSubmit in LOGIN-VIEW..username, password = ', username, password);
       e.preventDefault();
-      // prevents the default refresh/change of the page
-      console.log(username, password);
       /*Send a request to the server for authentication*/
-      /*then call props.onLoggedIn(username)*/
-      props.onLoggedIn(username);
+      _axiosDefault.default.post('https://jennysflix.herokuapp.com/login', {
+        Username: username,
+        Password: password
+      }).// POST request is made to the login endpoint by passing the username and password
+      then(response => {
+        // If there’s a match, the onLoggedIn method that was passed through the props is called
+        const data = response.data;
+        // contains the token that was generated...and more
+        props.onLoggedIn(data);
+      }).catch(e => {
+        console.log('User not found');
+      });
     };
-    const handleRegister = e => {
-      console.log('===============inside handleRegister');
+    const handleRegister = () => {
+      console.log('===============inside handleRegister from LOGIN-VIEW... set newUser from null to undefined(or whatever you type in form) username(AKA newUser)=', username);
       props.onRegisterNewUser(username);
     };
-    // return (
-    // <form>
-    // <button type="button" onClick={handleRegister}>
-    // Register New User
-    // </button>
-    // <br></br>
-    // <label>
-    // Username:
-    // <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
-    // </label>
-    // <label>
-    // Password:
-    // <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-    // </label>
-    // <button type="submit" onClick={handleSubmit}>
-    // Submit
-    // </button>
-    // </form>
-    // );
     return (
-      /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrapFormDefault.default, {
+      /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Form, {
         __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 48,
+          lineNumber: 38,
           columnNumber: 5
         }
-      }, /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrapFormDefault.default.Group, {
+      }, /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Form.Group, {
         controlId: "formUsername",
         __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 49,
+          lineNumber: 39,
           columnNumber: 7
         }
-      }, /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrapFormDefault.default.Label, {
+      }, /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Form.Label, {
         __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 50,
+          lineNumber: 40,
           columnNumber: 9
         }
-      }, "Username:"), /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrapFormDefault.default.Control, {
+      }, "Username:"), /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Form.Control, {
         type: "text",
         onChange: e => setUsername(e.target.value),
         __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 51,
+          lineNumber: 41,
           columnNumber: 9
         }
-      })), /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrapFormDefault.default.Group, {
+      })), /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Form.Group, {
         controlId: "formPassword",
         __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 54,
+          lineNumber: 44,
           columnNumber: 7
         }
-      }, /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrapFormDefault.default.Label, {
+      }, /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Form.Label, {
         __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 55,
+          lineNumber: 45,
           columnNumber: 9
         }
-      }, "Password:"), /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrapFormDefault.default.Control, {
+      }, "Password:"), /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Form.Control, {
         type: "password",
         onChange: e => setPassword(e.target.value),
         __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 56,
+          lineNumber: 46,
           columnNumber: 9
         }
-      })), /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrapButtonDefault.default, {
+      })), /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Button, {
         variant: "primary",
         type: "submit",
         onClick: handleSubmit,
         __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 58,
+          lineNumber: 48,
           columnNumber: 7
         }
-      }, "Submit"), /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrapButtonDefault.default, {
+      }, "Submit"), /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Button, {
         variant: "secondary",
         type: "button",
         onClick: handleRegister,
         __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 61,
+          lineNumber: 51,
           columnNumber: 7
         }
       }, "Register New User"))
@@ -42860,7 +42872,7 @@ try {
   window.$RefreshSig$ = prevRefreshSig;
 }
 
-},{"react":"3b2NM","react-bootstrap/Form":"6A5ko","react-bootstrap/Button":"1ru0l","./login-view.scss":"3ueKO","@parcel/transformer-js/lib/esmodule-helpers.js":"21LXs","../../../../../AppData/Roaming/npm/node_modules/parcel/node_modules/@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"4zI3T"}],"3ueKO":[function() {},{}],"7v6h3":[function(require,module,exports) {
+},{"react":"3b2NM","./login-view.scss":"3ueKO","@parcel/transformer-js/lib/esmodule-helpers.js":"21LXs","../../../../../AppData/Roaming/npm/node_modules/parcel/node_modules/@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"4zI3T","axios":"7rA65","react-bootstrap":"4n7hB"}],"3ueKO":[function() {},{}],"7v6h3":[function(require,module,exports) {
 var helpers = require("../../../../../AppData/Roaming/npm/node_modules/parcel/node_modules/@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
@@ -43187,6 +43199,7 @@ try {
             columnNumber: 19
           }
         }, /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Card.Link, {
+          key: movieData.Director._id,
           href: "#",
           __self: this,
           __source: {
@@ -43199,7 +43212,7 @@ try {
           __self: this,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 56,
+            lineNumber: 58,
             columnNumber: 17
           }
         }, /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Card.Title, {
@@ -43207,22 +43220,23 @@ try {
           __self: this,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 57,
+            lineNumber: 59,
             columnNumber: 19
           }
         }, "Genre: "), /*#__PURE__*/_reactDefault.default.createElement("span", {
           __self: this,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 58,
+            lineNumber: 60,
             columnNumber: 19
           }
         }, /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Card.Link, {
+          key: movieData.Genre._id,
           href: "#",
           __self: this,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 59,
+            lineNumber: 61,
             columnNumber: 21
           }
         }, movieData.Genre.Name))))))))

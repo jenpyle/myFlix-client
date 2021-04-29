@@ -1,5 +1,6 @@
 import React, { useState } from 'react'; //useState is a react hook
 import { Form, Button } from 'react-bootstrap';
+import axios from 'axios';
 
 import './registration-view.scss';
 
@@ -11,37 +12,30 @@ export function RegistrationView(props) {
   const [birthday, setBirthday] = useState('');
 
   const handleSubmit = (e) => {
-    console.log('===============HERE in handleSubmit of registration view');
-    //the callback function
+    console.log('========in handleSubmit of registration view');
     e.preventDefault(); //prevents the default refresh/change of the page
     console.log(username, password, email, birthday);
-    /* Send a request to the server for authentication */
-    /* then call props.onLoggedIn(username) */
-    props.onLoggedIn(username);
+    axios
+      .post('https://jennysflix.herokuapp.com/users', {
+        Username: username,
+        Password: password,
+        Email: email,
+        Birthday: birthday,
+      })
+      .then(() => {
+        props.onLoggedOut(); //changing state of user and newUser so login view is rendered
+      })
+      .catch((e) => {
+        console.log('Something went wrong with user registration! check that fields are valid');
+      });
+  };
+
+  const handleBackClick = (e) => {
+    console.log('handleBackClick of Registration-View');
+    props.onLoggedOut(); //changing state of user and newUser so login view is rendered
   };
 
   return (
-    // <form>
-    //   <label>
-    //     Username:
-    //     <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
-    //   </label>
-    //   <label>
-    //     Password:
-    //     <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-    //   </label>
-    //   <label>
-    //     Email:
-    //     <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-    //   </label>
-    //   <label>
-    //     Birthday:
-    //     <input type="date" value={birthday} onChange={(e) => setBirthday(e.target.value)} />
-    //   </label>
-    //   <button type="submit" onClick={handleSubmit}>
-    //     Submit
-    //   </button>
-    // </form>
     <Form>
       <Form.Group controlId="formUsername">
         <Form.Label>Username:</Form.Label>
@@ -65,6 +59,9 @@ export function RegistrationView(props) {
 
       <Button variant="primary" type="submit" onClick={handleSubmit}>
         Submit
+      </Button>
+      <Button variant="secondary" type="button" onClick={handleBackClick}>
+        Back
       </Button>
     </Form>
   );
