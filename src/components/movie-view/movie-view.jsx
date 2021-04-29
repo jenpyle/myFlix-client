@@ -50,13 +50,17 @@ export class MovieView extends React.Component {
                 <Card.Header className="movie-director">
                   <Card.Title className="label">Director: </Card.Title>
                   <span>
-                    <Card.Link href="#">{movieData.Director.Name}</Card.Link>
+                    <Card.Link key={movieData.Director._id} href="#">
+                      {movieData.Director.Name}
+                    </Card.Link>
                   </span>
                 </Card.Header>
                 <Card.Header className="movie-genre">
                   <Card.Title className="label">Genre: </Card.Title>
                   <span>
-                    <Card.Link href="#">{movieData.Genre.Name}</Card.Link>
+                    <Card.Link key={movieData.Genre._id} href="#">
+                      {movieData.Genre.Name}
+                    </Card.Link>
                   </span>
                 </Card.Header>
               </div>

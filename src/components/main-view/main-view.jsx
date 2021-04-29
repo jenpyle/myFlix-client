@@ -29,16 +29,16 @@ export class MainView extends React.Component {
   }
 
   componentDidMount() {
-    axios
-      .get('https://jennysflix.herokuapp.com/movies')
-      .then((response) => {
-        this.setState({
-          movies: response.data,
-        });
-      })
-      .catch((error) => {
-        console.log(error);
+    //this happens every time the user loads the page
+    //code executed right after component is added to the DOM
+    let accessToken = localStorage.getItem('token');
+    if (accessToken !== null) {
+      //if the access token is present it means the user is already logged in
+      this.setState({
+        user: localStorage.getItem('user'), //
       });
+      this.getMovies(accessToken); //only if the user is logged in you make the getMovies request
+    }
   }
 
   /*When a movie is clicked, this function is invoked and updates the state of the `selectedMovie` *property to that movie*/
@@ -48,12 +48,17 @@ export class MainView extends React.Component {
     });
   }
   /* When a user successfully logs in, this function updates the `user` property in state to that *particular user*/
-  onLoggedIn(user) {
-    console.log('-----------------------inside onLoggedIn');
-    console.log('user = ', user);
+  onLoggedIn(authData) {
+    //This happens the moment the user logs in
+    //This updates the state with the logged in authData
+    console.log('-----------------------inside onLoggedIn MAIN-VIEW');
+    console.log('authUser = ', authData);
     this.setState({
-      user,
+      user: authData.user.Username, //the user's username is stored in the user state
     });
+    localStorage.setItem('token', authData.token); //store token and username in localStorage: a way to store data in client's browser. Next time the user opens their browser, localStorage will contain stored authentication information (token and username), and the user won’t be required to log in again
+    localStorage.setItem('user', authData.user.Username);
+    this.getMovies(authData.token);
   }
 
   onRegisterNewUser(newUser) {
@@ -65,6 +70,8 @@ export class MainView extends React.Component {
   }
 
   onLoggedOut() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
     console.log('-----------------------inside onLoggedOut');
     this.setState({
       user: null,
@@ -72,12 +79,29 @@ export class MainView extends React.Component {
     });
   }
 
+  getMovies(token) {
+    console.log('inside getMovies');
+    axios
+      .get('https://jennysflix.herokuapp.com/movies', {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        //Assign the result to the state
+        this.setState({
+          movies: response.data,
+        });
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
   render() {
     const { movies, selectedMovie, user, newUser } = this.state;
     console.log('user , new user = ', user, ', ', newUser);
 
     if (newUser !== null && user === null) {
-      return <RegistrationView user={user} newUser={newUser} onLoggedIn={(user) => this.onLoggedIn(user)} />;
+      return <RegistrationView user={user} newUser={newUser} onLoggedOut={() => this.onLoggedOut()} />;
     }
 
     /* If there is no user, the LoginView is rendered. If there is a user logged in, the user details are *passed as a prop to the LoginView*/

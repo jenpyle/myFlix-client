@@ -1,6 +1,6 @@
 import React, { useState } from 'react'; //useState is a react hook
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
+import { Form, Button } from 'react-bootstrap';
+import axios from 'axios';
 
 import './login-view.scss';
 
@@ -9,41 +9,31 @@ export function LoginView(props) {
   const [username, setUsername] = useState(''); // assigns an empty string to the username variable—and assigns to the setUsername variable a method to update the username variable
   const [password, setPassword] = useState('');
 
-  console.log('in login view');
   const handleSubmit = (e) => {
-    console.log('===============inside handleSubmit');
-    //the callback function
-    e.preventDefault(); //prevents the default refresh/change of the page
-    console.log(username, password);
+    console.log('===============inside handleSubmit in LOGIN-VIEW..username, password = ', username, password);
+
+    e.preventDefault();
     /* Send a request to the server for authentication */
-    /* then call props.onLoggedIn(username) */
-    props.onLoggedIn(username);
+    axios
+      .post('https://jennysflix.herokuapp.com/login', { Username: username, Password: password }) //POST request is made to the login endpoint by passing the username and password
+      .then((response) => {
+        //If there’s a match, the onLoggedIn method that was passed through the props is called
+        const data = response.data; //contains the token that was generated...and more
+        props.onLoggedIn(data); //which provides the username to our parent component (child to parent communication)
+      })
+      .catch((e) => {
+        console.log('User not found');
+      });
   };
 
-  const handleRegister = (e) => {
-    console.log('===============inside handleRegister');
+  const handleRegister = () => {
+    console.log(
+      '===============inside handleRegister from LOGIN-VIEW... set newUser from null to undefined(or whatever you type in form) username(AKA newUser)=',
+      username
+    );
     props.onRegisterNewUser(username);
   };
 
-  // return (
-  //   <form>
-  //     <button type="button" onClick={handleRegister}>
-  //       Register New User
-  //     </button>
-  //     <br></br>
-  //     <label>
-  //       Username:
-  //       <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
-  //     </label>
-  //     <label>
-  //       Password:
-  //       <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-  //     </label>
-  //     <button type="submit" onClick={handleSubmit}>
-  //       Submit
-  //     </button>
-  //   </form>
-  // );
   return (
     <Form>
       <Form.Group controlId="formUsername">
