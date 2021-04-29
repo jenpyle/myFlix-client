@@ -1,1 +1,15 @@
-@import 'bootstrap/scss/bootstrap';
+$primary-background-color: LavenderBlush;
+$primary-background-color-darker: #ffdce7;
+$secondary-background-color: bisque;
+$list-seperation-color: papayawhip;
+$grey: lightslategray;
+$primary-accent-color: Rosybrown;
+$selected-link-color: #489c79;
+$visited-color: #05676e;
+$font-weight: bold;
+
+.container {
+  background-color: $secondary-background-color;
+  width: 100%;
+  height: 100%;
+}
