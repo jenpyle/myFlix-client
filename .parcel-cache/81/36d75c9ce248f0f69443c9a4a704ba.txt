@@ -25,7 +25,7 @@
 93C:\Users\jenny\git_projects\myFlix-client\node_modules\react-bootstrap\esm\AccordionToggle.js121436361000000000 0
 71C:\Users\jenny\git_projects\myFlix-client\node_modules\lodash\values.js121436361000000000 0
 77C:\Users\jenny\git_projects\myFlix-client\node_modules\lodash-es\lowerCase.js121436361000000000 0
-46C:\Users\jenny\git_projects\myFlix-client\dist132642203206532301 1
+46C:\Users\jenny\git_projects\myFlix-client\dist132642728969002490 1
 76C:\Users\jenny\git_projects\myFlix-client\node_modules\lodash-es\_baseFor.js121436361000000000 0
 81C:\Users\jenny\git_projects\myFlix-client\node_modules\react-transition-group\esm132640280217763941 1
 45C:\Users\jenny\git_projects\myFlix-client\src132641283040087486 1
@@ -76,7 +76,7 @@
 82C:\Users\jenny\git_projects\myFlix-client\node_modules\lodash-es\dropRightWhile.js121436361000000000 0
 76C:\Users\jenny\git_projects\myFlix-client\node_modules\dom-helpers\nextUntil132640280221385815 1
 84C:\Users\jenny\git_projects\myFlix-client\node_modules\@types\invariant\package.json132640280230225896 0
-56C:\Users\jenny\git_projects\myFlix-client\src\index.html132642187783829985 0
+56C:\Users\jenny\git_projects\myFlix-client\src\index.html132642728966755777 0
 80C:\Users\jenny\git_projects\myFlix-client\src\components\main-view\main-view.jsx132642167193255575 0
 86C:\Users\jenny\git_projects\myFlix-client\node_modules\dom-helpers\cjs\triggerEvent.js121436361000000000 0
 73C:\Users\jenny\git_projects\myFlix-client\node_modules\lodash-es\sumBy.js121436361000000000 0
@@ -442,7 +442,7 @@
 83C:\Users\jenny\git_projects\myFlix-client\node_modules\lodash-es\_defineProperty.js121436361000000000 0
 93C:\Users\jenny\git_projects\myFlix-client\node_modules\bootstrap\scss\utilities\_borders.scss121436361000000000 0
 87C:\Users\jenny\git_projects\myFlix-client\node_modules\dom-helpers\prepend\package.json121436361000000000 0
-65C:\Users\jenny\git_projects\myFlix-client\dist\index.1a46e624.css132642203206352993 0
+65C:\Users\jenny\git_projects\myFlix-client\dist\index.1a46e624.css132642728968832935 0
 92C:\Users\jenny\git_projects\myFlix-client\node_modules\react-bootstrap\cjs\CarouselItem.d.ts121436361000000000 0
 85C:\Users\jenny\git_projects\myFlix-client\node_modules\react-bootstrap\cjs\types.d.ts121436361000000000 0
 84C:\Users\jenny\git_projects\myFlix-client\node_modules\uncontrollable\test\.eslintrc121436361000000000 0
@@ -559,7 +559,7 @@
 75C:\Users\jenny\git_projects\myFlix-client\node_modules\lodash-es\zipWith.js121436361000000000 0
 77C:\Users\jenny\git_projects\myFlix-client\node_modules\to-regex-range\LICENSE121436361000000000 0
 81C:\Users\jenny\git_projects\myFlix-client\node_modules\dom-helpers\esm\prepend.js121436361000000000 0
-69C:\Users\jenny\git_projects\myFlix-client\dist\index.1a46e624.css.map132642203206412822 0
+69C:\Users\jenny\git_projects\myFlix-client\dist\index.1a46e624.css.map132642728968882807 0
 94C:\Users\jenny\git_projects\myFlix-client\node_modules\react-bootstrap\cjs\DropdownButton.d.ts121436361000000000 0
 79C:\Users\jenny\git_projects\myFlix-client\node_modules\lodash-es\_getMapData.js121436361000000000 0
 92C:\Users\jenny\git_projects\myFlix-client\node_modules\react-bootstrap\esm\DropdownMenu.d.ts121436361000000000 0
@@ -4454,10 +4454,10 @@
 78C:\Users\jenny\git_projects\myFlix-client\node_modules\.bin\node-gyp-build.cmd132629972786561523 0
 64C:\Users\jenny\git_projects\myFlix-client\node_modules\.bin\sass132629972786611396 0
 68C:\Users\jenny\git_projects\myFlix-client\node_modules\.bin\sass.cmd132629972786611396 0
-72C:\Users\jenny\git_projects\myFlix-client\dist\flix-favicon.69bec91b.png132642203206313083 0
-64C:\Users\jenny\git_projects\myFlix-client\dist\index.02675e63.js132642203206482631 0
-68C:\Users\jenny\git_projects\myFlix-client\dist\index.02675e63.js.map132642203206523856 0
+72C:\Users\jenny\git_projects\myFlix-client\dist\flix-favicon.69bec91b.png132642728968812995 0
+64C:\Users\jenny\git_projects\myFlix-client\dist\index.02675e63.js132642728968932675 0
+68C:\Users\jenny\git_projects\myFlix-client\dist\index.02675e63.js.map132642728968992510 0
 60C:\Users\jenny\git_projects\myFlix-client\dist\index.css.map132640241100625255 0
-57C:\Users\jenny\git_projects\myFlix-client\dist\index.html132642203206343024 0
+57C:\Users\jenny\git_projects\myFlix-client\dist\index.html132642728968832935 0
 55C:\Users\jenny\git_projects\myFlix-client\dist\index.js132640241100695067 0
 59C:\Users\jenny\git_projects\myFlix-client\dist\index.js.map132640241100722356 0
