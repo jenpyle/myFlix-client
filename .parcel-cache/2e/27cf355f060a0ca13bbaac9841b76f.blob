@@ -1,0 +1,5 @@
+.login-title {
+  font-family: "Luckiest Guy", cursive;
+  color: lightslategray;
+  font-size: 10rem;
+}

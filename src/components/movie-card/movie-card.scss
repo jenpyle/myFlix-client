@@ -1,1 +1,14 @@
+$card-background-color: rgb(229, 253, 247);
+$border-color: violet;
+$grey: dimgrey;
 
+#bootstrap-overrides .card {
+  background-color: $card-background-color;
+  border-color: $border-color;
+}
+
+#bootstrap-overrides .card-subtitle {
+  color: $grey;
+  padding-bottom: 10px;
+  font-size: 1.4em;
+}

@@ -1,0 +1,10 @@
+.login-title {
+  font-family: "Luckiest Guy", cursive;
+  color: palevioletred;
+  font-size: 6rem;
+}
+
+#bootstrap-overrides .form-control {
+  background-color: papayawhip;
+  border: 1px solid lightslategray;
+}

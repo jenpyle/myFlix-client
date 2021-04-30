@@ -1,0 +1,3 @@
+#bootstrap-overrides .card {
+  background-color: powderblue;
+}

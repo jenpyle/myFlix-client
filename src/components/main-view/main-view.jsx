@@ -118,6 +118,7 @@ export class MainView extends React.Component {
     if (movies.length === 0) return <div className="main-view" />;
     return (
       <Container>
+        <h1 className="title">MyFlix</h1>
         <Button variant="secondary" type="button" onClick={() => this.onLoggedOut()}>
           Log Out
         </Button>

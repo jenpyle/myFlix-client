@@ -1,0 +1,18 @@
+html,
+body {
+  height: 100%;
+  width: 100%;
+}
+
+.app-container {
+  background-color: bisque;
+}
+
+#bootstrap-overrides .btn {
+  border-color: violet;
+}
+
+#bootstrap-overrides img {
+  border-style: solid;
+  border-color: violet;
+}

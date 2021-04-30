@@ -1,0 +1,20 @@
+
+.login-title {
+  font-family: "Luckiest Guy", cursive;
+  color: lightslategray;
+  font-size: 10rem;
+}
+
+
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+}
+
+.app-container {
+  height: 100%;
+  background-color: bisque;
+}
+/*# sourceMappingURL=index.HASH_REF_41705c92fdf696c0715d6ba41a46e624.css.map */

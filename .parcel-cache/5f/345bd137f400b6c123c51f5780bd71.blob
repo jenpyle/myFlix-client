@@ -1,0 +1,14 @@
+html,
+body {
+  height: 100%;
+  width: 100%;
+}
+
+.app-container {
+  height: 100%;
+  background-color: papayawhip;
+}
+
+#bootstrap-overrides .btn {
+  border-color: violet;
+}

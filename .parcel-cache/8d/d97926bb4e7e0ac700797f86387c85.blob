@@ -1,0 +1,44 @@
+
+.title {
+  font-family: "Luckiest Guy", cursive;
+  color: palevioletred;
+  font-size: 6rem;
+}
+
+#bootstrap-overrides .form-control {
+  border: 1px solid lightslategray;
+}
+
+#bootstrap-overrides .btn-info {
+  background-color: thistle;
+}
+#bootstrap-overrides .card {
+  background-color: #e5fdf7;
+  border-color: violet;
+}
+
+#bootstrap-overrides .card-subtitle {
+  color: dimgrey;
+  padding-bottom: 5px;
+}
+
+
+#bootstrap-overrides html,
+body {
+  height: 100%;
+  width: 100%;
+}
+
+.app-container {
+  background-color: bisque;
+}
+
+#bootstrap-overrides .btn {
+  border-color: violet;
+}
+
+#bootstrap-overrides img {
+  border-style: solid;
+  border-color: violet;
+}
+/*# sourceMappingURL=index.HASH_REF_41705c92fdf696c0715d6ba41a46e624.css.map */

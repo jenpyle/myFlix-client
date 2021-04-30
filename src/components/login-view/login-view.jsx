@@ -36,6 +36,8 @@ export function LoginView(props) {
 
   return (
     <Container>
+      <h1 className="title">MyFlix</h1>
+      <h4 className="login-subtitle">Login or create an account</h4>
       <Form>
         <Form.Group controlId="formUsername">
           <Form.Label>Username:</Form.Label>
@@ -46,7 +48,7 @@ export function LoginView(props) {
           <Form.Label>Password:</Form.Label>
           <Form.Control type="password" onChange={(e) => setPassword(e.target.value)} />
         </Form.Group>
-        <Button variant="primary" type="submit" onClick={handleSubmit}>
+        <Button variant="info" type="submit" onClick={handleSubmit}>
           Submit
         </Button>
         <Button variant="secondary" type="button" onClick={handleRegister}>

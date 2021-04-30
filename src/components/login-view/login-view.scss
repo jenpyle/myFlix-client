@@ -1,15 +1,23 @@
-$primary-background-color: LavenderBlush;
-$primary-background-color-darker: #ffdce7;
-$secondary-background-color: bisque;
-$list-seperation-color: papayawhip;
+$primary-background-color: bisque;
+$primary-button-color: thistle;
+$border-color: violet;
+$title-color: palevioletred;
 $grey: lightslategray;
 $primary-accent-color: Rosybrown;
 $selected-link-color: #489c79;
 $visited-color: #05676e;
 $font-weight: bold;
 
-.container {
-  background-color: $secondary-background-color;
-  width: 100%;
-  height: 100%;
+.title {
+  font-family: 'Luckiest Guy', cursive;
+  color: $title-color;
+  font-size: 6rem;
+}
+
+#bootstrap-overrides .form-control {
+  border: 1px solid $grey;
+}
+
+#bootstrap-overrides .btn-info {
+  background-color: $primary-button-color;
 }

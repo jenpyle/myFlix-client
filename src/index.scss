@@ -1,7 +1,31 @@
-@import 'bootstrap/scss/bootstrap'; //might not be needed?
+$primary-background-color: bisque;
+$primary-button-color: thistle;
+$border-color: violet;
+$title-color: palevioletred;
+$grey: dimgrey;
+$primary-accent-color: Rosybrown;
+$selected-link-color: #489c79;
+$visited-color: #05676e;
+$font-weight: bold;
+$card-background-color: rgb(229, 253, 247);
 
-$color: steelblue;
+html,
+body {
+  height: 100%;
+  width: 100%;
+  background-color: $primary-background-color;
+}
 
-.my-flix {
-  color: $color;
+.app-container {
+  background-color: $primary-background-color;
+  height: 100%;
+}
+
+#bootstrap-overrides .btn {
+  border-color: $border-color;
+}
+
+#bootstrap-overrides img {
+  border-style: solid;
+  border-color: $border-color;
 }
