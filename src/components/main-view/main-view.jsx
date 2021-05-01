@@ -35,6 +35,7 @@ export class MainView extends React.Component {
   }
 
   componentDidMount() {
+    console.log('this.state', this.state);
     console.log('inside componentDidMount() of Main-View');
     //this happens every time the user loads the page
     //code executed right after component is added to the DOM
@@ -50,13 +51,15 @@ export class MainView extends React.Component {
 
   /*When a movie is clicked, this function is invoked and updates the state of the `selectedMovie` *property to that movie*/
   setSelectedMovie(newSelectedMovie) {
-    console.log(newSelectedMovie, 'iiiiiiiiiiiiiiiiii');
+    console.log('this.state', this.state);
+    console.log('setSelectedMovie = new selected movie = ', newSelectedMovie);
     this.setState({
       selectedMovie: newSelectedMovie,
     });
   }
   /* When a user successfully logs in, this function updates the `user` property in state to that *particular user*/
   onLoggedIn(authData) {
+    console.log('this.state', this.state);
     //This happens the moment the user logs in
     //This updates the state with the logged in authData
     console.log('-----------------------inside onLoggedIn MAIN-VIEW', '....authUser = ', authData);
@@ -69,6 +72,7 @@ export class MainView extends React.Component {
   }
 
   onRegisterNewUser(newUser) {
+    console.log('this.state', this.state);
     console.log('-----------------------inside OnRegistetrNewUser', '   newUser = ', newUser);
     this.setState({
       newUser,
@@ -76,6 +80,7 @@ export class MainView extends React.Component {
   }
 
   onLoggedOut() {
+    console.log('this.state', this.state);
     console.log('-----------------------inside onLoggedOut');
     localStorage.removeItem('token');
     localStorage.removeItem('user');
@@ -86,6 +91,7 @@ export class MainView extends React.Component {
   }
 
   getMovies(token) {
+    console.log('this.state', this.state);
     console.log('inside getMovies');
     axios
       .get('https://jennysflix.herokuapp.com/movies', {
@@ -136,14 +142,6 @@ export class MainView extends React.Component {
         <Router>
           <Row className="main-view justify-content-md-center">
             <Route
-              path="/users"
-              render={({ history }) => {
-                // if (newUser !== null && user === null) {
-                return <RegistrationView user={user} newUser={newUser} onBackClick={() => history.goBack()} />;
-                // }
-              }}
-            />
-            <Route
               exact
               path="/"
               render={() => {
@@ -158,21 +156,54 @@ export class MainView extends React.Component {
                 }
                 return movies.map((movie) => (
                   <Col md={3} key={movie._id}>
-                    <MovieCards movieData={movie} onLogoutClick={() => this.onLoggedOut()} />
+                    <MovieCards
+                      movieData={movie}
+                      onLogoutClick={() => this.onLoggedOut()}
+                      onMovieClick={(movie) => {
+                        this.setSelectedMovie(movie);
+                      }}
+                    />
                   </Col>
                 ));
               }}
             />
 
             <Route
+              path="/users"
+              render={({ history }) => {
+                //object destruction from an import^
+                // if (newUser !== null && user === null) {
+                return <RegistrationView user={user} newUser={newUser} onBackClick={() => history.goBack()} />;
+                // }
+              }}
+            />
+
+            {/* <Route
               path="/movies/:movieId"
               render={({ match, history }) => {
+                if (movies.length === 0) return <div className="main-view" />;
                 return (
                   <Col md={12}>
                     <MovieInfoView
                       movieData={movies.find((movie) => movie._id === match.params.movieId)}
                       onBackClick={() => history.goBack()}
-                      setSelectedMovie={(movie) => this.setSelectedMovie(movie)}
+                      // setSelectedMovie={(movie) => this.setSelectedMovie(movie)}
+                    />
+                  </Col>
+                );
+              }}
+            /> */}
+            <Route
+              path="/movies/:Title"
+              render={({ match, history }) => {
+                if (movies.length === 0) return <div className="main-view" />;
+                return (
+                  <Col md={12}>
+                    <MovieInfoView
+                      // movieData={selectedMovie}
+                      movieData={movies.find((m) => m.Title === match.params.title)}
+                      onBackClick={() => history.goBack()}
+                      setSelectedMovie={(selectedMovie) => this.setSelectedMovie(movie)}
                     />
                   </Col>
                 );

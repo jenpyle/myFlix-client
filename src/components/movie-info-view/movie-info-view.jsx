@@ -12,6 +12,8 @@ export class MovieInfoView extends React.Component {
   render() {
     //The prop represents the movie object, which will be passed in MainView once you import and use the new component there.
     const { movieData, onBackClick } = this.props;
+    console.log('----------MOVIEDATA= ', movieData);
+    console.log('----------this.props= ', this.props);
     // The component will render whatever properties in the movie object are passed as a prop.
     return (
       <Container>
