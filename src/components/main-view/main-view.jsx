@@ -1,6 +1,9 @@
-import React from 'react';
-import axios from 'axios';
+import React, { useState } from 'react'; //useState is a react hook
 
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import { Container, Card, Row, Col, Button, Form } from 'react-bootstrap';
+import axios from 'axios';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import { RegistrationView } from '../registration-view/registration-view';
@@ -10,7 +13,6 @@ import { MovieInfoView } from '../movie-info-view/movie-info-view';
 import { DirectorView } from '../director-view/director-view';
 import { GenreView } from '../genre-view/genre-view';
 import { ProfileView } from '../profile-view/profile-view';
-import { Container, Row, Col, Button } from 'react-bootstrap';
 
 import './main-view.scss';
 
@@ -106,20 +108,20 @@ export class MainView extends React.Component {
     console.log('user , new user = ', user, ', ', newUser);
     /* If there is no user, the LoginView is rendered. If there is a user logged in, the user details are *passed as a prop to the LoginView*/
 
-    if (newUser !== null && user === null) {
-      return <RegistrationView user={user} newUser={newUser} onLoggedOut={() => this.onLoggedOut()} />;
-    }
+    // if (newUser !== null && user === null) {
+    //   return <RegistrationView user={user} newUser={newUser} onLoggedOut={() => this.onLoggedOut()} />;
+    // }
 
-    if (user === null) {
-      return (
-        <LoginView
-          onRegisterNewUser={(newUser) => this.onRegisterNewUser(newUser)}
-          onLoggedIn={(user) => this.onLoggedIn(user)}
-        />
-      ); //onLoggedIn method will update the user state of the MainView component and will be called when the user has successfully logged in... to change the user state to valid instead of null?
-    }
+    // if (user === null && newUser === null) {
+    //   return (
+    //     <LoginView
+    //       onRegisterNewUser={(newUser) => this.onRegisterNewUser(newUser)}
+    //       onLoggedIn={(user) => this.onLoggedIn(user)}
+    //     />
+    //   ); //onLoggedIn method will update the user state of the MainView component and will be called when the user has successfully logged in... to change the user state to valid instead of null?
+    // }
 
-    if (movies.length === 0) return <div className="main-view" />;
+    // if (movies.length === 0) return <div className="main-view" />;
     return (
       <Container>
         <h1 className="title">MyFlix</h1>
@@ -134,17 +136,29 @@ export class MainView extends React.Component {
         <Router>
           <Row className="main-view justify-content-md-center">
             <Route
+              path="/users"
+              render={({ history }) => {
+                // if (newUser !== null && user === null) {
+                return <RegistrationView user={user} newUser={newUser} onBackClick={() => history.goBack()} />;
+                // }
+              }}
+            />
+            <Route
               exact
               path="/"
               render={() => {
+                // if (user === null && newUser === null) {
+                if (user === null) {
+                  return (
+                    <LoginView
+                      onRegisterNewUser={(newUser) => this.onRegisterNewUser(newUser)}
+                      onLoggedIn={(user) => this.onLoggedIn(user)}
+                    />
+                  ); //onLoggedIn method will update the user state of the MainView component and will be called when the user has successfully logged in... to change the user state to valid instead of null?
+                }
                 return movies.map((movie) => (
                   <Col md={3} key={movie._id}>
-                    <MovieCards
-                      movieData={movie}
-                      // onMovieClick={(movie) => {
-                      //   this.setSelectedMovie(movie);
-                      // }}
-                    />
+                    <MovieCards movieData={movie} onLogoutClick={() => this.onLoggedOut()} />
                   </Col>
                 ));
               }}
@@ -158,6 +172,7 @@ export class MainView extends React.Component {
                     <MovieInfoView
                       movieData={movies.find((movie) => movie._id === match.params.movieId)}
                       onBackClick={() => history.goBack()}
+                      setSelectedMovie={(movie) => this.setSelectedMovie(movie)}
                     />
                   </Col>
                 );

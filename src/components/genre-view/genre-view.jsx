@@ -1,8 +1,10 @@
 import React, { useState } from 'react'; //useState is a react hook
-import { render } from 'react-dom';
-import { Container, Card, Row, Col, Button } from 'react-bootstrap';
+
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { propTypes } from 'react-bootstrap/esm/Image';
+import { Container, Card, Row, Col, Button, Form } from 'react-bootstrap';
+import axios from 'axios';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 export function GenreView(props) {
   //all the views declared like this are function components

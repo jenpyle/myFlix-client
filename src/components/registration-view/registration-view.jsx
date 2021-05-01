@@ -1,6 +1,10 @@
 import React, { useState } from 'react'; //useState is a react hook
-import { Form, Button, Container } from 'react-bootstrap';
+
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import { Container, Card, Row, Col, Button, Form } from 'react-bootstrap';
 import axios from 'axios';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import './registration-view.scss';
 
@@ -22,18 +26,21 @@ export function RegistrationView(props) {
         Email: email,
         Birthday: birthday,
       })
-      .then(() => {
-        props.onLoggedOut(); //changing state of user and newUser so login view is rendered
+      .then((response) => {
+        const data = response.data;
+        console.log(data);
+        props.onBackClick();
+        //props.onLoggedOut(); changing state of user and newUser so login view is rendered
       })
       .catch((e) => {
         console.log('Something went wrong with user registration! check that fields are valid');
       });
   };
 
-  const handleBackClick = (e) => {
-    console.log('handleBackClick of Registration-View');
-    props.onLoggedOut(); //changing state of user and newUser so login view is rendered
-  };
+  // const handleBackClick = (e) => {
+  //   console.log('handleBackClick of Registration-View');
+  //   props.onLoggedOut(); //changing state of user and newUser so login view is rendered
+  // };
 
   return (
     <Container>
@@ -65,7 +72,12 @@ export function RegistrationView(props) {
           <Button variant="info" type="submit" onClick={handleSubmit}>
             Submit
           </Button>
-          <Button variant="secondary" type="button" onClick={handleBackClick}>
+          <Button
+            variant="info"
+            onClick={() => {
+              props.onBackClick();
+            }}
+          >
             Back
           </Button>
         </Form>

@@ -1,0 +1,158 @@
+var helpers = require("../../../../../AppData/Roaming/npm/node_modules/parcel/node_modules/@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+helpers.prelude(module);
+try {
+  var _parcelHelpers = require("@parcel/transformer-js/lib/esmodule-helpers.js");
+  _parcelHelpers.defineInteropFlag(exports);
+  _parcelHelpers.export(exports, "LoginView", function () {
+    return LoginView;
+  });
+  var _react = require('react');
+  var _reactDefault = _parcelHelpers.interopDefault(_react);
+  require('prop-types');
+  require('react-router-dom');
+  var _reactBootstrap = require('react-bootstrap');
+  var _axios = require('axios');
+  var _axiosDefault = _parcelHelpers.interopDefault(_axios);
+  require('react-router-dom');
+  require('./login-view.scss');
+  var _jsxFileName = "C:\\Users\\jenny\\git_projects\\myFlix-client\\src\\components\\login-view\\login-view.jsx", _s = $RefreshSig$();
+  function LoginView(props) {
+    _s();
+    // excluding the 'extends React.Component' bc this is a function component, not class component. And can use hooks
+    const [username, setUsername] = _react.useState('');
+    // assigns an empty string to the username variable—and assigns to the setUsername variable a method to update the username variable
+    const [password, setPassword] = _react.useState('');
+    const handleSubmit = e => {
+      console.log('===============inside handleSubmit in LOGIN-VIEW..username, password = ', username, password);
+      e.preventDefault();
+      /*Send a request to the server for authentication*/
+      _axiosDefault.default.post('https://jennysflix.herokuapp.com/login', {
+        Username: username,
+        Password: password
+      }).// POST request is made to the login endpoint by passing the username and password
+      then(response => {
+        // If there’s a match, the onLoggedIn method that was passed through the props is called
+        const data = response.data;
+        // contains the token that was generated...and more
+        props.onLoggedIn(data);
+      }).catch(e => {
+        console.log('User not found');
+      });
+    };
+    const handleRegister = () => {
+      console.log('===============inside handleRegister from LOGIN-VIEW... set newUser from null to undefined(or whatever you type in form) username(AKA newUser)=', username);
+      props.onRegisterNewUser(username);
+    };
+    return (
+      /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Container, {
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 42,
+          columnNumber: 5
+        }
+      }, /*#__PURE__*/_reactDefault.default.createElement("h1", {
+        className: "title",
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 43,
+          columnNumber: 7
+        }
+      }, "MyFlix"), /*#__PURE__*/_reactDefault.default.createElement("h4", {
+        className: "login-subtitle",
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 44,
+          columnNumber: 7
+        }
+      }, "Login or create an account"), /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Form, {
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 45,
+          columnNumber: 7
+        }
+      }, /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Form.Group, {
+        controlId: "formUsername",
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 46,
+          columnNumber: 9
+        }
+      }, /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Form.Label, {
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 47,
+          columnNumber: 11
+        }
+      }, "Username:"), /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Form.Control, {
+        type: "text",
+        onChange: e => setUsername(e.target.value),
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 48,
+          columnNumber: 11
+        }
+      })), /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Form.Group, {
+        controlId: "formPassword",
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 51,
+          columnNumber: 9
+        }
+      }, /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Form.Label, {
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 52,
+          columnNumber: 11
+        }
+      }, "Password:"), /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Form.Control, {
+        type: "password",
+        onChange: e => setPassword(e.target.value),
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 53,
+          columnNumber: 11
+        }
+      })), /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Button, {
+        variant: "info",
+        type: "submit",
+        onClick: handleSubmit,
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 55,
+          columnNumber: 9
+        }
+      }, "Submit"), /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Button, {
+        variant: "secondary",
+        type: "button",
+        onClick: handleRegister,
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 58,
+          columnNumber: 9
+        }
+      }, "Register New User")))
+    );
+  }
+  _s(LoginView, "wuQOK7xaXdVz4RMrZQhWbI751Oc=");
+  _c = LoginView;
+  var _c;
+  $RefreshReg$(_c, "LoginView");
+  helpers.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
