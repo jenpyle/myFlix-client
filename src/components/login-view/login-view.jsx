@@ -1,6 +1,10 @@
 import React, { useState } from 'react'; //useState is a react hook
-import { Form, Button, Container } from 'react-bootstrap';
+
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import { Container, Card, Row, Col, Button, Form } from 'react-bootstrap';
 import axios from 'axios';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import './login-view.scss';
 
@@ -31,12 +35,11 @@ export function LoginView(props) {
       '===============inside handleRegister from LOGIN-VIEW... set newUser from null to undefined(or whatever you type in form) username(AKA newUser)=',
       username
     );
-    props.onRegisterNewUser(username);
+    // props.onRegisterNewUser(username);
   };
 
   return (
     <Container>
-      <h1 className="title">MyFlix</h1>
       <h4 className="login-subtitle">Login or create an account</h4>
       <Form>
         <Form.Group controlId="formUsername">
@@ -51,9 +54,14 @@ export function LoginView(props) {
         <Button variant="info" type="submit" onClick={handleSubmit}>
           Submit
         </Button>
-        <Button variant="secondary" type="button" onClick={handleRegister}>
+        {/* <Button variant="secondary" type="button" >
           Register New User
-        </Button>
+        </Button> */}
+        <Link to={`/users`}>
+          <Button variant="link" onClick={handleRegister}>
+            Register New User
+          </Button>
+        </Link>
       </Form>
     </Container>
   );

@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react'; //useState is a react hook
+
 import PropTypes from 'prop-types';
-import { Container, Card, Row, Col, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { Container, Card, Row, Col, Button, Form } from 'react-bootstrap';
+import axios from 'axios';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import './movie-info-view.scss';
 
@@ -9,6 +12,8 @@ export class MovieInfoView extends React.Component {
   render() {
     //The prop represents the movie object, which will be passed in MainView once you import and use the new component there.
     const { movieData, onBackClick } = this.props;
+    console.log('----------MOVIEDATA= ', movieData);
+    console.log('----------this.props= ', this.props);
     // The component will render whatever properties in the movie object are passed as a prop.
     return (
       <Container>
