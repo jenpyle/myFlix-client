@@ -19,21 +19,13 @@ export class MovieCards extends React.Component {
     // return <div className="movie-card" onClick={() => { onMovieClick(movieData); }}>{movieData.Title}</div>;
     return (
       <Container>
-        <Button
-            variant="secondary"
-            onClick={() => {
-              onLogoutClick();
-            }}
-          >
-            Log Out
-          </Button>
+        
       <Card>
         <Card.Img variant="top" src={movieData.ImagePath}/>
         <Card.Body>
           <Card.Title>{movieData.Title}</Card.Title>
           <Card.Text>{movieData.Description}</Card.Text>
           <Card.Subtitle>{movieData.Genre.Name}</Card.Subtitle>
-          
           <Link to={`/movies/${movieData._id}`}>
             <Button variant="link">Open</Button>
           </Link>

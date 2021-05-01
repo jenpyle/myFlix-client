@@ -35,7 +35,7 @@ export function LoginView(props) {
       '===============inside handleRegister from LOGIN-VIEW... set newUser from null to undefined(or whatever you type in form) username(AKA newUser)=',
       username
     );
-    props.onRegisterNewUser(username);
+    // props.onRegisterNewUser(username);
   };
 
   return (

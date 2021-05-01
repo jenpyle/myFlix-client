@@ -29,8 +29,8 @@ export function RegistrationView(props) {
       .then((response) => {
         const data = response.data;
         console.log(data);
-        props.onBackClick();
-        //props.onLoggedOut(); changing state of user and newUser so login view is rendered
+        // props.onBackClick();
+        window.open('/', '_self');
       })
       .catch((e) => {
         console.log('Something went wrong with user registration! check that fields are valid');
