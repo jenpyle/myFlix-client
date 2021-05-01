@@ -145,24 +145,12 @@ export class MainView extends React.Component {
               exact
               path="/"
               render={() => {
-                // if (user === null && newUser === null) {
                 if (user === null) {
-                  return (
-                    <LoginView
-                      onRegisterNewUser={(newUser) => this.onRegisterNewUser(newUser)}
-                      onLoggedIn={(user) => this.onLoggedIn(user)}
-                    />
-                  ); //onLoggedIn method will update the user state of the MainView component and will be called when the user has successfully logged in... to change the user state to valid instead of null?
+                  return <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />; //onLoggedIn method will update the user state of the MainView component and will be called when the user has successfully logged in... to change the user state to valid instead of null?
                 }
                 return movies.map((movie) => (
                   <Col md={3} key={movie._id}>
-                    <MovieCards
-                      movieData={movie}
-                      onLogoutClick={() => this.onLoggedOut()}
-                      onMovieClick={(movie) => {
-                        this.setSelectedMovie(movie);
-                      }}
-                    />
+                    <MovieCards movieData={movie} onLogoutClick={() => this.onLoggedOut()} />
                   </Col>
                 ));
               }}
@@ -178,32 +166,14 @@ export class MainView extends React.Component {
               }}
             />
 
-            {/* <Route
+            <Route
               path="/movies/:movieId"
               render={({ match, history }) => {
-                if (movies.length === 0) return <div className="main-view" />;
                 return (
-                  <Col md={12}>
+                  <Col md={8}>
                     <MovieInfoView
                       movieData={movies.find((movie) => movie._id === match.params.movieId)}
                       onBackClick={() => history.goBack()}
-                      // setSelectedMovie={(movie) => this.setSelectedMovie(movie)}
-                    />
-                  </Col>
-                );
-              }}
-            /> */}
-            <Route
-              path="/movies/:Title"
-              render={({ match, history }) => {
-                if (movies.length === 0) return <div className="main-view" />;
-                return (
-                  <Col md={12}>
-                    <MovieInfoView
-                      // movieData={selectedMovie}
-                      movieData={movies.find((m) => m.Title === match.params.title)}
-                      onBackClick={() => history.goBack()}
-                      setSelectedMovie={(selectedMovie) => this.setSelectedMovie(movie)}
                     />
                   </Col>
                 );

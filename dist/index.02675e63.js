@@ -26468,17 +26468,15 @@ try {
           exact: true,
           path: "/",
           render: () => {
-            // if (user === null && newUser === null) {
             if (user === null) {
               return (
                 /*#__PURE__*/_reactDefault.default.createElement(_loginViewLoginView.LoginView, {
-                  onRegisterNewUser: newUser => this.onRegisterNewUser(newUser),
                   onLoggedIn: user => this.onLoggedIn(user),
                   __self: this,
                   __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 151,
-                    columnNumber: 21
+                    lineNumber: 149,
+                    columnNumber: 26
                   }
                 })
               );
@@ -26489,19 +26487,16 @@ try {
               __self: this,
               __source: {
                 fileName: _jsxFileName,
-                lineNumber: 158,
+                lineNumber: 152,
                 columnNumber: 19
               }
             }, /*#__PURE__*/_reactDefault.default.createElement(_movieCardsMovieCards.MovieCards, {
               movieData: movie,
               onLogoutClick: () => this.onLoggedOut(),
-              onMovieClick: movie => {
-                this.setSelectedMovie(movie);
-              },
               __self: this,
               __source: {
                 fileName: _jsxFileName,
-                lineNumber: 159,
+                lineNumber: 153,
                 columnNumber: 21
               }
             })));
@@ -26525,7 +26520,7 @@ try {
                 __self: this,
                 __source: {
                   fileName: _jsxFileName,
-                  lineNumber: 176,
+                  lineNumber: 164,
                   columnNumber: 24
                 }
               })
@@ -26534,11 +26529,82 @@ try {
           __self: this,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 171,
+            lineNumber: 159,
             columnNumber: 13
           }
         }), /*#__PURE__*/_reactDefault.default.createElement(_reactRouterDom.Route, {
-          path: "/movies/:Title",
+          path: "/movies/:movieId",
+          render: ({match, history}) => {
+            return (
+              /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Col, {
+                md: 8,
+                __self: this,
+                __source: {
+                  fileName: _jsxFileName,
+                  lineNumber: 173,
+                  columnNumber: 19
+                }
+              }, /*#__PURE__*/_reactDefault.default.createElement(_movieInfoViewMovieInfoView.MovieInfoView, {
+                movieData: movies.find(movie => movie._id === match.params.movieId),
+                onBackClick: () => history.goBack(),
+                __self: this,
+                __source: {
+                  fileName: _jsxFileName,
+                  lineNumber: 174,
+                  columnNumber: 21
+                }
+              }))
+            );
+          },
+          __self: this,
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 169,
+            columnNumber: 13
+          }
+        }), /*#__PURE__*/_reactDefault.default.createElement(_reactRouterDom.Route, {
+          path: "/directors/:name",
+          render: ({match, history}) => {
+            if (movies.length === 0) return (
+              /*#__PURE__*/_reactDefault.default.createElement("div", {
+                className: "main-view",
+                __self: this,
+                __source: {
+                  fileName: _jsxFileName,
+                  lineNumber: 185,
+                  columnNumber: 49
+                }
+              })
+            );
+            return (
+              /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Col, {
+                md: 8,
+                __self: this,
+                __source: {
+                  fileName: _jsxFileName,
+                  lineNumber: 187,
+                  columnNumber: 19
+                }
+              }, /*#__PURE__*/_reactDefault.default.createElement(_directorViewDirectorView.DirectorView, {
+                directorData: movies.find(movie => movie.Director.Name === match.params.name).Director,
+                onBackClick: () => history.goBack(),
+                __self: this,
+                __source: {
+                  fileName: _jsxFileName,
+                  lineNumber: 188,
+                  columnNumber: 21
+                }
+              }))
+            );
+          },
+          __self: this,
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 182,
+            columnNumber: 13
+          }
+        }), /*#__PURE__*/_reactDefault.default.createElement(_reactRouterDom.Route, {
+          path: "/genres/:name",
           render: ({match, history}) => {
             if (movies.length === 0) return (
               /*#__PURE__*/_reactDefault.default.createElement("div", {
@@ -26551,20 +26617,19 @@ try {
                 }
               })
             );
+            // make sure movies are available before rendering anything.
             return (
               /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Col, {
-                md: 12,
+                md: 8,
                 __self: this,
                 __source: {
                   fileName: _jsxFileName,
                   lineNumber: 201,
                   columnNumber: 19
                 }
-              }, /*#__PURE__*/_reactDefault.default.createElement(_movieInfoViewMovieInfoView.MovieInfoView, {
-                // movieData={selectedMovie}
-                movieData: movies.find(m => m.Title === match.params.title),
+              }, /*#__PURE__*/_reactDefault.default.createElement(_genreViewGenreView.GenreView, {
+                genreData: movies.find(movie => movie.Genre.Name === match.params.name).Genre,
                 onBackClick: () => history.goBack(),
-                setSelectedMovie: selectedMovie => this.setSelectedMovie(movie),
                 __self: this,
                 __source: {
                   fileName: _jsxFileName,
@@ -26578,89 +26643,6 @@ try {
           __source: {
             fileName: _jsxFileName,
             lineNumber: 196,
-            columnNumber: 13
-          }
-        }), /*#__PURE__*/_reactDefault.default.createElement(_reactRouterDom.Route, {
-          path: "/directors/:name",
-          render: ({match, history}) => {
-            if (movies.length === 0) return (
-              /*#__PURE__*/_reactDefault.default.createElement("div", {
-                className: "main-view",
-                __self: this,
-                __source: {
-                  fileName: _jsxFileName,
-                  lineNumber: 215,
-                  columnNumber: 49
-                }
-              })
-            );
-            return (
-              /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Col, {
-                md: 8,
-                __self: this,
-                __source: {
-                  fileName: _jsxFileName,
-                  lineNumber: 217,
-                  columnNumber: 19
-                }
-              }, /*#__PURE__*/_reactDefault.default.createElement(_directorViewDirectorView.DirectorView, {
-                directorData: movies.find(movie => movie.Director.Name === match.params.name).Director,
-                onBackClick: () => history.goBack(),
-                __self: this,
-                __source: {
-                  fileName: _jsxFileName,
-                  lineNumber: 218,
-                  columnNumber: 21
-                }
-              }))
-            );
-          },
-          __self: this,
-          __source: {
-            fileName: _jsxFileName,
-            lineNumber: 212,
-            columnNumber: 13
-          }
-        }), /*#__PURE__*/_reactDefault.default.createElement(_reactRouterDom.Route, {
-          path: "/genres/:name",
-          render: ({match, history}) => {
-            if (movies.length === 0) return (
-              /*#__PURE__*/_reactDefault.default.createElement("div", {
-                className: "main-view",
-                __self: this,
-                __source: {
-                  fileName: _jsxFileName,
-                  lineNumber: 229,
-                  columnNumber: 49
-                }
-              })
-            );
-            // make sure movies are available before rendering anything.
-            return (
-              /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Col, {
-                md: 8,
-                __self: this,
-                __source: {
-                  fileName: _jsxFileName,
-                  lineNumber: 231,
-                  columnNumber: 19
-                }
-              }, /*#__PURE__*/_reactDefault.default.createElement(_genreViewGenreView.GenreView, {
-                genreData: movies.find(movie => movie.Genre.Name === match.params.name).Genre,
-                onBackClick: () => history.goBack(),
-                __self: this,
-                __source: {
-                  fileName: _jsxFileName,
-                  lineNumber: 232,
-                  columnNumber: 21
-                }
-              }))
-            );
-          },
-          __self: this,
-          __source: {
-            fileName: _jsxFileName,
-            lineNumber: 226,
             columnNumber: 13
           }
         }))))
@@ -46514,23 +46496,20 @@ try {
             columnNumber: 11
           }
         }, movieData.Genre.Name), /*#__PURE__*/_reactDefault.default.createElement(_reactRouterDom.Link, {
-          to: `/movies/${movieData.Title}`,
-          __self: this,
-          __source: {
-            fileName: _jsxFileName,
-            lineNumber: 36,
-            columnNumber: 11
-          }
-        }, /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Button, {
-          variant: "info",
-          onClick: () => {
-            onMovieClick(movieData);
-          },
+          to: `/movies/${movieData._id}`,
           __self: this,
           __source: {
             fileName: _jsxFileName,
             lineNumber: 37,
             columnNumber: 11
+          }
+        }, /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Button, {
+          variant: "link",
+          __self: this,
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 38,
+            columnNumber: 13
           }
         }, "Open")))))
       );

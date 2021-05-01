@@ -33,10 +33,9 @@ export class MovieCards extends React.Component {
           <Card.Title>{movieData.Title}</Card.Title>
           <Card.Text>{movieData.Description}</Card.Text>
           <Card.Subtitle>{movieData.Genre.Name}</Card.Subtitle>
-          <Link to={`/movies/${movieData.Title}`}>
-          <Button variant="info" onClick={() => { onMovieClick(movieData) }} >Open</Button>
-            {/* <Button variant="info" onClick={(movieData) => setSelectedMovie(movieData)}>Open</Button> */}
-            {/* telling router to route to a single movie-info-view when clicking open button */}
+          
+          <Link to={`/movies/${movieData._id}`}>
+            <Button variant="link">Open</Button>
           </Link>
         </Card.Body>
       </Card>
