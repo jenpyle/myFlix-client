@@ -1,7 +1,21 @@
+#registration-container {
+  border-style: solid;
+  border-radius: 5%;
+  padding: 30px;
+  background-color: antiquewhite;
+}
 
+#registration-container h3 {
+  text-align: center;
+}
+
+#bootstrap-overrides form {
+  margin-top: 40px;
+  font-weight: bolder;
+}
 .title {
-  font-family: "Luckiest Guy", cursive;
-  color: palevioletred;
+  font-family: "Chango", cursive;
+  color: black;
   font-size: 6rem;
 }
 
@@ -12,9 +26,13 @@
 #bootstrap-overrides .btn-info {
   background-color: thistle;
 }
+
 #bootstrap-overrides .card {
-  background-color: #e5fdf7;
+  background-color: whitesmoke;
   border-color: violet;
+}
+#bootstrap-overrides .card .card-body {
+  background-color: whitesmoke;
 }
 
 #bootstrap-overrides .card-subtitle {
@@ -23,6 +41,9 @@
   font-size: 1.4em;
 }
 
+#bootstrap-overrides .card-body {
+  background-color: whitesmoke;
+}
 
 html,
 body {
@@ -37,7 +58,10 @@ body {
 }
 
 #bootstrap-overrides .btn {
+  font-size: larger;
   border-color: violet;
+  padding: 10px;
+  margin-right: 10px;
 }
 
 #bootstrap-overrides img {

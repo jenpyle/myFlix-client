@@ -1,11 +1,15 @@
 import React from 'react';
 import axios from 'axios';
 
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+
 import { RegistrationView } from '../registration-view/registration-view';
 import { LoginView } from '../login-view/login-view'; //LoginView will need to get the user details from the MainView. If LoginView is not imported here, there would be no way of passing the user details to it
-import { MovieCard } from '../movie-card/movie-card';
-import { MovieView } from '../movie-view/movie-view';
-// import Row from 'react-bootstrap/Row';
+import { MovieCards } from '../movie-cards/movie-cards';
+import { MovieInfoView } from '../movie-info-view/movie-info-view';
+import { DirectorView } from '../director-view/director-view';
+import { GenreView } from '../genre-view/genre-view';
+import { ProfileView } from '../profile-view/profile-view';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 
 import './main-view.scss';
@@ -29,6 +33,7 @@ export class MainView extends React.Component {
   }
 
   componentDidMount() {
+    console.log('inside componentDidMount() of Main-View');
     //this happens every time the user loads the page
     //code executed right after component is added to the DOM
     let accessToken = localStorage.getItem('token');
@@ -43,6 +48,7 @@ export class MainView extends React.Component {
 
   /*When a movie is clicked, this function is invoked and updates the state of the `selectedMovie` *property to that movie*/
   setSelectedMovie(newSelectedMovie) {
+    console.log(newSelectedMovie, 'iiiiiiiiiiiiiiiiii');
     this.setState({
       selectedMovie: newSelectedMovie,
     });
@@ -51,8 +57,7 @@ export class MainView extends React.Component {
   onLoggedIn(authData) {
     //This happens the moment the user logs in
     //This updates the state with the logged in authData
-    console.log('-----------------------inside onLoggedIn MAIN-VIEW');
-    console.log('authUser = ', authData);
+    console.log('-----------------------inside onLoggedIn MAIN-VIEW', '....authUser = ', authData);
     this.setState({
       user: authData.user.Username, //the user's username is stored in the user state
     });
@@ -62,17 +67,16 @@ export class MainView extends React.Component {
   }
 
   onRegisterNewUser(newUser) {
-    console.log('-----------------------inside OnRegistetrNewUser');
-    console.log(' newUser = ', newUser);
+    console.log('-----------------------inside OnRegistetrNewUser', '   newUser = ', newUser);
     this.setState({
       newUser,
     });
   }
 
   onLoggedOut() {
+    console.log('-----------------------inside onLoggedOut');
     localStorage.removeItem('token');
     localStorage.removeItem('user');
-    console.log('-----------------------inside onLoggedOut');
     this.setState({
       user: null,
       newUser: null,
@@ -98,22 +102,22 @@ export class MainView extends React.Component {
 
   render() {
     const { movies, selectedMovie, user, newUser } = this.state;
+
     console.log('user , new user = ', user, ', ', newUser);
+    /* If there is no user, the LoginView is rendered. If there is a user logged in, the user details are *passed as a prop to the LoginView*/
 
     if (newUser !== null && user === null) {
       return <RegistrationView user={user} newUser={newUser} onLoggedOut={() => this.onLoggedOut()} />;
     }
 
-    /* If there is no user, the LoginView is rendered. If there is a user logged in, the user details are *passed as a prop to the LoginView*/
     if (user === null) {
       return (
         <LoginView
           onRegisterNewUser={(newUser) => this.onRegisterNewUser(newUser)}
           onLoggedIn={(user) => this.onLoggedIn(user)}
         />
-      );
-    } //A method, onLoggedIn, will be passed as a prop with the same name to LoginView
-    //This method will update the user state of the MainView component and will be called when the user has successfully logged in... to change the user state to valid instead of null?
+      ); //onLoggedIn method will update the user state of the MainView component and will be called when the user has successfully logged in... to change the user state to valid instead of null?
+    }
 
     if (movies.length === 0) return <div className="main-view" />;
     return (
@@ -126,32 +130,66 @@ export class MainView extends React.Component {
           <br></br>
         </div>
         {/*If the state of `selectedMovie` is not null, that selected movie will be returned otherwise, all *movies will be returned*/}
-        {selectedMovie ? (
+
+        <Router>
           <Row className="main-view justify-content-md-center">
-            <Col md={8}>
-              <MovieView
-                movieData={selectedMovie}
-                onBackClick={(newSelectedMovie) => {
-                  this.setSelectedMovie(newSelectedMovie);
-                }}
-              />
-            </Col>
+            <Route
+              exact
+              path="/"
+              render={() => {
+                return movies.map((movie) => (
+                  <Col md={3} key={movie._id}>
+                    <MovieCards
+                      movieData={movie}
+                      // onMovieClick={(movie) => {
+                      //   this.setSelectedMovie(movie);
+                      // }}
+                    />
+                  </Col>
+                ));
+              }}
+            />
+
+            <Route
+              path="/movies/:movieId"
+              render={({ match, history }) => {
+                return (
+                  <Col md={8}>
+                    <MovieInfoView
+                      movieData={movies.find((movie) => movie._id === match.params.movieId)}
+                      onBackClick={() => history.goBack()}
+                    />
+                  </Col>
+                );
+              }}
+            />
+            <Route
+              path="/directors/:name"
+              render={({ match, history }) => {
+                if (movies.length === 0) return <div className="main-view" />;
+                return (
+                  <Col md={8}>
+                    <DirectorView
+                      director={movies.find((m) => m.Director.Name === match.params.name).Director}
+                      onBackClick={() => history.goBack()}
+                    />
+                  </Col>
+                );
+              }}
+            />
+            <Route
+              path="/genres/:name"
+              render={({ match }) => {
+                if (movies.length === 0) return <div className="main-view" />; //make sure movies are available before rendering anything.
+                return (
+                  <Col md={8}>
+                    <GenreView genre={movies.find((movie) => movie.Genre.Name === match.params.name).Genre} />
+                  </Col>
+                );
+              }}
+            />
           </Row>
-        ) : (
-          <Row className="main-view justify-content-md-center">
-            {movies.map((movie) => (
-              <Col md={3}>
-                <MovieCard
-                  key={movie._id}
-                  movieData={movie}
-                  onMovieClick={(newSelectedMovie) => {
-                    this.setSelectedMovie(newSelectedMovie);
-                  }}
-                />
-              </Col>
-            ))}
-          </Row>
-        )}
+        </Router>
       </Container>
     );
   }

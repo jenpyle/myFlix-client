@@ -1,5 +1,5 @@
 import React, { useState } from 'react'; //useState is a react hook
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, Container } from 'react-bootstrap';
 import axios from 'axios';
 
 import './registration-view.scss';
@@ -36,33 +36,40 @@ export function RegistrationView(props) {
   };
 
   return (
-    <Form>
-      <Form.Group controlId="formUsername">
-        <Form.Label>Username:</Form.Label>
-        <Form.Control type="text" onChange={(e) => setUsername(e.target.value)} />
-      </Form.Group>
+    <Container>
+      <h1 className="title">MyFlix</h1>
+      <br></br>
+      <div id="registration-container">
+        <h3>Register new user</h3>
+        <Form>
+          <Form.Group controlId="formUsername">
+            <Form.Label>Username:</Form.Label>
+            <Form.Control type="text" onChange={(e) => setUsername(e.target.value)} />
+          </Form.Group>
 
-      <Form.Group controlId="formPassword">
-        <Form.Label>Password:</Form.Label>
-        <Form.Control type="password" onChange={(e) => setPassword(e.target.value)} />
-      </Form.Group>
+          <Form.Group controlId="formPassword">
+            <Form.Label>Password:</Form.Label>
+            <Form.Control type="password" onChange={(e) => setPassword(e.target.value)} />
+          </Form.Group>
 
-      <Form.Group controlId="formEmail">
-        <Form.Label>Email:</Form.Label>
-        <Form.Control type="email" onChange={(e) => setEmail(e.target.value)} />
-      </Form.Group>
+          <Form.Group controlId="formEmail">
+            <Form.Label>Email:</Form.Label>
+            <Form.Control type="email" onChange={(e) => setEmail(e.target.value)} />
+          </Form.Group>
 
-      <Form.Group controlId="formUsername">
-        <Form.Label>Birthday</Form.Label>
-        <Form.Control type="date" onChange={(e) => setBirthday(e.target.value)} />
-      </Form.Group>
+          <Form.Group controlId="formUsername">
+            <Form.Label>Birthday</Form.Label>
+            <Form.Control type="date" onChange={(e) => setBirthday(e.target.value)} />
+          </Form.Group>
 
-      <Button variant="primary" type="submit" onClick={handleSubmit}>
-        Submit
-      </Button>
-      <Button variant="secondary" type="button" onClick={handleBackClick}>
-        Back
-      </Button>
-    </Form>
+          <Button variant="info" type="submit" onClick={handleSubmit}>
+            Submit
+          </Button>
+          <Button variant="secondary" type="button" onClick={handleBackClick}>
+            Back
+          </Button>
+        </Form>
+      </div>
+    </Container>
   );
 }

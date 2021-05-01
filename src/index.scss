@@ -1,13 +1,13 @@
 $primary-background-color: bisque;
 $primary-button-color: thistle;
 $border-color: violet;
-$title-color: palevioletred;
+$title-color: black;
 $grey: dimgrey;
 $primary-accent-color: Rosybrown;
 $selected-link-color: #489c79;
 $visited-color: #05676e;
 $font-weight: bold;
-$card-background-color: rgb(229, 253, 247);
+$card-background-color: whitesmoke; //rgb(229, 253, 247);
 
 html,
 body {
@@ -22,7 +22,10 @@ body {
 }
 
 #bootstrap-overrides .btn {
+  font-size: larger;
   border-color: $border-color;
+  padding: 10px;
+  margin-right: 10px;
 }
 
 #bootstrap-overrides img {

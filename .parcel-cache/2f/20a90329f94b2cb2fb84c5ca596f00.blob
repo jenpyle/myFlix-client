@@ -1,0 +1,14 @@
+#registration-container {
+  border-style: solid;
+  border-radius: 5%;
+  padding: 30px;
+  background-color: papayawhip;
+}
+
+#registration-container h3 {
+  text-align: center;
+}
+
+#bootstrap-overrides form {
+  margin-top: 40px;
+}
