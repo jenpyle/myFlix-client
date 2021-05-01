@@ -1,0 +1,77 @@
+var helpers = require("../../../../../AppData/Roaming/npm/node_modules/parcel/node_modules/@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+helpers.prelude(module);
+try {
+  var _parcelHelpers = require("@parcel/transformer-js/lib/esmodule-helpers.js");
+  _parcelHelpers.defineInteropFlag(exports);
+  _parcelHelpers.export(exports, "GenreView", function () {
+    return GenreView;
+  });
+  var _react = require('react');
+  var _reactDefault = _parcelHelpers.interopDefault(_react);
+  require('react-dom');
+  var _reactBootstrap = require('react-bootstrap');
+  require('react-router-dom');
+  require('react-bootstrap/esm/Image');
+  var _jsxFileName = "C:\\Users\\jenny\\git_projects\\myFlix-client\\src\\components\\genre-view\\genre-view.jsx";
+  function GenreView(props) {
+    // all the views declared like this are function components
+    return (
+      /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Container, {
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 10,
+          columnNumber: 5
+        }
+      }, /*#__PURE__*/_reactDefault.default.createElement("div", {
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 11,
+          columnNumber: 7
+        }
+      }, "Genre view"), /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Button, {
+        variant: "secondary",
+        onClick: () => {
+          props.onBackClick();
+        },
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 12,
+          columnNumber: 7
+        }
+      }, "Back"), /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Card, {
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 22,
+          columnNumber: 7
+        }
+      }, /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Card.Header, {
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 23,
+          columnNumber: 9
+        }
+      }, props.genreData.Name), /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Card.Text, {
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 24,
+          columnNumber: 9
+        }
+      }, props.genreData.Description)))
+    );
+  }
+  _c = GenreView;
+  var _c;
+  $RefreshReg$(_c, "GenreView");
+  helpers.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}

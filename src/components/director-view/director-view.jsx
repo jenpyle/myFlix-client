@@ -7,8 +7,6 @@ export function DirectorView(props) {
   // render() {
   return (
     <Container>
-      <div>Jello!</div>
-
       <Button
         variant="info"
         onClick={() => {
@@ -17,6 +15,16 @@ export function DirectorView(props) {
       >
         Back
       </Button>
+      <Card>
+        <Card.Header className="director-title">{props.directorData.Name}</Card.Header>
+        <Card.Body>
+          <Card.Title>Bio: </Card.Title>
+          <span className="value">{props.directorData.Bio}</span>
+
+          <Card.Title>Birthday: </Card.Title>
+          <span className="value">{props.directorData.Birth}</span>
+        </Card.Body>
+      </Card>
     </Container>
   );
   // };

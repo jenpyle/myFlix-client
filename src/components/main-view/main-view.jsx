@@ -154,7 +154,7 @@ export class MainView extends React.Component {
               path="/movies/:movieId"
               render={({ match, history }) => {
                 return (
-                  <Col md={8}>
+                  <Col md={12}>
                     <MovieInfoView
                       movieData={movies.find((movie) => movie._id === match.params.movieId)}
                       onBackClick={() => history.goBack()}
@@ -170,7 +170,7 @@ export class MainView extends React.Component {
                 return (
                   <Col md={8}>
                     <DirectorView
-                      director={movies.find((m) => m.Director.Name === match.params.name).Director}
+                      directorData={movies.find((movie) => movie.Director.Name === match.params.name).Director}
                       onBackClick={() => history.goBack()}
                     />
                   </Col>
@@ -179,11 +179,14 @@ export class MainView extends React.Component {
             />
             <Route
               path="/genres/:name"
-              render={({ match }) => {
+              render={({ match, history }) => {
                 if (movies.length === 0) return <div className="main-view" />; //make sure movies are available before rendering anything.
                 return (
                   <Col md={8}>
-                    <GenreView genre={movies.find((movie) => movie.Genre.Name === match.params.name).Genre} />
+                    <GenreView
+                      genreData={movies.find((movie) => movie.Genre.Name === match.params.name).Genre}
+                      onBackClick={() => history.goBack()}
+                    />
                   </Col>
                 );
               }}

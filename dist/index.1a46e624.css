@@ -27,23 +27,7 @@
   background-color: thistle;
 }
 
-#bootstrap-overrides .card {
-  background-color: whitesmoke;
-  border-color: violet;
-}
-#bootstrap-overrides .card .card-body {
-  background-color: whitesmoke;
-}
 
-#bootstrap-overrides .card-subtitle {
-  color: dimgrey;
-  padding-bottom: 10px;
-  font-size: 1.4em;
-}
-
-#bootstrap-overrides .card-body {
-  background-color: whitesmoke;
-}
 
 html,
 body {
@@ -67,5 +51,29 @@ body {
 #bootstrap-overrides img {
   border-style: solid;
   border-color: violet;
+}
+
+#bootstrap-overrides .card {
+  background-color: whitesmoke;
+  border-color: violet;
+}
+#bootstrap-overrides .card .card-body {
+  background-color: whitesmoke;
+}
+#bootstrap-overrides .card .card-header {
+  font-size: 3rem;
+}
+#bootstrap-overrides .card .card-title {
+  padding-top: 10px;
+}
+
+#bootstrap-overrides .card-subtitle {
+  color: dimgrey;
+  padding-bottom: 10px;
+  font-size: 1.4em;
+}
+
+#bootstrap-overrides .card-body {
+  background-color: whitesmoke;
 }
 /*# sourceMappingURL=index.1a46e624.css.map */

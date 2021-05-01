@@ -1,0 +1,60 @@
+var _parcelHelpers = require("@parcel/transformer-js/lib/esmodule-helpers.js");
+_parcelHelpers.defineInteropFlag(exports);
+_parcelHelpers.export(exports, "propTypes", function () {
+  return propTypes;
+});
+var _babelRuntimeHelpersEsmExtends = require("@babel/runtime/helpers/esm/extends");
+var _babelRuntimeHelpersEsmExtendsDefault = _parcelHelpers.interopDefault(_babelRuntimeHelpersEsmExtends);
+var _babelRuntimeHelpersEsmObjectWithoutPropertiesLoose = require("@babel/runtime/helpers/esm/objectWithoutPropertiesLoose");
+var _babelRuntimeHelpersEsmObjectWithoutPropertiesLooseDefault = _parcelHelpers.interopDefault(_babelRuntimeHelpersEsmObjectWithoutPropertiesLoose);
+var _classnames = require('classnames');
+var _classnamesDefault = _parcelHelpers.interopDefault(_classnames);
+var _react = require('react');
+var _reactDefault = _parcelHelpers.interopDefault(_react);
+var _propTypes = require('prop-types');
+var _propTypesDefault = _parcelHelpers.interopDefault(_propTypes);
+var _ThemeProvider = require('./ThemeProvider');
+var propTypes = {
+  /**
+  * @default 'img'
+  */
+  bsPrefix: _propTypesDefault.default.string,
+  /**
+  * Sets image as fluid image.
+  */
+  fluid: _propTypesDefault.default.bool,
+  /**
+  * Sets image shape as rounded.
+  */
+  rounded: _propTypesDefault.default.bool,
+  /**
+  * Sets image shape as circle.
+  */
+  roundedCircle: _propTypesDefault.default.bool,
+  /**
+  * Sets image shape as thumbnail.
+  */
+  thumbnail: _propTypesDefault.default.bool
+};
+var defaultProps = {
+  fluid: false,
+  rounded: false,
+  roundedCircle: false,
+  thumbnail: false
+};
+var Image = /*#__PURE__*/_reactDefault.default.forwardRef(function (_ref, ref) {
+  var bsPrefix = _ref.bsPrefix, className = _ref.className, fluid = _ref.fluid, rounded = _ref.rounded, roundedCircle = _ref.roundedCircle, thumbnail = _ref.thumbnail, props = _babelRuntimeHelpersEsmObjectWithoutPropertiesLooseDefault.default(_ref, ["bsPrefix", "className", "fluid", "rounded", "roundedCircle", "thumbnail"]);
+  bsPrefix = _ThemeProvider.useBootstrapPrefix(bsPrefix, 'img');
+  var classes = _classnamesDefault.default(fluid && bsPrefix + "-fluid", rounded && "rounded", roundedCircle && "rounded-circle", thumbnail && bsPrefix + "-thumbnail");
+  return (
+    /*#__PURE__*/_reactDefault.default.createElement("img", _babelRuntimeHelpersEsmExtendsDefault.default({
+      // eslint-disable-line jsx-a11y/alt-text
+      ref: ref
+    }, props, {
+      className: _classnamesDefault.default(className, classes)
+    }))
+  );
+});
+Image.displayName = 'Image';
+Image.defaultProps = defaultProps;
+exports.default = Image;

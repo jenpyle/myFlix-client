@@ -24,7 +24,7 @@ export class MovieInfoView extends React.Component {
           <Col className="move-poster">
             <img style={{ width: '22rem' }} src={movieData.ImagePath} />
           </Col>
-          <Col md={5}>
+          <Col md={7}>
             <Card>
               <div className="movie-title">
                 <Card.Header>{movieData.Title}</Card.Header>
@@ -50,11 +50,11 @@ export class MovieInfoView extends React.Component {
                 </Card.Body>
 
                 <Link to={`/directors/${movieData.Director.Name}`}>
-                  <Button variant="link">Director</Button>
+                  <Button variant="link">{movieData.Director.Name}</Button>
                 </Link>
 
                 <Link to={`/genres/${movieData.Genre.Name}`}>
-                  <Button variant="link">Genre</Button>
+                  <Button variant="link">{movieData.Genre.Name}</Button>
                 </Link>
               </div>
             </Card>
