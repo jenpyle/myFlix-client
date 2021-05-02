@@ -27,7 +27,7 @@ export function ProfileView(props) {
       >
         Edit Profile Info
       </Button> */}
-      <Link to={`/users/${props.userData.username}`}>
+      <Link to={`/users/${props.userData.Username}`}>
         <Button variant="link" onClick={() => props.setRequestType('put')}>
           Edit Profile Info
         </Button>
@@ -40,13 +40,13 @@ export function ProfileView(props) {
 
               <Card.Body className="username">
                 <Card.Title>Username: </Card.Title>
-                <Card.Text>{props.userData.username}</Card.Text>
+                <Card.Text>{props.userData.Username}</Card.Text>
 
                 <Card.Title>Password: </Card.Title>
-                <span className="value">{props.userData.password}</span>
+                <span className="value">{props.userData.Password}</span>
 
                 <Card.Title>Email: </Card.Title>
-                <span className="value">{props.userData.email}</span>
+                <span className="value">{props.userData.Email}</span>
 
                 <Card.Title>Birthday: </Card.Title>
                 <span className="value">{props.userData.Birthday}</span>
@@ -57,14 +57,6 @@ export function ProfileView(props) {
                 <Card.Title>To Watch: </Card.Title>
                 <span className="value">{props.userData.ToWatch}</span>
               </Card.Body>
-
-              {/* <Link to={`/directors/${movieData.Director.Name}`}>
-              <Button variant="link">{movieData.Director.Name}</Button>
-            </Link>
-
-            <Link to={`/genres/${movieData.Genre.Name}`}>
-              <Button variant="link">{movieData.Genre.Name}</Button>
-            </Link> */}
             </div>
           </Card>
         </Col>

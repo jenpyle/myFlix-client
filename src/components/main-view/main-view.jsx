@@ -38,8 +38,6 @@ export class MainView extends React.Component {
   }
 
   componentDidMount() {
-    console.log('this.state', this.state);
-    console.log('inside componentDidMount() of Main-View');
     //this happens every time the user loads the page
     //code executed right after component is added to the DOM
     let accessToken = localStorage.getItem('token');
@@ -50,20 +48,19 @@ export class MainView extends React.Component {
       });
       this.getMovies(accessToken); //only if the user is logged in you make the getMovies request
       this.getUsers(accessToken);
+      console.log('this.state after componentDidMount()', this.state);
     }
   }
 
   /*When a movie is clicked, this function is invoked and updates the state of the `selectedMovie` *property to that movie*/
   setSelectedMovie(newSelectedMovie) {
-    console.log('this.state', this.state);
-    console.log('setSelectedMovie = new selected movie = ', newSelectedMovie);
     this.setState({
       selectedMovie: newSelectedMovie,
     });
+    console.log('this.state after setSelectedMovie ', this.state);
   }
   /* When a user successfully logs in, this function updates the `user` property in state to that *particular user*/
   onLoggedIn(authData) {
-    console.log('this.state', this.state);
     //This happens the moment the user logs in
     //This updates the state with the logged in authData
     console.log('-----------------------inside onLoggedIn MAIN-VIEW', '....authUser = ', authData);
@@ -77,26 +74,24 @@ export class MainView extends React.Component {
   }
 
   onRegisterNewUser(newUser) {
-    console.log('this.state', this.state);
-    console.log('-----------------------inside OnRegistetrNewUser', '   newUser = ', newUser);
     this.setState({
       newUser,
     });
+    console.log('this.state after OnRegistetrNewUser=', this.state);
   }
 
   onLoggedOut() {
-    console.log('this.state', this.state);
-    console.log('-----------------------inside onLoggedOut');
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     this.setState({
       user: null,
       newUser: null,
+      requestType: null,
     });
+    console.log('this.state after onLoggedOut=', this.state);
   }
 
   getMovies(token) {
-    console.log('this.state', this.state);
     axios
       .get('https://jennysflix.herokuapp.com/movies', {
         headers: { Authorization: `Bearer ${token}` },
@@ -113,7 +108,6 @@ export class MainView extends React.Component {
   }
 
   getUsers(token) {
-    console.log('this.state', this.state);
     axios
       .get('https://jennysflix.herokuapp.com/users', {
         headers: { Authorization: `Bearer ${token}` },
@@ -123,6 +117,7 @@ export class MainView extends React.Component {
         this.setState({
           users: response.data,
         });
+        console.log('this.state after getUsers', this.state);
       })
       .catch(function (error) {
         console.log('error in get users axios request: ', error);
@@ -135,7 +130,7 @@ export class MainView extends React.Component {
     this.setState({
       requestType: type,
     });
-    console.log('-----------------------AFTER=', type);
+    console.log('-----------------------AFTER=', type, 'this.state=', this.state);
   }
 
   render() {
@@ -158,7 +153,9 @@ export class MainView extends React.Component {
               </Button>
             </Link>
             <Link to={`/users/${user}`}>
-              <Button variant="link">Profile</Button>
+              <Button variant="link" onClick={() => this.setRequestType(null)}>
+                Profile
+              </Button>
             </Link>
           </span>
           <Row className="main-view justify-content-md-center">
@@ -205,7 +202,7 @@ export class MainView extends React.Component {
                   return (
                     <Col md={10}>
                       <ProfileView
-                        userData={users.find((u) => u.user === match.params.name)}
+                        userData={users.find((u) => u.Username === match.params.username)}
                         onBackClick={() => history.goBack()}
                         setRequestType={(type) => this.setRequestType(type)}
                       />
