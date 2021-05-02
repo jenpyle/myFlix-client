@@ -60,18 +60,19 @@ export function UpdateProfile(props) {
             />
           </Form.Group>
 
-          <Form.Group>
+          <Form.Group controlId="formConfirmPassword">
             <Form.Label>Password:</Form.Label>
             <Form.Text id="passwordHelpBlock" muted>
               Please confirm your current password
             </Form.Text>
             <Form.Control
-              controlId="formUpdatePassword"
               type="password"
               autoComplete="current password"
               aria-describedby="passwordHelpBlock"
               placeholder="Current Password"
             />
+          </Form.Group>
+          <Form.Group controlId="formNewPassword">
             <Form.Text id="passwordHelpBlock" muted>
               Your new password must be at least 4 characters long
             </Form.Text>
@@ -82,6 +83,8 @@ export function UpdateProfile(props) {
               placeholder="New Password"
               aria-describedby="passwordConfirm"
             />
+          </Form.Group>
+          <Form.Group controlId="formConfirmNewPassword">
             <Form.Control
               controlId="formUpdatePassword"
               type="password"
