@@ -19,18 +19,20 @@ export function ProfileView(props) {
       >
         Back
       </Button>
-      <Button
+      {/* <Button
         variant="info"
         onClick={() => {
           props.onBackClick();
         }}
       >
         Edit Profile Info
-      </Button>
+      </Button> */}
+      <Link to={`/users/${props.userData.username}`}>
+        <Button variant="link" onClick={() => props.setRequestType('put')}>
+          Edit Profile Info
+        </Button>
+      </Link>
       <Row className="user-view">
-        {/* <Col className="move-poster">
-        <img style={{ width: '22rem' }} src={movieData.ImagePath} />
-      </Col> */}
         <Col md={7}>
           <Card>
             <div className="user-view-title">

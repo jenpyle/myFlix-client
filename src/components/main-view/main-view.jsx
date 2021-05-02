@@ -13,6 +13,7 @@ import { MovieInfoView } from '../movie-info-view/movie-info-view';
 import { DirectorView } from '../director-view/director-view';
 import { GenreView } from '../genre-view/genre-view';
 import { ProfileView } from '../profile-view/profile-view';
+import { UpdateProfile } from '../update-profile/update-profile';
 
 import './main-view.scss';
 
@@ -31,6 +32,7 @@ export class MainView extends React.Component {
       selectedMovie: null,
       user: null,
       newUser: null,
+      requestType: null,
     };
     // this.onLoggedOut = this.onLoggedOut.bind(this);
   }
@@ -127,8 +129,17 @@ export class MainView extends React.Component {
       });
   }
 
+  setRequestType(type) {
+    console.log('HERE IN SETREQUESTTYPE this.state BEFORE', this.state);
+    console.log('-----------------------inside setRequestType type= ', type);
+    this.setState({
+      requestType: type,
+    });
+    console.log('-----------------------AFTER=', type);
+  }
+
   render() {
-    const { movies, users, user, newUser } = this.state;
+    const { movies, users, user, newUser, requestType } = this.state;
 
     console.log('user , new user = ', user, ', ', newUser);
 
@@ -182,17 +193,24 @@ export class MainView extends React.Component {
             <Route
               path="/users/:username"
               render={({ match, history }) => {
+                if (users.length === 0 || movies.length === 0) return <div className="main-view" />;
                 if (!user) {
                   return <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />; //onLoggedIn method will update the user state of the MainView component and will be called when the user has successfully logged in... to change the user state to valid instead of null?
                 }
-                return (
-                  <Col md={10}>
-                    <ProfileView
-                      userData={users.find((u) => u.Username === match.params.name)}
-                      onBackClick={() => history.goBack()}
-                    />
-                  </Col>
-                );
+                if (requestType === 'put') {
+                  return <UpdateProfile onBackClick={() => history.goBack()} />; //onLoggedIn method will update the user state of the MainView component and will be called when the user has successfully logged in... to change the user state to valid instead of null?
+                }
+                if (requestType === null) {
+                  return (
+                    <Col md={10}>
+                      <ProfileView
+                        userData={users.find((u) => u.Username === match.params.name)}
+                        onBackClick={() => history.goBack()}
+                        setRequestType={(type) => this.setRequestType(type)}
+                      />
+                    </Col>
+                  );
+                }
               }}
             />
 
