@@ -1,4 +1,0 @@
-#bootstrap-overrides .card {
-  background-color: #edfcf9;
-  border-color: violet;
-}
