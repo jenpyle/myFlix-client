@@ -20,12 +20,18 @@ export function UpdateProfile(props) {
     console.log('========in handleSubmit of UPDATE PROFILE');
     e.preventDefault(); //prevents the default refresh/change of the page
     console.log(username, password, email, birthday);
+    let accessToken = localStorage.getItem('token');
+    console.log(accessToken);
     axios
-      .put('https://jennysflix.herokuapp.com/users/${props.userData.username}`}', {
+      // .put(`https://jennysflix.herokuapp.com/users/${props.userData.Username}`, {
+      .put('https://jennysflix.herokuapp.com/users/jenny', {
         Username: username,
         Password: password,
         Email: email,
         Birthday: birthday,
+        headers: {
+          Authorization: 'Bearer token ' + accessToken,
+        },
       })
       .then((response) => {
         const data = response.data;
@@ -40,29 +46,72 @@ export function UpdateProfile(props) {
 
   return (
     <Container>
-      <h1 className="title">MyFlix</h1>
-      <br></br>
       <div id="registration-container">
         <h3>Update User Information</h3>
         <Form>
-          <Form.Group controlId="formUsername">
+          <Form.Group controlId="formUpdateUsername">
             <Form.Label>Username:</Form.Label>
-            <Form.Control type="text" onChange={(e) => setUsername(e.target.value)} />
+            <Form.Control
+              type="text"
+              placeholder="Username"
+              autoComplete="username"
+              defaultValue={props.userData.Username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
           </Form.Group>
 
-          <Form.Group controlId="formPassword">
+          <Form.Group>
             <Form.Label>Password:</Form.Label>
-            <Form.Control type="password" onChange={(e) => setPassword(e.target.value)} />
+            <Form.Text id="passwordHelpBlock" muted>
+              Please confirm your current password
+            </Form.Text>
+            <Form.Control
+              controlId="formUpdatePassword"
+              type="password"
+              autoComplete="current password"
+              aria-describedby="passwordHelpBlock"
+              placeholder="Current Password"
+            />
+            <Form.Text id="passwordHelpBlock" muted>
+              Your new password must be at least 4 characters long
+            </Form.Text>
+            <Form.Control
+              controlId="formUpdatePassword"
+              type="password"
+              autoComplete="new password"
+              placeholder="New Password"
+              aria-describedby="passwordConfirm"
+            />
+            <Form.Control
+              controlId="formUpdatePassword"
+              type="password"
+              autoComplete="confirm new password"
+              placeholder="Confirm New Password"
+              aria-describedby="passwordHelpBlock"
+              onChange={(e) => setPassword(e.target.value)}
+            />
           </Form.Group>
 
-          <Form.Group controlId="formEmail">
+          <Form.Group controlId="formUpdateEmail">
             <Form.Label>Email:</Form.Label>
-            <Form.Control type="email" onChange={(e) => setEmail(e.target.value)} />
+            <Form.Control
+              type="email"
+              placeholder="example@email.com"
+              autoComplete="email"
+              defaultValue={props.userData.Email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
           </Form.Group>
 
-          <Form.Group controlId="formUsername">
+          <Form.Group controlId="formUpdateBirthday">
             <Form.Label>Birthday</Form.Label>
-            <Form.Control type="date" onChange={(e) => setBirthday(e.target.value)} />
+            <Form.Control
+              type="date"
+              placeholder="date"
+              // autoComplete="birthday"
+              defaultValue={props.userData.Birthday.substr(0, 10)}
+              onChange={(e) => setBirthday(e.target.value)}
+            />
           </Form.Group>
 
           <Button variant="info" type="submit" onClick={handleSubmit}>

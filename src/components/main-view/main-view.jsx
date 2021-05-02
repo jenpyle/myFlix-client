@@ -196,7 +196,12 @@ export class MainView extends React.Component {
                   return <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />; //onLoggedIn method will update the user state of the MainView component and will be called when the user has successfully logged in... to change the user state to valid instead of null?
                 }
                 if (requestType === 'put') {
-                  return <UpdateProfile setRequestType={(type) => this.setRequestType(type)} />; //onLoggedIn method will update the user state of the MainView component and will be called when the user has successfully logged in... to change the user state to valid instead of null?
+                  return (
+                    <UpdateProfile
+                      userData={users.find((u) => u.Username === match.params.username)}
+                      setRequestType={(type) => this.setRequestType(type)}
+                    />
+                  ); //onLoggedIn method will update the user state of the MainView component and will be called when the user has successfully logged in... to change the user state to valid instead of null?
                 }
                 if (requestType === null) {
                   return (

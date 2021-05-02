@@ -1,0 +1,264 @@
+var helpers = require("../../../../../AppData/Roaming/npm/node_modules/parcel/node_modules/@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+helpers.prelude(module);
+try {
+  var _parcelHelpers = require("@parcel/transformer-js/lib/esmodule-helpers.js");
+  _parcelHelpers.defineInteropFlag(exports);
+  _parcelHelpers.export(exports, "UpdateProfile", function () {
+    return UpdateProfile;
+  });
+  var _react = require('react');
+  var _reactDefault = _parcelHelpers.interopDefault(_react);
+  require('prop-types');
+  require('react-router-dom');
+  var _reactBootstrap = require('react-bootstrap');
+  var _axios = require('axios');
+  var _axiosDefault = _parcelHelpers.interopDefault(_axios);
+  require('react-router-dom');
+  require('./update-profile.scss');
+  var _jsxFileName = "C:\\Users\\jenny\\git_projects\\myFlix-client\\src\\components\\update-profile\\update-profile.jsx", _s = $RefreshSig$();
+  function UpdateProfile(props) {
+    _s();
+    // excluding the 'extends React.Component' bc this is a function component, not class component. And can use hooks
+    const [username, setUsername] = _react.useState('');
+    // assigns an empty string to the username variable—and assigns to the setUsername variable a method to update the username variable
+    const [password, setPassword] = _react.useState('');
+    const [email, setEmail] = _react.useState('');
+    const [birthday, setBirthday] = _react.useState('');
+    // const [requestType, setRequest] = useState('');
+    const handleSubmit = e => {
+      console.log('========in handleSubmit of UPDATE PROFILE');
+      e.preventDefault();
+      // prevents the default refresh/change of the page
+      console.log(username, password, email, birthday);
+      let accessToken = localStorage.getItem('token');
+      console.log(accessToken);
+      _axiosDefault.default.// .put(`https://jennysflix.herokuapp.com/users/${props.userData.Username}`, {
+      put('https://jennysflix.herokuapp.com/users/jenny', {
+        Username: username,
+        Password: password,
+        Email: email,
+        Birthday: birthday,
+        headers: {
+          Authorization: 'Bearer token ' + accessToken
+        }
+      }).then(response => {
+        const data = response.data;
+        console.log('updated profile data', data);
+      }).catch(e => {
+        console.log('Something went wrong with profile update! check that fields are valid');
+      });
+    };
+    return (
+      /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Container, {
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 48,
+          columnNumber: 5
+        }
+      }, /*#__PURE__*/_reactDefault.default.createElement("div", {
+        id: "registration-container",
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 49,
+          columnNumber: 7
+        }
+      }, /*#__PURE__*/_reactDefault.default.createElement("h3", {
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 50,
+          columnNumber: 9
+        }
+      }, "Update User Information"), /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Form, {
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 51,
+          columnNumber: 9
+        }
+      }, /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Form.Group, {
+        controlId: "formUpdateUsername",
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 52,
+          columnNumber: 11
+        }
+      }, /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Form.Label, {
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 53,
+          columnNumber: 13
+        }
+      }, "Username:"), /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Form.Control, {
+        type: "text",
+        placeholder: "Username",
+        autoComplete: "username",
+        defaultValue: props.userData.Username,
+        onChange: e => setUsername(e.target.value),
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 54,
+          columnNumber: 13
+        }
+      })), /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Form.Group, {
+        controlId: "formUpdatePassword",
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 63,
+          columnNumber: 11
+        }
+      }, /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Form.Label, {
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 64,
+          columnNumber: 13
+        }
+      }, "Password:"), /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Form.Control, {
+        Id: "currentPassword",
+        type: "password",
+        autoComplete: "current password",
+        "aria-describedby": "passwordHelpBlock",
+        placeholder: "Current Password",
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 65,
+          columnNumber: 13
+        }
+      }), /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Form.Text, {
+        id: "passwordHelpBlock",
+        muted: true,
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 72,
+          columnNumber: 13
+        }
+      }, "Please confirm your current password"), /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Form.Control, {
+        type: "password",
+        autoComplete: "new password",
+        placeholder: "New Password",
+        "aria-describedby": "passwordConfirm",
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 75,
+          columnNumber: 13
+        }
+      }), /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Form.Control, {
+        type: "password",
+        autoComplete: "confirm new password",
+        placeholder: "Confirm New Password",
+        "aria-describedby": "passwordHelpBlock",
+        onChange: e => setPassword(e.target.value),
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 81,
+          columnNumber: 13
+        }
+      }), /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Form.Text, {
+        id: "passwordHelpBlock",
+        muted: true,
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 88,
+          columnNumber: 13
+        }
+      }, "Your password must be at least 4 characters long")), /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Form.Group, {
+        controlId: "formUpdateEmail",
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 93,
+          columnNumber: 11
+        }
+      }, /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Form.Label, {
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 94,
+          columnNumber: 13
+        }
+      }, "Email:"), /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Form.Control, {
+        type: "email",
+        placeholder: "example@email.com",
+        autoComplete: "email",
+        defaultValue: props.userData.Email,
+        onChange: e => setEmail(e.target.value),
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 95,
+          columnNumber: 13
+        }
+      })), /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Form.Group, {
+        controlId: "formUpdateBirthday",
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 104,
+          columnNumber: 11
+        }
+      }, /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Form.Label, {
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 105,
+          columnNumber: 13
+        }
+      }, "Birthday"), /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Form.Control, {
+        type: "date",
+        placeholder: "date",
+        /*autoComplete="birthday"*/
+        defaultValue: props.userData.Birthday.substr(0, 10),
+        onChange: e => setBirthday(e.target.value),
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 106,
+          columnNumber: 13
+        }
+      })), /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Button, {
+        variant: "info",
+        type: "submit",
+        onClick: handleSubmit,
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 115,
+          columnNumber: 11
+        }
+      }, "Submit"), /*#__PURE__*/_reactDefault.default.createElement(_reactBootstrap.Button, {
+        variant: "info",
+        onClick: () => {
+          props.setRequestType(null);
+        },
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 119,
+          columnNumber: 11
+        }
+      }, "Back"))))
+    );
+  }
+  _s(UpdateProfile, "tdA1KK8yaZidqYo0wscqshHt/KE=");
+  _c = UpdateProfile;
+  var _c;
+  $RefreshReg$(_c, "UpdateProfile");
+  helpers.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}

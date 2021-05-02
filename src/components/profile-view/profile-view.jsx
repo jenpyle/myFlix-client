@@ -42,14 +42,14 @@ export function ProfileView(props) {
                 <Card.Title>Username: </Card.Title>
                 <Card.Text>{props.userData.Username}</Card.Text>
 
-                <Card.Title>Password: </Card.Title>
-                <span className="value">{props.userData.Password}</span>
+                {/* <Card.Title>Password: </Card.Title>
+                <span className="value">{props.userData.Password}</span> */}
 
                 <Card.Title>Email: </Card.Title>
                 <span className="value">{props.userData.Email}</span>
 
                 <Card.Title>Birthday: </Card.Title>
-                <span className="value">{props.userData.Birthday}</span>
+                <span className="value">{props.userData.Birthday.substr(0, 10)}</span>
 
                 <Card.Title>Favorite Movies: </Card.Title>
                 <span className="value">{props.userData.FavoriteMovies}</span>
