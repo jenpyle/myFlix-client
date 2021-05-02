@@ -8,7 +8,7 @@ import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 
 export function ProfileView(props) {
   console.log('inside of profile view');
-  console.log(props.userData);
+  console.log('props.userData inside of profile-view= ', props.userData);
   return (
     <Container>
       <Button

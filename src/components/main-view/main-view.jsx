@@ -152,10 +152,11 @@ export class MainView extends React.Component {
             <h1 className="title">MyFlix</h1>
           </span>
           <span>
-            <Button variant="secondary" type="button" onClick={() => this.onLoggedOut()}>
-              Log Out
-            </Button>
-
+            <Link to={`/`}>
+              <Button variant="secondary" type="button" onClick={() => this.onLoggedOut()}>
+                Log Out
+              </Button>
+            </Link>
             <Link to={`/users/${user}`}>
               <Button variant="link">Profile</Button>
             </Link>
@@ -198,13 +199,13 @@ export class MainView extends React.Component {
                   return <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />; //onLoggedIn method will update the user state of the MainView component and will be called when the user has successfully logged in... to change the user state to valid instead of null?
                 }
                 if (requestType === 'put') {
-                  return <UpdateProfile onBackClick={() => history.goBack()} />; //onLoggedIn method will update the user state of the MainView component and will be called when the user has successfully logged in... to change the user state to valid instead of null?
+                  return <UpdateProfile setRequestType={(type) => this.setRequestType(type)} />; //onLoggedIn method will update the user state of the MainView component and will be called when the user has successfully logged in... to change the user state to valid instead of null?
                 }
                 if (requestType === null) {
                   return (
                     <Col md={10}>
                       <ProfileView
-                        userData={users.find((u) => u.Username === match.params.name)}
+                        userData={users.find((u) => u.user === match.params.name)}
                         onBackClick={() => history.goBack()}
                         setRequestType={(type) => this.setRequestType(type)}
                       />
