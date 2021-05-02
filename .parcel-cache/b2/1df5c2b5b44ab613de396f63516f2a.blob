@@ -1,0 +1,7 @@
+#bootstrap-overrides .title {
+  display: inline;
+}
+
+#bootstrap-overrides span Button {
+  margin-bottom: 50px;
+}

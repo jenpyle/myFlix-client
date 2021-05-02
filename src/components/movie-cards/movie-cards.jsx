@@ -11,12 +11,7 @@ import './movie-cards.scss';
 export class MovieCards extends React.Component {
   //prettier-ignore
   render() {
-    console.log("In movie-card");
-    // const { movieData, onLogoutClick, setSelectedMovie } = this.props;
-    const { movieData, onLogoutClick, onMovieClick } = this.props;
-    
-    console.log("this.props in movie-card", this.props);
-    // return <div className="movie-card" onClick={() => { onMovieClick(movieData); }}>{movieData.Title}</div>;
+    const { movieData } = this.props;
     return (
       <Container>
         

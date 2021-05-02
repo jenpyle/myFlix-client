@@ -27,6 +27,7 @@ export class MainView extends React.Component {
     this.state = {
       /*represents the moment a component is created in the memory */
       movies: [],
+      users: [],
       selectedMovie: null,
       user: null,
       newUser: null,
@@ -46,6 +47,7 @@ export class MainView extends React.Component {
         user: localStorage.getItem('user'), //
       });
       this.getMovies(accessToken); //only if the user is logged in you make the getMovies request
+      this.getUsers(accessToken);
     }
   }
 
@@ -69,6 +71,7 @@ export class MainView extends React.Component {
     localStorage.setItem('token', authData.token); //store token and username in localStorage: a way to store data in client's browser. Next time the user opens their browser, localStorage will contain stored authentication information (token and username), and the user won’t be required to log in again
     localStorage.setItem('user', authData.user.Username);
     this.getMovies(authData.token);
+    this.getUsers(authData.token);
   }
 
   onRegisterNewUser(newUser) {
@@ -92,7 +95,6 @@ export class MainView extends React.Component {
 
   getMovies(token) {
     console.log('this.state', this.state);
-    console.log('inside getMovies');
     axios
       .get('https://jennysflix.herokuapp.com/movies', {
         headers: { Authorization: `Bearer ${token}` },
@@ -108,23 +110,45 @@ export class MainView extends React.Component {
       });
   }
 
+  getUsers(token) {
+    console.log('this.state', this.state);
+    axios
+      .get('https://jennysflix.herokuapp.com/users', {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        //Assign the result to the state
+        this.setState({
+          users: response.data,
+        });
+      })
+      .catch(function (error) {
+        console.log('error in get users axios request: ', error);
+      });
+  }
+
   render() {
-    const { movies, user, newUser } = this.state;
+    const { movies, users, user, newUser } = this.state;
 
     console.log('user , new user = ', user, ', ', newUser);
 
     return (
       <Container>
-        <h1 className="title">MyFlix</h1>
-        <Button variant="secondary" type="button" onClick={() => this.onLoggedOut()}>
-          Log Out
-        </Button>
-        <div>
-          <br></br>
-        </div>
         {/*If the state of `selectedMovie` is not null, that selected movie will be returned otherwise, all *movies will be returned*/}
 
         <Router>
+          <span>
+            <h1 className="title">MyFlix</h1>
+          </span>
+          <span>
+            <Button variant="secondary" type="button" onClick={() => this.onLoggedOut()}>
+              Log Out
+            </Button>
+
+            <Link to={`/users/${user}`}>
+              <Button variant="link">Profile</Button>
+            </Link>
+          </span>
           <Row className="main-view justify-content-md-center">
             <Route
               exact
@@ -143,12 +167,30 @@ export class MainView extends React.Component {
             />
 
             <Route
+              exact
               path="/users"
               render={({ history }) => {
                 if (user) return <Redirect to="/" />;
                 return (
                   <Col>
                     <RegistrationView onBackClick={() => history.goBack()} />
+                  </Col>
+                );
+              }}
+            />
+
+            <Route
+              path="/users/:username"
+              render={({ match, history }) => {
+                if (!user) {
+                  return <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />; //onLoggedIn method will update the user state of the MainView component and will be called when the user has successfully logged in... to change the user state to valid instead of null?
+                }
+                return (
+                  <Col md={10}>
+                    <ProfileView
+                      userData={users.find((u) => u.Username === match.params.name)}
+                      onBackClick={() => history.goBack()}
+                    />
                   </Col>
                 );
               }}
