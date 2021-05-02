@@ -9,6 +9,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import './update-profile.scss';
 
 export function UpdateProfile(props) {
+  console.log('inside of Update profile');
   //excluding the 'extends React.Component' bc this is a function component, not class component. And can use hooks
   const [username, setUsername] = useState(''); // assigns an empty string to the username variable—and assigns to the setUsername variable a method to update the username variable
   const [password, setPassword] = useState('');
@@ -23,16 +24,20 @@ export function UpdateProfile(props) {
     let accessToken = localStorage.getItem('token');
     console.log(accessToken);
     axios
-      // .put(`https://jennysflix.herokuapp.com/users/${props.userData.Username}`, {
-      .put('https://jennysflix.herokuapp.com/users/jenny', {
-        Username: username,
-        Password: password,
-        Email: email,
-        Birthday: birthday,
-        headers: {
-          Authorization: 'Bearer token ' + accessToken,
+      .put(
+        `https://jennysflix.herokuapp.com/users/${props.userData.Username}`,
+        {
+          Username: username,
+          Password: password,
+          Email: email,
+          Birthday: birthday,
         },
-      })
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
       .then((response) => {
         const data = response.data;
         console.log('updated profile data', data);
