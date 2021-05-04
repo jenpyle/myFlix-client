@@ -1,10 +1,36 @@
-#bootstrap-overrides .title {
-  display: inline;
+// #bootstrap-overrides .header-container {
+//   display: inline-flex;
+//   flex: 1;
+//   max-width: 100%;
+//   width: 100%;
+//   .title {
+//     // display: inline;
+//     justify-content: flex-start;
+//   }
+//   .btn .profile-logout-btns {
+//     // display: inline-flex;
+//     justify-content: flex-end !important;
+//     display: inline-block;
+//     margin-right: 20px;
+//   }
+// }
+
+#bootstrap-overrides .header-container {
+  display: inline-flex;
+}
+#bootstrap-overrides .header-container .title {
 }
 
-#bootstrap-overrides span {
-  Button {
-    margin-bottom: 30px;
-    float: right;
-  }
+#bootstrap-overrides .header-container .profile-logout-btns button.btn.btn-secondary {
+  // display: inline-flex;
+  justify-content: flex-end !important;
+  display: inline-block;
+  width: 70%;
+}
+
+#bootstrap-overrides .header-container .profile-logout-btns button.btn.btn-link {
+  // display: inline-flex;
+  justify-content: flex-end !important;
+  display: inline-block;
+  width: 70%;
 }

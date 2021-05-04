@@ -10,7 +10,6 @@ export function GenreView(props) {
   //all the views declared like this are function components
   return (
     <Container>
-      <div>Genre view</div>
       <Button
         variant="info"
         onClick={() => {

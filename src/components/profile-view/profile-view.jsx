@@ -11,39 +11,23 @@ export function ProfileView(props) {
   console.log('props.userData inside of profile-view= ', props.userData);
   return (
     <Container>
-      <Button
-        variant="info"
-        onClick={() => {
-          props.onBackClick();
-        }}
-      >
-        Back
-      </Button>
-      {/* <Button
-        variant="info"
-        onClick={() => {
-          props.onBackClick();
-        }}
-      >
-        Edit Profile Info
-      </Button> */}
-      <Link to={`/users/${props.userData.Username}`}>
-        <Button variant="link" onClick={() => props.setRequestType('put')}>
-          Edit Profile Info
-        </Button>
-      </Link>
       <Row className="user-view">
         <Col md={7}>
+          <Button
+            variant="info"
+            onClick={() => {
+              props.onBackClick();
+            }}
+          >
+            Back
+          </Button>
           <Card>
-            <div className="user-view-title">
+            <div className="user-view-info">
               <Card.Header>Profile Information</Card.Header>
 
               <Card.Body className="username">
                 <Card.Title>Username: </Card.Title>
                 <Card.Text>{props.userData.Username}</Card.Text>
-
-                {/* <Card.Title>Password: </Card.Title>
-                <span className="value">{props.userData.Password}</span> */}
 
                 <Card.Title>Email: </Card.Title>
                 <span className="value">{props.userData.Email}</span>
@@ -57,6 +41,11 @@ export function ProfileView(props) {
                 <Card.Title>To Watch: </Card.Title>
                 <span className="value">{props.userData.ToWatch}</span>
               </Card.Body>
+              <Link to={`/users/${props.userData.Username}`}>
+                <Button variant="link" onClick={() => props.setRequestType('put')}>
+                  Edit Profile Info
+                </Button>
+              </Link>
             </div>
           </Card>
         </Col>

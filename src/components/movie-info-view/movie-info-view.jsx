@@ -17,50 +17,65 @@ export class MovieInfoView extends React.Component {
     // The component will render whatever properties in the movie object are passed as a prop.
     return (
       <Container>
-        <Button
-          variant="info"
-          onClick={() => {
-            onBackClick();
-          }}
-        >
-          Back
-        </Button>
         <Row className="movie-view">
-          <Col className="move-poster">
-            <img style={{ width: '22rem' }} src={movieData.ImagePath} />
+          <Col className="movie-poster" md={5}>
+            <Button
+              variant="info"
+              onClick={() => {
+                onBackClick();
+              }}
+            >
+              Back
+            </Button>
+            <img src={movieData.ImagePath} />
+
+            <Link to={`/directors/${movieData.Director.Name}`}>
+              <Button variant="link">Add to Favorite Movies</Button>
+            </Link>
+
+            <Link to={`/genres/${movieData.Genre.Name}`}>
+              <Button variant="link">Add To Watch List </Button>
+            </Link>
           </Col>
           <Col md={7}>
-            <Card>
-              <div className="movie-title">
+            <Card style={{ width: '38rem' }}>
+              <div className="movie-data">
                 <Card.Header>{movieData.Title}</Card.Header>
 
                 <Card.Body className="movie-description">
-                  <Card.Title>Description: </Card.Title>
-                  <Card.Text>{movieData.Description}</Card.Text>
+                  <Card.Text>Description: </Card.Text>
+                  <div className="value">{movieData.Description}</div>
 
-                  <Card.Title>Year: </Card.Title>
-                  <span className="value">{movieData.Year}</span>
+                  <Card.Text>
+                    Year: <span className="value">{movieData.Year}</span>
+                  </Card.Text>
 
-                  <Card.Title>Rated: </Card.Title>
-                  <span className="value">{movieData.Rated}</span>
+                  <Card.Text>
+                    Rated: <span className="value">{movieData.Rated}</span>
+                  </Card.Text>
 
-                  <Card.Title>Released: </Card.Title>
-                  <span className="value">{movieData.Released}</span>
+                  <Card.Text>
+                    Released: <span className="value">{movieData.Released}</span>
+                  </Card.Text>
 
-                  <Card.Title>Runtime: </Card.Title>
-                  <span className="value">{movieData.Runtime}</span>
+                  <Card.Text>
+                    Runtime: <span className="value">{movieData.Runtime}</span>
+                  </Card.Text>
 
                   <Card.Title>Actors: </Card.Title>
                   <span className="value">{movieData.Actors}</span>
                 </Card.Body>
+                <div className="director-genre-btn">
+                  <span>
+                    <Link to={`/directors/${movieData.Director.Name}`}>
+                      <Button variant="link">{movieData.Director.Name}</Button>
+                    </Link>
 
-                <Link to={`/directors/${movieData.Director.Name}`}>
-                  <Button variant="link">{movieData.Director.Name}</Button>
-                </Link>
-
-                <Link to={`/genres/${movieData.Genre.Name}`}>
-                  <Button variant="link">{movieData.Genre.Name}</Button>
-                </Link>
+                    <Link to={`/genres/${movieData.Genre.Name}`}>
+                      <Button variant="link">{movieData.Genre.Name}</Button>
+                    </Link>
+                  </span>
+                </div>
               </div>
             </Card>
           </Col>

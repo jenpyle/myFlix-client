@@ -9,6 +9,10 @@ $visited-color: #05676e;
 $font-weight: bold;
 $card-background-color: whitesmoke; //rgb(229, 253, 247);
 
+* {
+  box-sizing: border-box;
+}
+
 html,
 body {
   height: 100%;
@@ -25,7 +29,16 @@ body {
   font-size: larger;
   border-color: $border-color;
   padding: 10px;
-  margin-right: 10px;
+  margin: 4px;
+  // margin-right: 10px;
+}
+
+button.btn.btn-link {
+  width: 100%;
+}
+
+button.btn.btn-info {
+  width: 100%;
 }
 
 #bootstrap-overrides img {
@@ -36,6 +49,8 @@ body {
 #bootstrap-overrides .card {
   background-color: $card-background-color;
   border-color: $border-color;
+  min-width: 14rem;
+  margin: 10px;
   .card-body {
     background-color: $card-background-color;
   }

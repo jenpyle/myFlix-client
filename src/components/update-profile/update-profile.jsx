@@ -41,8 +41,12 @@ export function UpdateProfile(props) {
       .then((response) => {
         const data = response.data;
         console.log('updated profile data', data);
-        // props.setRequestType('put');
-        // window.open('/', '_self');
+
+        window.open(`/users/${localStorage.getItem('user')}`, '_self');
+        props.setRequestType(null);
+      })
+      .then(() => {
+        alert('Profile successfully updated.');
       })
       .catch((e) => {
         console.log('Something went wrong with profile update! check that fields are valid');
@@ -121,11 +125,11 @@ export function UpdateProfile(props) {
               onChange={(e) => setBirthday(e.target.value)}
             />
           </Form.Group>
-
+          {/* <Link to={`/users/${props.userData.Username}`}> */}
           <Button variant="info" type="submit" onClick={handleSubmit}>
             Submit
           </Button>
-
+          {/* </Link> */}
           <Button
             variant="info"
             onClick={() => {

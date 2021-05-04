@@ -139,25 +139,26 @@ export class MainView extends React.Component {
     console.log('user , new user = ', user, ', ', newUser);
 
     return (
-      <Container>
+      <Container fluid>
         {/*If the state of `selectedMovie` is not null, that selected movie will be returned otherwise, all *movies will be returned*/}
 
         <Router>
-          <span>
+          <div className="header-container">
             <h1 className="title">MyFlix</h1>
-          </span>
-          <span>
-            <Link to={`/`}>
-              <Button variant="secondary" type="button" onClick={() => this.onLoggedOut()}>
-                Log Out
-              </Button>
-            </Link>
-            <Link to={`/users/${user}`}>
-              <Button variant="link" onClick={() => this.setRequestType(null)}>
-                Profile
-              </Button>
-            </Link>
-          </span>
+
+            <div className="profile-logout-btns">
+              <Link to={`/`}>
+                <Button variant="secondary" type="button" onClick={() => this.onLoggedOut()}>
+                  Log Out
+                </Button>
+              </Link>
+              <Link to={`/users/${user}`}>
+                <Button variant="link" onClick={() => this.setRequestType(null)}>
+                  Profile
+                </Button>
+              </Link>
+            </div>
+          </div>
           <Row className="main-view justify-content-md-center">
             <Route
               exact
@@ -168,7 +169,7 @@ export class MainView extends React.Component {
                 }
                 if (movies.length === 0) return <div className="main-view" />;
                 return movies.map((m) => (
-                  <Col md={3} key={m._id}>
+                  <Col md={4} key={m._id}>
                     <MovieCards movieData={m} />
                   </Col>
                 ));

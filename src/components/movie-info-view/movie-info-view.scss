@@ -1,1 +1,26 @@
-
+#bootstrap-overrides .movie-poster {
+  img,
+  button.btn.btn-link,
+  button.btn.btn-info {
+    margin-left: 0px;
+    margin-right: 0px;
+    width: 100%;
+  }
+}
+#bootstrap-overrides {
+  .movie-data {
+    button.btn.btn-link {
+      margin: 0px;
+      width: 50%;
+    }
+    .value {
+      margin-bottom: 15px;
+    }
+    .card-text {
+      font-weight: bold;
+      .value {
+        font-weight: 400;
+      }
+    }
+  }
+}
