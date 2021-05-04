@@ -148,13 +148,16 @@ export class MainView extends React.Component {
 
             <div className="profile-logout-btns">
               <Link to={`/`}>
-                <Button variant="secondary" type="button" onClick={() => this.onLoggedOut()}>
-                  Log Out
-                </Button>
+                <Button variant="link">Home</Button>
               </Link>
               <Link to={`/users/${user}`}>
                 <Button variant="link" onClick={() => this.setRequestType(null)}>
                   Profile
+                </Button>
+              </Link>
+              <Link to={`/`}>
+                <Button variant="secondary" type="button" onClick={() => this.onLoggedOut()}>
+                  Log Out
                 </Button>
               </Link>
             </div>
