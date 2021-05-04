@@ -211,6 +211,7 @@ export class MainView extends React.Component {
                         userData={users.find((u) => u.Username === match.params.username)}
                         onBackClick={() => history.goBack()}
                         setRequestType={(type) => this.setRequestType(type)}
+                        movies={movies}
                       />
                     </Col>
                   );
@@ -228,6 +229,7 @@ export class MainView extends React.Component {
                 return (
                   <Col md={8}>
                     <MovieInfoView
+                      userData={users.find((u) => u.Username === match.params.username)}
                       movieData={movies.find((movie) => movie._id === match.params.movieId)}
                       onBackClick={() => history.goBack()}
                     />

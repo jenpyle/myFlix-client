@@ -9,6 +9,31 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import './movie-info-view.scss';
 
 export class MovieInfoView extends React.Component {
+  addToFav(movieID) {
+    let accessToken = localStorage.getItem('token');
+    let user = localStorage.getItem('user');
+    console.log(accessToken);
+    axios
+      .post(
+        `https://jennysflix.herokuapp.com/users/${user}/movies/favoritemovies/${movieID}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then((response) => {
+        const data = response.data;
+        console.log('...............updated profile data', data);
+        alert('Movie successfully added to Favorites List.');
+        // props.setRequestType(null);
+      })
+      .catch((e) => {
+        console.log('Something went wrong with adding movie');
+      });
+  }
+
   render() {
     //The prop represents the movie object, which will be passed in MainView once you import and use the new component there.
     const { movieData, onBackClick } = this.props;
@@ -29,9 +54,9 @@ export class MovieInfoView extends React.Component {
             </Button>
             <img src={movieData.ImagePath} />
 
-            <Link to={`/directors/${movieData.Director.Name}`}>
-              <Button variant="link">Add to Favorite Movies</Button>
-            </Link>
+            <Button variant="link" onClick={() => this.addToFav(movieData._id)}>
+              Add to Favorite Movies
+            </Button>
 
             <Link to={`/genres/${movieData.Genre.Name}`}>
               <Button variant="link">Add To Watch List </Button>

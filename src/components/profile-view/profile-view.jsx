@@ -9,6 +9,10 @@ import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 export function ProfileView(props) {
   console.log('inside of profile view');
   console.log('props.userData inside of profile-view= ', props.userData);
+  const { userData, movies } = props; //obj destructuring
+
+  const favMovies = movies.filter((movie) => userData.FavoriteMovies.includes(movie._id));
+
   return (
     <Container>
       <Row className="user-view">
@@ -27,21 +31,29 @@ export function ProfileView(props) {
 
               <Card.Body className="username">
                 <Card.Title>Username: </Card.Title>
-                <Card.Text>{props.userData.Username}</Card.Text>
+                <Card.Text>{userData.Username}</Card.Text>
 
                 <Card.Title>Email: </Card.Title>
-                <span className="value">{props.userData.Email}</span>
+                <span className="value">{userData.Email}</span>
 
                 <Card.Title>Birthday: </Card.Title>
-                <span className="value">{props.userData.Birthday.substr(0, 10)}</span>
+                <span className="value">{userData.Birthday.substr(0, 10)}</span>
 
                 <Card.Title>Favorite Movies: </Card.Title>
-                <span className="value">{props.userData.FavoriteMovies}</span>
+                <span className="value">
+                  {favMovies.map((m) => (
+                    <Link key={m._id} to={`/movies/${m._id}`}>
+                      <div>
+                        <Button variant="link">{m.Title}</Button>
+                      </div>
+                    </Link>
+                  ))}
+                </span>
 
                 <Card.Title>To Watch: </Card.Title>
-                <span className="value">{props.userData.ToWatch}</span>
+                <span className="value">{userData.ToWatch}</span>
               </Card.Body>
-              <Link to={`/users/${props.userData.Username}`}>
+              <Link to={`/users/${userData.Username}`}>
                 <Button variant="link" onClick={() => props.setRequestType('put')}>
                   Edit Profile Info
                 </Button>

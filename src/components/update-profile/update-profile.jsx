@@ -40,8 +40,8 @@ export function UpdateProfile(props) {
       )
       .then((response) => {
         const data = response.data;
-        console.log('updated profile data', data);
-
+        console.log('...............updated profile data', data);
+        localStorage.setItem('user', data.Username);
         window.open(`/users/${localStorage.getItem('user')}`, '_self');
         props.setRequestType(null);
       })
