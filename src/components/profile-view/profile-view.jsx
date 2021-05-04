@@ -12,6 +12,7 @@ export function ProfileView(props) {
   const { userData, movies } = props; //obj destructuring
 
   const favMovies = movies.filter((movie) => userData.FavoriteMovies.includes(movie._id));
+  const toWatch = movies.filter((movie) => userData.ToWatch.includes(movie._id));
 
   return (
     <Container>
@@ -51,7 +52,15 @@ export function ProfileView(props) {
                 </span>
 
                 <Card.Title>To Watch: </Card.Title>
-                <span className="value">{userData.ToWatch}</span>
+                <span className="value">
+                  {toWatch.map((m) => (
+                    <Link key={m._id} to={`/movies/${m._id}`}>
+                      <div>
+                        <Button variant="link">{m.Title}</Button>
+                      </div>
+                    </Link>
+                  ))}
+                </span>
               </Card.Body>
               <Link to={`/users/${userData.Username}`}>
                 <Button variant="link" onClick={() => props.setRequestType('put')}>

@@ -9,13 +9,17 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import './movie-info-view.scss';
 
 export class MovieInfoView extends React.Component {
-  addToFav(movieID) {
+  addToList(movieID, list) {
     let accessToken = localStorage.getItem('token');
     let user = localStorage.getItem('user');
     console.log(accessToken);
+    let message = 'Movie successfully added to Favorites List.';
+    if (list === 'towatch') {
+      message = 'Movie successfully added in To Watch List.';
+    }
     axios
       .post(
-        `https://jennysflix.herokuapp.com/users/${user}/movies/favoritemovies/${movieID}`,
+        `https://jennysflix.herokuapp.com/users/${user}/movies/${list}/${movieID}`,
         {},
         {
           headers: {
@@ -26,8 +30,7 @@ export class MovieInfoView extends React.Component {
       .then((response) => {
         const data = response.data;
         console.log('...............updated profile data', data);
-        alert('Movie successfully added to Favorites List.');
-        // props.setRequestType(null);
+        alert(message);
       })
       .catch((e) => {
         console.log('Something went wrong with adding movie');
@@ -37,8 +40,7 @@ export class MovieInfoView extends React.Component {
   render() {
     //The prop represents the movie object, which will be passed in MainView once you import and use the new component there.
     const { movieData, onBackClick } = this.props;
-    console.log('----------MOVIEDATA= ', movieData);
-    console.log('----------this.props= ', this.props);
+
     // The component will render whatever properties in the movie object are passed as a prop.
     return (
       <Container>
@@ -54,13 +56,13 @@ export class MovieInfoView extends React.Component {
             </Button>
             <img src={movieData.ImagePath} />
 
-            <Button variant="link" onClick={() => this.addToFav(movieData._id)}>
+            <Button variant="info" onClick={() => this.addToList(movieData._id, 'favoritemovies')}>
               Add to Favorite Movies
             </Button>
 
-            <Link to={`/genres/${movieData.Genre.Name}`}>
-              <Button variant="link">Add To Watch List </Button>
-            </Link>
+            <Button variant="info" onClick={() => this.addToList(movieData._id, 'towatch')}>
+              Add in To Watch List
+            </Button>
           </Col>
           <Col md={7}>
             <Card style={{ width: '38rem' }}>
