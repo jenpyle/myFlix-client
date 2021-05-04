@@ -2,7 +2,7 @@ import React, { useState } from 'react'; //useState is a react hook
 
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { Container, Card, Row, Col, Button, Form } from 'react-bootstrap';
+import { Container, Card, Row, Col, Button, Form, Modal } from 'react-bootstrap';
 import axios from 'axios';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
@@ -15,29 +15,33 @@ export function UpdateProfile(props) {
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const [birthday, setBirthday] = useState('');
-  // const [requestType, setRequest] = useState('');
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
+  const formData = {};
   const handleSubmit = (e) => {
+    if (username) {
+      formData.Username = username;
+    }
+    if (password) {
+      formData.Password = password;
+    }
+    if (email) {
+      formData.Email = email;
+    }
+    if (birthday) {
+      formData.Birth = birthday;
+    }
     console.log('========in handleSubmit of UPDATE PROFILE');
     e.preventDefault(); //prevents the default refresh/change of the page
-    console.log(username, password, email, birthday);
+    console.log('form data = ', formData);
     let accessToken = localStorage.getItem('token');
     console.log(accessToken);
     axios
-      .put(
-        `https://jennysflix.herokuapp.com/users/${props.userData.Username}`,
-        {
-          Username: username,
-          Password: password,
-          Email: email,
-          Birthday: birthday,
+      .put(`https://jennysflix.herokuapp.com/users/${props.userData.Username}`, formData, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
         },
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      )
+      })
       .then((response) => {
         const data = response.data;
         console.log('...............updated profile data', data);
@@ -53,12 +57,62 @@ export function UpdateProfile(props) {
       });
   };
 
+  const handleDelete = (e) => {
+    e.preventDefault();
+    let accessToken = localStorage.getItem('token');
+    axios
+      .delete(`https://jennysflix.herokuapp.com/users/${props.userData.Username}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((response) => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        window.open('/', '_self');
+      })
+      .then(() => {
+        alert('Profile successfully deleted.');
+      })
+      .catch((e) => {
+        console.log('Something went wrong with profile update! check that fields are valid');
+      });
+  };
+
+  const setModalIsOpenToTrue = (e) => {
+    e.preventDefault();
+    setModalIsOpen(true);
+    e.preventDefault();
+  };
+  const setModalIsOpenToFalse = () => {
+    setModalIsOpen(false);
+  };
+
   return (
     <Container>
+      <Modal isOpen={modalIsOpen}>
+        <Modal.Dialog>
+          <Modal.Header closeButton>
+            <Modal.Title>Modal title</Modal.Title>
+          </Modal.Header>
+
+          <Modal.Body>
+            <p>Modal body text goes here.</p>
+          </Modal.Body>
+
+          <Modal.Footer>
+            <Button variant="info" onClick={setModalIsOpenToFalse}>
+              Nevermind, take me back!
+            </Button>
+            <Button variant="danger">Delete my account</Button>
+          </Modal.Footer>
+        </Modal.Dialog>
+      </Modal>
+
       <div id="registration-container">
         <h3>Update User Information</h3>
         <Form>
-          <Form.Group controlId="formUpdateUsername">
+          <Form.Group controlid="formUpdateUsername">
             <Form.Label>Username:</Form.Label>
             <Form.Control
               type="text"
@@ -69,42 +123,23 @@ export function UpdateProfile(props) {
             />
           </Form.Group>
 
-          <Form.Group controlId="formConfirmPassword">
+          <Form.Group controlid="formNewPassword">
             <Form.Label>Password:</Form.Label>
-            <Form.Text id="passwordHelpBlock" muted>
-              Please confirm your current password
-            </Form.Text>
-            <Form.Control
-              type="password"
-              autoComplete="current password"
-              aria-describedby="passwordHelpBlock"
-              placeholder="Current Password"
-            />
-          </Form.Group>
-          <Form.Group controlId="formNewPassword">
             <Form.Text id="passwordHelpBlock" muted>
               Your new password must be at least 4 characters long
             </Form.Text>
             <Form.Control
-              controlId="formUpdatePassword"
+              controlid="formUpdatePassword"
               type="password"
-              autoComplete="new password"
+              autoComplete="password"
               placeholder="New Password"
               aria-describedby="passwordConfirm"
-            />
-          </Form.Group>
-          <Form.Group controlId="formConfirmNewPassword">
-            <Form.Control
-              controlId="formUpdatePassword"
-              type="password"
-              autoComplete="confirm new password"
-              placeholder="Confirm New Password"
-              aria-describedby="passwordHelpBlock"
+              defaultValue={props.userData.Password}
               onChange={(e) => setPassword(e.target.value)}
             />
           </Form.Group>
 
-          <Form.Group controlId="formUpdateEmail">
+          <Form.Group controlid="formUpdateEmail">
             <Form.Label>Email:</Form.Label>
             <Form.Control
               type="email"
@@ -115,7 +150,7 @@ export function UpdateProfile(props) {
             />
           </Form.Group>
 
-          <Form.Group controlId="formUpdateBirthday">
+          <Form.Group controlid="formUpdateBirthday">
             <Form.Label>Birthday</Form.Label>
             <Form.Control
               type="date"
@@ -125,11 +160,11 @@ export function UpdateProfile(props) {
               onChange={(e) => setBirthday(e.target.value)}
             />
           </Form.Group>
-          {/* <Link to={`/users/${props.userData.Username}`}> */}
+
           <Button variant="info" type="submit" onClick={handleSubmit}>
             Submit
           </Button>
-          {/* </Link> */}
+
           <Button
             variant="info"
             onClick={() => {
@@ -137,6 +172,10 @@ export function UpdateProfile(props) {
             }}
           >
             Back
+          </Button>
+          {/* <Button variant="danger" type="submit" onClick={setModalIsOpenToTrue}> */}
+          <Button variant="danger" type="submit" onClick={handleDelete}>
+            Delete Account
           </Button>
         </Form>
       </div>
