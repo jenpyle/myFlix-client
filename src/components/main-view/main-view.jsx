@@ -133,6 +133,16 @@ export class MainView extends React.Component {
     console.log('-----------------------AFTER=', type, 'this.state=', this.state);
   }
 
+  // getUpdatedInfo() {
+  //   // console.log('info--------- this.state BEFORE', this.state);
+  //   // console.log('-----------------------userInfo ', userInfo);
+  //   // this.setState({
+  //   //   user: userInfo,
+  //   // });
+  //   // console.log('-----------------------AFTER=user=', this.state);
+  //   this.getUsers(authData.token);
+  // }
+
   render() {
     const { movies, users, user, newUser, requestType } = this.state;
 
@@ -232,7 +242,9 @@ export class MainView extends React.Component {
                 return (
                   <Col md={8}>
                     <MovieInfoView
-                      userData={users.find((u) => u.Username === match.params.username)}
+                      getUpdatedUsers={(token) => this.getUsers(token)}
+                      getUpdatedInfo={(userInfo) => this.getUpdatedInfo(userInfo)}
+                      userData={users.find((u) => u.Username === user)}
                       movieData={movies.find((movie) => movie._id === match.params.movieId)}
                       onBackClick={() => history.goBack()}
                     />

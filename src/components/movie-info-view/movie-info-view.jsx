@@ -29,8 +29,11 @@ export class MovieInfoView extends React.Component {
       )
       .then((response) => {
         const data = response.data;
-        console.log('...............updated profile data', data);
+        console.log('...............updated profile data to watch', data);
+        console.log('...............user', this.props.userData);
         alert(message);
+        this.props.getUpdatedUsers(accessToken);
+        console.log('made it!');
       })
       .catch((e) => {
         console.log('Something went wrong with adding movie');

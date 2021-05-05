@@ -17,7 +17,6 @@ export function LoginView(props) {
     console.log('===============inside handleSubmit in LOGIN-VIEW..username, password = ', username, password);
 
     e.preventDefault();
-    /* Send a request to the server for authentication */
     axios
       .post('https://jennysflix.herokuapp.com/login', { Username: username, Password: password }) //POST request is made to the login endpoint by passing the username and password
       .then((response) => {
