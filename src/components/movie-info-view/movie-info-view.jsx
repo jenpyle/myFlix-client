@@ -9,35 +9,90 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import './movie-info-view.scss';
 
 export class MovieInfoView extends React.Component {
-  addToList(movieID, list) {
+  editUserLists(movieID, list, requestType) {
     let accessToken = localStorage.getItem('token');
     let user = localStorage.getItem('user');
-    console.log(accessToken);
-    let message = 'Movie successfully added to Favorites List.';
-    if (list === 'towatch') {
-      message = 'Movie successfully added in To Watch List.';
+
+    if (requestType === 'post') {
+      let message = 'Movie successfully added to Favorites List.';
+      if (list === 'towatch') {
+        message = 'Movie successfully added in To Watch List.';
+      }
+      axios
+        .post(
+          `https://jennysflix.herokuapp.com/users/${user}/movies/${list}/${movieID}`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        )
+        .then(() => {
+          alert(message);
+          this.props.getUpdatedUsers(accessToken);
+        })
+        .catch((e) => {
+          console.log('Something went wrong with adding movie');
+        });
     }
-    axios
-      .post(
-        `https://jennysflix.herokuapp.com/users/${user}/movies/${list}/${movieID}`,
-        {},
-        {
+    if (requestType === 'delete') {
+      // let accessToken = localStorage.getItem('token');
+      // console.log('token is ', accessToken);
+      // let user = localStorage.getItem('user');
+      let message = 'Movie successfully deleted from Favorites List.';
+      if (list === 'towatch') {
+        message = 'Movie successfully deleted from To Watch List.';
+      }
+      axios
+        .delete(`https://jennysflix.herokuapp.com/users/${user}/movies/${list}/${movieID}`, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
-        }
-      )
-      .then((response) => {
-        const data = response.data;
-        console.log('...............updated profile data to watch', data);
-        console.log('...............user', this.props.userData);
-        alert(message);
-        this.props.getUpdatedUsers(accessToken);
-        console.log('made it!');
-      })
-      .catch((e) => {
-        console.log('Something went wrong with adding movie');
-      });
+        })
+        .then((response) => {
+          alert(message);
+          this.props.getUpdatedUsers(accessToken);
+        })
+        .catch((e) => {
+          console.log('Something went wrong with removing movie');
+        });
+    }
+  }
+
+  toggleButton(movieData) {
+    let isFav = false;
+    let isWatch = false;
+
+    let btnColor1 = 'info';
+    let btnColor2 = 'info';
+    let text1 = 'Add to Favorite Movies';
+    let text2 = 'Add to Watch List';
+    let requestType1 = 'post';
+    let requestType2 = 'post';
+
+    if (isFav) {
+      btnColor1 = 'danger';
+      text1 = 'Remove from Favorites';
+      requestType1 = 'delete';
+    }
+
+    if (!isWatch) {
+      btnColor2 = 'danger';
+      text2 = 'Remove from To Watch';
+      requestType2 = 'delete';
+    }
+    return (
+      <React.Fragment>
+        <Button variant={btnColor1} onClick={() => this.editUserLists(movieData._id, 'favoritemovies', requestType1)}>
+          {text1}
+        </Button>
+
+        <Button variant={btnColor2} onClick={() => this.editUserLists(movieData._id, 'towatch', requestType2)}>
+          {text2}
+        </Button>
+      </React.Fragment>
+    );
   }
 
   render() {
@@ -58,14 +113,14 @@ export class MovieInfoView extends React.Component {
               Back
             </Button>
             <img src={movieData.ImagePath} />
-
-            <Button variant="info" onClick={() => this.addToList(movieData._id, 'favoritemovies')}>
+            {this.toggleButton(movieData)}
+            {/* <Button variant="info" onClick={() => this.addToList(movieData._id, 'favoritemovies')}>
               Add to Favorite Movies
             </Button>
 
             <Button variant="info" onClick={() => this.addToList(movieData._id, 'towatch')}>
               Add in To Watch List
-            </Button>
+            </Button> */}
           </Col>
           <Col md={7}>
             <Card style={{ width: '38rem' }}>
