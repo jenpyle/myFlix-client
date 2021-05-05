@@ -80,6 +80,7 @@ export function UpdateProfile(props) {
   };
 
   const setModalIsOpenToTrue = (e) => {
+    console.log('in set modal is open');
     e.preventDefault();
     setModalIsOpen(true);
     e.preventDefault();
@@ -90,21 +91,23 @@ export function UpdateProfile(props) {
 
   return (
     <Container>
-      <Modal isOpen={modalIsOpen}>
+      <Modal show={modalIsOpen} onHide={setModalIsOpenToFalse}>
         <Modal.Dialog>
-          <Modal.Header closeButton>
-            <Modal.Title>Modal title</Modal.Title>
+          <Modal.Header>
+            <Modal.Title>Are you sure?</Modal.Title>
           </Modal.Header>
 
           <Modal.Body>
-            <p>Modal body text goes here.</p>
+            <p>Account cannot be recovered after deregistering</p>
           </Modal.Body>
 
           <Modal.Footer>
             <Button variant="info" onClick={setModalIsOpenToFalse}>
-              Nevermind, take me back!
+              Back
             </Button>
-            <Button variant="danger">Delete my account</Button>
+            <Button variant="danger" onClick={handleDelete}>
+              Confirm
+            </Button>
           </Modal.Footer>
         </Modal.Dialog>
       </Modal>
@@ -173,8 +176,8 @@ export function UpdateProfile(props) {
           >
             Back
           </Button>
-          {/* <Button variant="danger" type="submit" onClick={setModalIsOpenToTrue}> */}
-          <Button variant="danger" type="submit" onClick={handleDelete}>
+          <Button variant="danger" type="submit" onClick={setModalIsOpenToTrue}>
+            {/* <Button variant="danger" type="submit" > */}
             Delete Account
           </Button>
         </Form>
