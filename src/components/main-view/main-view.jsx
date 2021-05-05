@@ -33,6 +33,8 @@ export class MainView extends React.Component {
       user: null,
       newUser: null,
       requestType: null,
+      isFav: false,
+      isWatch: false,
     };
     // this.onLoggedOut = this.onLoggedOut.bind(this);
   }
@@ -132,16 +134,6 @@ export class MainView extends React.Component {
     });
     console.log('-----------------------AFTER=', type, 'this.state=', this.state);
   }
-
-  // getUpdatedInfo() {
-  //   // console.log('info--------- this.state BEFORE', this.state);
-  //   // console.log('-----------------------userInfo ', userInfo);
-  //   // this.setState({
-  //   //   user: userInfo,
-  //   // });
-  //   // console.log('-----------------------AFTER=user=', this.state);
-  //   this.getUsers(authData.token);
-  // }
 
   render() {
     const { movies, users, user, newUser, requestType } = this.state;

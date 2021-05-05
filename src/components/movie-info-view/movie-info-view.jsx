@@ -37,9 +37,6 @@ export class MovieInfoView extends React.Component {
         });
     }
     if (requestType === 'delete') {
-      // let accessToken = localStorage.getItem('token');
-      // console.log('token is ', accessToken);
-      // let user = localStorage.getItem('user');
       let message = 'Movie successfully deleted from Favorites List.';
       if (list === 'towatch') {
         message = 'Movie successfully deleted from To Watch List.';
@@ -50,7 +47,7 @@ export class MovieInfoView extends React.Component {
             Authorization: `Bearer ${accessToken}`,
           },
         })
-        .then((response) => {
+        .then(() => {
           alert(message);
           this.props.getUpdatedUsers(accessToken);
         })
@@ -60,9 +57,11 @@ export class MovieInfoView extends React.Component {
     }
   }
 
-  toggleButton(movieData) {
-    let isFav = false;
-    let isWatch = false;
+  addAndRemoveButtons(movieData, userData) {
+    console.log('USER DATA favorites', userData.FavoriteMovies);
+    console.log('USER DATA toWatch', userData.ToWatch);
+    console.log('movie DATA ', movieData._id);
+    console.log('userData.ToWatch.includes(movieData._id)', userData.ToWatch.includes(movieData._id));
 
     let btnColor1 = 'info';
     let btnColor2 = 'info';
@@ -71,13 +70,13 @@ export class MovieInfoView extends React.Component {
     let requestType1 = 'post';
     let requestType2 = 'post';
 
-    if (isFav) {
+    if (userData.FavoriteMovies.includes(movieData._id)) {
       btnColor1 = 'danger';
       text1 = 'Remove from Favorites';
       requestType1 = 'delete';
     }
 
-    if (!isWatch) {
+    if (userData.ToWatch.includes(movieData._id)) {
       btnColor2 = 'danger';
       text2 = 'Remove from To Watch';
       requestType2 = 'delete';
@@ -97,7 +96,7 @@ export class MovieInfoView extends React.Component {
 
   render() {
     //The prop represents the movie object, which will be passed in MainView once you import and use the new component there.
-    const { movieData, onBackClick } = this.props;
+    const { movieData, onBackClick, userData } = this.props;
 
     // The component will render whatever properties in the movie object are passed as a prop.
     return (
@@ -113,7 +112,7 @@ export class MovieInfoView extends React.Component {
               Back
             </Button>
             <img src={movieData.ImagePath} />
-            {this.toggleButton(movieData)}
+            {this.addAndRemoveButtons(movieData, userData)}
             {/* <Button variant="info" onClick={() => this.addToList(movieData._id, 'favoritemovies')}>
               Add to Favorite Movies
             </Button>
