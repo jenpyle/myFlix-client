@@ -203,7 +203,7 @@ export function UpdateProfile(props) {
           >
             Back
           </Button>
-          <Button variant="danger" type="submit" onClick={setModalIsOpenToTrue}>
+          <Button variant="danger" type="button" onClick={setModalIsOpenToTrue}>
             Delete Account
           </Button>
         </Form>
