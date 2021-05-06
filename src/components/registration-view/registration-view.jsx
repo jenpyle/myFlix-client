@@ -15,32 +15,47 @@ export function RegistrationView(props) {
   const [email, setEmail] = useState('');
   const [birthday, setBirthday] = useState('');
 
-  const handleSubmit = (e) => {
-    console.log('========in handleSubmit of registration view');
-    e.preventDefault(); //prevents the default refresh/change of the page
-    console.log(username, password, email, birthday);
-    axios
-      .post('https://jennysflix.herokuapp.com/users', {
-        Username: username,
-        Password: password,
-        Email: email,
-        Birthday: birthday,
-      })
-      .then((response) => {
-        const data = response.data;
-        console.log(data);
-        window.open('/', '_self');
-      })
-      .catch((e) => {
-        alert(e.response.data);
-        console.log('Something went wrong with user registration! check that fields are valid');
-      });
+  const formValidation = (formData) => {
+    let isValid = 'valid';
+    if (formData.Username.length < 5) isValid = 'Username must be at least 5 characters long';
+    if (formData.Password === '') isValid = 'Password cannot be empty';
+    if (formData.Email.includes('.') === false || formData.Email.includes('@') === false) isValid = 'Email is invalid';
+
+    return isValid;
   };
 
-  // const handleBackClick = (e) => {
-  //   console.log('handleBackClick of Registration-View');
-  //   props.onLoggedOut(); //changing state of user and newUser so login view is rendered
-  // };
+  const handleSubmit = (e) => {
+    e.preventDefault(); //prevents the default refresh/change of the page
+    const formData = {};
+    formData.Username = username;
+    formData.Password = password;
+    formData.Email = email;
+    formData.Birthday = birthday;
+
+    let isValid = formValidation(formData);
+
+    if (isValid !== 'valid') {
+      alert(isValid);
+      return;
+    }
+    if (isValid === 'valid') {
+      console.log(username, password, email, birthday);
+      axios
+        .post('https://jennysflix.herokuapp.com/users', {
+          Username: username,
+          Password: password,
+          Email: email,
+          Birthday: birthday,
+        })
+        .then(() => {
+          window.open('/', '_self');
+        })
+        .catch((e) => {
+          alert(e);
+          console.log('Something went wrong with user registration! check that fields are valid');
+        });
+    }
+  };
 
   return (
     <Container>

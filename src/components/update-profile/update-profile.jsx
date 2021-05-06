@@ -15,38 +15,58 @@ export function UpdateProfile(props) {
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState();
   const [birthday, setBirthday] = useState('');
+  const [checked, setChecked] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
+  const formValidation = (formData) => {
+    let isValid = 'valid';
+    if (formData.Username.length < 5) isValid = 'Username must be at least 5 characters long';
+    if (formData.Password === '') isValid = 'Password cannot be empty';
+    if (formData.Email.includes('.') === false || formData.Email.includes('@') === false) isValid = 'Email is invalid';
+
+    return isValid;
+  };
+
   const handleSubmit = (e) => {
+    e.preventDefault(); //prevents the default refresh/change of the page
     const formData = {};
     username ? (formData.Username = username) : (formData.Username = props.userData.Username);
-    password ? (formData.Password = password) : (formData.Password = props.userData.Password);
+    checked ? (formData.Password = password) : (formData.Password = props.userData.Password);
     email ? (formData.Email = email) : (formData.Email = props.userData.Email);
     birthday ? (formData.Birthday = birthday) : (formData.Birthday = props.userData.Birthday.substr(0, 10));
+
+    let isValid = formValidation(formData);
+
+    if (isValid !== 'valid') {
+      alert(isValid);
+    }
+
     console.log('========in handleSubmit of UPDATE PROFILE');
     e.preventDefault(); //prevents the default refresh/change of the page
     console.log('form data = ', formData);
     let accessToken = localStorage.getItem('token');
     console.log(accessToken);
-    axios
-      .put(`https://jennysflix.herokuapp.com/users/${props.userData.Username}`, formData, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      })
-      .then((response) => {
-        const data = response.data;
-        console.log('...............updated profile data', data);
-        localStorage.setItem('user', data.Username);
-        window.open(`/users/${localStorage.getItem('user')}`, '_self');
-        props.setRequestType(null);
-      })
-      .then(() => {
-        alert('Profile successfully updated.');
-      })
-      .catch((e) => {
-        console.log('Something went wrong with profile update! check that fields are valid');
-      });
+    if (isValid) {
+      axios
+        .put(`https://jennysflix.herokuapp.com/users/${props.userData.Username}`, formData, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        .then((response) => {
+          const data = response.data;
+          console.log('...............updated profile data', data);
+          localStorage.setItem('user', data.Username);
+          window.open(`/users/${localStorage.getItem('user')}`, '_self');
+          //props.setRequestType(null);
+        })
+        .then(() => {
+          alert('Profile successfully updated.');
+        })
+        .catch((e) => {
+          console.log('Something went wrong with profile update! check that fields are valid');
+        });
+    }
   };
 
   const handleDelete = (e) => {
@@ -71,11 +91,31 @@ export function UpdateProfile(props) {
       });
   };
 
-  const setModalIsOpenToTrue = (e) => {
+  const setModalIsOpenToTrue = () => {
     setModalIsOpen(true);
   };
   const setModalIsOpenToFalse = () => {
     setModalIsOpen(false);
+  };
+
+  const displayPassworyField = (checked) => {
+    if (checked) {
+      return (
+        <React.Fragment>
+          <Form.Text id="passwordHelpBlock" muted>
+            Your new password must be at least 4 characters long
+          </Form.Text>
+          <Form.Control
+            controlid="formUpdatePassword"
+            type="password"
+            autoComplete="password"
+            placeholder="New Password"
+            aria-describedby="New Pssword input"
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </React.Fragment>
+      );
+    }
   };
 
   return (
@@ -117,18 +157,16 @@ export function UpdateProfile(props) {
 
           <Form.Group controlid="formNewPassword">
             <Form.Label>Password:</Form.Label>
-            <Form.Text id="passwordHelpBlock" muted>
-              Your new password must be at least 4 characters long
-            </Form.Text>
-            <Form.Control
-              controlid="formUpdatePassword"
-              type="password"
-              autoComplete="password"
-              placeholder="New Password"
-              aria-describedby="passwordConfirm"
-              defaultValue={props.userData.Password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
+            <Form.Group controlId="formBasicCheckbox">
+              <Form.Check
+                type="checkbox"
+                onChange={() => setChecked(!checked)}
+                checked={checked}
+                label="Change password"
+                onClick={(checked) => displayPassworyField(checked)}
+              />
+            </Form.Group>
+            {displayPassworyField(checked)}
           </Form.Group>
 
           <Form.Group controlid="formUpdateEmail">
@@ -166,7 +204,6 @@ export function UpdateProfile(props) {
             Back
           </Button>
           <Button variant="danger" type="submit" onClick={setModalIsOpenToTrue}>
-            {/* <Button variant="danger" type="submit" > */}
             Delete Account
           </Button>
         </Form>
