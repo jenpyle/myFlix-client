@@ -13,24 +13,16 @@ export function UpdateProfile(props) {
   //excluding the 'extends React.Component' bc this is a function component, not class component. And can use hooks
   const [username, setUsername] = useState(''); // assigns an empty string to the username variable—and assigns to the setUsername variable a method to update the username variable
   const [password, setPassword] = useState('');
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState();
   const [birthday, setBirthday] = useState('');
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
-  const formData = {};
   const handleSubmit = (e) => {
-    if (username) {
-      formData.Username = username;
-    }
-    if (password) {
-      formData.Password = password;
-    }
-    if (email) {
-      formData.Email = email;
-    }
-    if (birthday) {
-      formData.Birth = birthday;
-    }
+    const formData = {};
+    username ? (formData.Username = username) : (formData.Username = props.userData.Username);
+    password ? (formData.Password = password) : (formData.Password = props.userData.Password);
+    email ? (formData.Email = email) : (formData.Email = props.userData.Email);
+    birthday ? (formData.Birthday = birthday) : (formData.Birthday = props.userData.Birthday.substr(0, 10));
     console.log('========in handleSubmit of UPDATE PROFILE');
     e.preventDefault(); //prevents the default refresh/change of the page
     console.log('form data = ', formData);
@@ -66,7 +58,7 @@ export function UpdateProfile(props) {
           Authorization: `Bearer ${accessToken}`,
         },
       })
-      .then((response) => {
+      .then(() => {
         localStorage.removeItem('token');
         localStorage.removeItem('user');
         window.open('/', '_self');
@@ -80,10 +72,7 @@ export function UpdateProfile(props) {
   };
 
   const setModalIsOpenToTrue = (e) => {
-    console.log('in set modal is open');
-    e.preventDefault();
     setModalIsOpen(true);
-    e.preventDefault();
   };
   const setModalIsOpenToFalse = () => {
     setModalIsOpen(false);

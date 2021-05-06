@@ -29,10 +29,10 @@ export function RegistrationView(props) {
       .then((response) => {
         const data = response.data;
         console.log(data);
-        // props.onBackClick();
         window.open('/', '_self');
       })
       .catch((e) => {
+        alert(e.response.data);
         console.log('Something went wrong with user registration! check that fields are valid');
       });
   };

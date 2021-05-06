@@ -36,6 +36,7 @@ export class MovieInfoView extends React.Component {
           console.log('Something went wrong with adding movie');
         });
     }
+
     if (requestType === 'delete') {
       let message = 'Movie successfully deleted from Favorites List.';
       if (list === 'towatch') {
@@ -58,11 +59,6 @@ export class MovieInfoView extends React.Component {
   }
 
   addAndRemoveButtons(movieData, userData) {
-    console.log('USER DATA favorites', userData.FavoriteMovies);
-    console.log('USER DATA toWatch', userData.ToWatch);
-    console.log('movie DATA ', movieData._id);
-    console.log('userData.ToWatch.includes(movieData._id)', userData.ToWatch.includes(movieData._id));
-
     let btnColor1 = 'info';
     let btnColor2 = 'info';
     let text1 = 'Add to Favorite Movies';
@@ -113,13 +109,6 @@ export class MovieInfoView extends React.Component {
             </Button>
             <img src={movieData.ImagePath} />
             {this.addAndRemoveButtons(movieData, userData)}
-            {/* <Button variant="info" onClick={() => this.addToList(movieData._id, 'favoritemovies')}>
-              Add to Favorite Movies
-            </Button>
-
-            <Button variant="info" onClick={() => this.addToList(movieData._id, 'towatch')}>
-              Add in To Watch List
-            </Button> */}
           </Col>
           <Col md={7}>
             <Card style={{ width: '38rem' }}>
