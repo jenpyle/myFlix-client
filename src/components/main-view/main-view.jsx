@@ -54,13 +54,6 @@ export class MainView extends React.Component {
     }
   }
 
-  /*When a movie is clicked, this function is invoked and updates the state of the `selectedMovie` *property to that movie*/
-  setSelectedMovie(newSelectedMovie) {
-    this.setState({
-      selectedMovie: newSelectedMovie,
-    });
-    console.log('this.state after setSelectedMovie ', this.state);
-  }
   /* When a user successfully logs in, this function updates the `user` property in state to that *particular user*/
   onLoggedIn(authData) {
     //This happens the moment the user logs in
@@ -74,13 +67,6 @@ export class MainView extends React.Component {
     this.getMovies(authData.token);
     this.getUsers(authData.token);
   }
-
-  // onRegisterNewUser(newUser) {
-  //   this.setState({
-  //     newUser,
-  //   });
-  //   console.log('this.state after OnRegistetrNewUser=', this.state);
-  // }
 
   onLoggedOut() {
     localStorage.removeItem('token');
