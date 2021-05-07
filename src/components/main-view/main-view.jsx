@@ -31,7 +31,7 @@ export class MainView extends React.Component {
       users: [],
       selectedMovie: null,
       user: null,
-      newUser: null,
+ 
       requestType: null,
       isFav: false,
       isWatch: false,
@@ -75,19 +75,19 @@ export class MainView extends React.Component {
     this.getUsers(authData.token);
   }
 
-  onRegisterNewUser(newUser) {
-    this.setState({
-      newUser,
-    });
-    console.log('this.state after OnRegistetrNewUser=', this.state);
-  }
+  // onRegisterNewUser(newUser) {
+  //   this.setState({
+  //     newUser,
+  //   });
+  //   console.log('this.state after OnRegistetrNewUser=', this.state);
+  // }
 
   onLoggedOut() {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     this.setState({
       user: null,
-      newUser: null,
+
       requestType: null,
     });
     console.log('this.state after onLoggedOut=', this.state);
@@ -127,8 +127,6 @@ export class MainView extends React.Component {
   }
 
   editUserLists(movieID, list, requestType) {
-    console.log('HELLO');
-    console.log('HERE in edit ', movieID, list, requestType);
     let accessToken = localStorage.getItem('token');
     let user = localStorage.getItem('user');
 
@@ -152,7 +150,6 @@ export class MainView extends React.Component {
           this.getUsers(accessToken);
         })
         .catch((e) => {
-          console.log(e);
           console.log('Something went wrong with adding movie');
         });
     }
@@ -179,18 +176,15 @@ export class MainView extends React.Component {
   }
 
   setRequestType(type) {
-    console.log('HERE IN SETREQUESTTYPE this.state BEFORE', this.state);
-    console.log('-----------------------inside setRequestType type= ', type);
     this.setState({
       requestType: type,
     });
-    console.log('-----------------------AFTER=', type, 'this.state=', this.state);
   }
 
   render() {
-    const { movies, users, user, newUser, requestType } = this.state;
+    const { movies, users, user, requestType } = this.state;
 
-    console.log('user , new user = ', user, ', ', newUser);
+    console.log('user =', user);
 
     return (
       <Container fluid>
@@ -266,7 +260,6 @@ export class MainView extends React.Component {
                     <Col md={10}>
                       <ProfileView
                         userData={users.find((u) => u.Username === localStorage.getItem('user'))}
-                        // userData={users.find((u) => u.Username === match.params.username)}
                         onBackClick={() => history.goBack()}
                         setRequestType={(type) => this.setRequestType(type)}
                         movies={movies}
@@ -288,8 +281,6 @@ export class MainView extends React.Component {
                   <Col md={8}>
                     <MovieInfoView
                       editUserLists={(movieID, list, requestType) => this.editUserLists(movieID, list, requestType)}
-                      // getUpdatedUsers={(token) => this.getUsers(token)}
-                      // getUpdatedInfo={(userInfo) => this.getUpdatedInfo(userInfo)}
                       userData={users.find((u) => u.Username === localStorage.getItem('user'))}
                       movieData={movies.find((movie) => movie._id === match.params.movieId)}
                       onBackClick={() => history.goBack()}
