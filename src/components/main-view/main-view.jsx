@@ -24,15 +24,12 @@ export class MainView extends React.Component {
   constructor() {
     /*where you initialize a state's values */
     super(); /*means call the constructor of the parent class(React.Component) ...  initializes your component’s state, and without it, you’ll get an error if you try to use this.state inside constructor()*/
-    //prettier-ignore
+
     this.state = {
       /*represents the moment a component is created in the memory */
       movies: [],
       users: [],
-      selectedMovie: null,
       user: null,
- 
-      requestType: null,
       isFav: false,
       isWatch: false,
     };
@@ -174,8 +171,6 @@ export class MainView extends React.Component {
 
     return (
       <Container fluid>
-        {/*If the state of `selectedMovie` is not null, that selected movie will be returned otherwise, all *movies will be returned*/}
-
         <Router>
           <div className="header-container">
             <h1 className="title">MyFlix</h1>
