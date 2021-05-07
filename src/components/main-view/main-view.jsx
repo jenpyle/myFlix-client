@@ -126,6 +126,58 @@ export class MainView extends React.Component {
       });
   }
 
+  editUserLists(movieID, list, requestType) {
+    console.log('HELLO');
+    console.log('HERE in edit ', movieID, list, requestType);
+    let accessToken = localStorage.getItem('token');
+    let user = localStorage.getItem('user');
+
+    if (requestType === 'post') {
+      let message = 'Movie successfully added to Favorites List.';
+      if (list === 'towatch') {
+        message = 'Movie successfully added in To Watch List.';
+      }
+      axios
+        .post(
+          `https://jennysflix.herokuapp.com/users/${user}/movies/${list}/${movieID}`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        )
+        .then(() => {
+          alert(message);
+          this.getUsers(accessToken);
+        })
+        .catch((e) => {
+          console.log(e);
+          console.log('Something went wrong with adding movie');
+        });
+    }
+
+    if (requestType === 'delete') {
+      let message = 'Movie successfully deleted from Favorites List.';
+      if (list === 'towatch') {
+        message = 'Movie successfully deleted from To Watch List.';
+      }
+      axios
+        .delete(`https://jennysflix.herokuapp.com/users/${user}/movies/${list}/${movieID}`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        .then(() => {
+          alert(message);
+          this.getUsers(accessToken);
+        })
+        .catch((e) => {
+          console.log('Something went wrong with removing movie');
+        });
+    }
+  }
+
   setRequestType(type) {
     console.log('HERE IN SETREQUESTTYPE this.state BEFORE', this.state);
     console.log('-----------------------inside setRequestType type= ', type);
@@ -152,7 +204,7 @@ export class MainView extends React.Component {
               <Link to={`/`}>
                 <Button variant="link">Home</Button>
               </Link>
-              <Link to={`/users/${user}`}>
+              <Link to={`/users/${localStorage.getItem('user')}`}>
                 <Button variant="link" onClick={() => this.setRequestType(null)}>
                   Profile
                 </Button>
@@ -204,7 +256,7 @@ export class MainView extends React.Component {
                 if (requestType === 'put') {
                   return (
                     <UpdateProfile
-                      userData={users.find((u) => u.Username === match.params.username)}
+                      userData={users.find((u) => u.Username === localStorage.getItem('user'))}
                       setRequestType={(type) => this.setRequestType(type)}
                     />
                   ); //onLoggedIn method will update the user state of the MainView component and will be called when the user has successfully logged in... to change the user state to valid instead of null?
@@ -213,7 +265,8 @@ export class MainView extends React.Component {
                   return (
                     <Col md={10}>
                       <ProfileView
-                        userData={users.find((u) => u.Username === match.params.username)}
+                        userData={users.find((u) => u.Username === localStorage.getItem('user'))}
+                        // userData={users.find((u) => u.Username === match.params.username)}
                         onBackClick={() => history.goBack()}
                         setRequestType={(type) => this.setRequestType(type)}
                         movies={movies}
@@ -234,9 +287,10 @@ export class MainView extends React.Component {
                 return (
                   <Col md={8}>
                     <MovieInfoView
-                      getUpdatedUsers={(token) => this.getUsers(token)}
-                      getUpdatedInfo={(userInfo) => this.getUpdatedInfo(userInfo)}
-                      userData={users.find((u) => u.Username === user)}
+                      editUserLists={(movieID, list, requestType) => this.editUserLists(movieID, list, requestType)}
+                      // getUpdatedUsers={(token) => this.getUsers(token)}
+                      // getUpdatedInfo={(userInfo) => this.getUpdatedInfo(userInfo)}
+                      userData={users.find((u) => u.Username === localStorage.getItem('user'))}
                       movieData={movies.find((movie) => movie._id === match.params.movieId)}
                       onBackClick={() => history.goBack()}
                     />

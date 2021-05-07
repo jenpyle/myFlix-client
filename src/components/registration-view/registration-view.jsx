@@ -39,7 +39,6 @@ export function RegistrationView(props) {
       return;
     }
     if (isValid === 'valid') {
-      console.log(username, password, email, birthday);
       axios
         .post('https://jennysflix.herokuapp.com/users', {
           Username: username,
@@ -59,7 +58,6 @@ export function RegistrationView(props) {
 
   return (
     <Container>
-      <h1 className="title">MyFlix</h1>
       <br></br>
       <div id="registration-container">
         <h3>Register new user</h3>
