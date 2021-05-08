@@ -18,12 +18,12 @@ export function UpdateProfile(props) {
   const [checked, setChecked] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
-  const formValidation = (formData) => {
+  const formValidation = (formData, checked) => {
     let isValid = 'valid';
     if (formData.Username.length < 5) isValid = 'Username must be at least 5 characters long';
-    if (formData.Password === '') isValid = 'Password cannot be empty';
+    if (checked && formData.Password === '') isValid = 'Password cannot be empty';
     if (formData.Email.includes('.') === false || formData.Email.includes('@') === false) isValid = 'Email is invalid';
-
+    console.log('isValid=', isValid);
     return isValid;
   };
 
@@ -31,11 +31,12 @@ export function UpdateProfile(props) {
     e.preventDefault(); //prevents the default refresh/change of the page
     const formData = {};
     username ? (formData.Username = username) : (formData.Username = props.userData.Username);
-    checked ? (formData.Password = password) : (formData.Password = props.userData.Password);
+    // checked ? (formData.Password = password) : (formData.Password = props.userData.Password);
+    if (checked) formData.Password = password;
     email ? (formData.Email = email) : (formData.Email = props.userData.Email);
     birthday ? (formData.Birthday = birthday) : (formData.Birthday = props.userData.Birthday.substr(0, 10));
 
-    let isValid = formValidation(formData);
+    let isValid = formValidation(formData, checked);
 
     if (isValid !== 'valid') {
       alert(isValid);
@@ -46,9 +47,13 @@ export function UpdateProfile(props) {
     console.log('form data = ', formData);
     let accessToken = localStorage.getItem('token');
     console.log(accessToken);
+
+    let urlString = `https://jennysflix.herokuapp.com/users/${props.userData.Username}`;
+    if (checked) urlString = `https://jennysflix.herokuapp.com/users/${props.userData.Username}/password`;
+    console.log('urlString=', urlString);
     if (isValid) {
       axios
-        .put(`https://jennysflix.herokuapp.com/users/${props.userData.Username}`, formData, {
+        .put(urlString, formData, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
