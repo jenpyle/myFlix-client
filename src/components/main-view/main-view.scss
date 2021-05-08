@@ -18,7 +18,8 @@
 #bootstrap-overrides .header-container {
   display: inline-flex;
 }
-#bootstrap-overrides .header-container .title {
+#bootstrap-overrides .row {
+  flex-wrap: nowrap;
 }
 
 #bootstrap-overrides .profile-logout-btns button.btn.btn-secondary {
