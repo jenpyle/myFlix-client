@@ -109,6 +109,23 @@ export class MainView extends React.Component {
       });
   }
 
+  // getOneUser(token) {
+  //   axios
+  //     .get(`https://jennysflix.herokuapp.com/users/${localStorage.getItem('user')}`, {
+  //       headers: { Authorization: `Bearer ${token}` },
+  //     })
+  //     .then((response) => {
+  //       //Assign the result to the state
+  //       this.setState({
+  //         user: response.data,
+  //       });
+  //       console.log('this.state after getUsers', this.state.user);
+  //     })
+  //     .catch(function (error) {
+  //       console.log('error in get users axios request: ', error);
+  //     });
+  // }
+
   editUserLists(movieID, list, requestType) {
     let accessToken = localStorage.getItem('token');
     let user = localStorage.getItem('user');
@@ -170,13 +187,13 @@ export class MainView extends React.Component {
     console.log('user =', user);
 
     return (
-        <Router>
-          <Row>
-            <Col md="10">
-              <h1 className="title">MyFlix</h1>
-            </Col>
+      <Router>
+        <Row>
+          <Col md="10">
+            <h1 className="title">MyFlix</h1>
+          </Col>
 
-            <Col md="2">
+          <Col md="2">
             <div className="profile-logout-btns">
               <Link to={`/`}>
                 <Button variant="link">Home</Button>
@@ -192,124 +209,123 @@ export class MainView extends React.Component {
                 </Button>
               </Link>
             </div>
-            </Col>
+          </Col>
+        </Row>
+        <Row className="main-view justify-content-md-center">
+          <Route
+            exact
+            path="/"
+            render={() => {
+              if (!user) {
+                return <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />; //onLoggedIn method will update the user state of the MainView component and will be called when the user has successfully logged in... to change the user state to valid instead of null?
+              }
+              if (movies.length === 0) return <div className="main-view" />;
+              return movies.map((m) => (
+                <Col md={4} key={m._id}>
+                  <MovieCards movieData={m} />
+                </Col>
+              ));
+            }}
+          />
 
-          </Row>
-          <Row className="main-view justify-content-md-center">
-            <Route
-              exact
-              path="/"
-              render={() => {
-                if (!user) {
-                  return <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />; //onLoggedIn method will update the user state of the MainView component and will be called when the user has successfully logged in... to change the user state to valid instead of null?
-                }
-                if (movies.length === 0) return <div className="main-view" />;
-                return movies.map((m) => (
-                  <Col md={4} key={m._id}>
-                    <MovieCards movieData={m} />
-                  </Col>
-                ));
-              }}
-            />
+          <Route
+            exact
+            path="/users"
+            render={({ history }) => {
+              if (user) return <Redirect to="/" />;
+              return (
+                <Col>
+                  <RegistrationView onBackClick={() => history.goBack()} />
+                </Col>
+              );
+            }}
+          />
 
-            <Route
-              exact
-              path="/users"
-              render={({ history }) => {
-                if (user) return <Redirect to="/" />;
+          <Route
+            path="/users/:username"
+            render={({ match, history }) => {
+              if (users.length === 0 || movies.length === 0) return <div className="main-view" />;
+              if (!user) {
+                return <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />; //onLoggedIn method will update the user state of the MainView component and will be called when the user has successfully logged in... to change the user state to valid instead of null?
+              }
+              if (requestType === 'put') {
                 return (
-                  <Col>
-                    <RegistrationView onBackClick={() => history.goBack()} />
-                  </Col>
-                );
-              }}
-            />
-
-            <Route
-              path="/users/:username"
-              render={({ match, history }) => {
-                if (users.length === 0 || movies.length === 0) return <div className="main-view" />;
-                if (!user) {
-                  return <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />; //onLoggedIn method will update the user state of the MainView component and will be called when the user has successfully logged in... to change the user state to valid instead of null?
-                }
-                if (requestType === 'put') {
-                  return (
-                    <UpdateProfile
+                  <UpdateProfile
+                    userData={users.find((u) => u.Username === localStorage.getItem('user'))}
+                    setRequestType={(type) => this.setRequestType(type)}
+                  />
+                ); //onLoggedIn method will update the user state of the MainView component and will be called when the user has successfully logged in... to change the user state to valid instead of null?
+              }
+              if (requestType === null) {
+                return (
+                  <Col md={10}>
+                    <ProfileView
                       userData={users.find((u) => u.Username === localStorage.getItem('user'))}
+                      onBackClick={() => history.goBack()}
                       setRequestType={(type) => this.setRequestType(type)}
+                      movies={movies}
                     />
-                  ); //onLoggedIn method will update the user state of the MainView component and will be called when the user has successfully logged in... to change the user state to valid instead of null?
-                }
-                if (requestType === null) {
-                  return (
-                    <Col md={10}>
-                      <ProfileView
-                        userData={users.find((u) => u.Username === localStorage.getItem('user'))}
-                        onBackClick={() => history.goBack()}
-                        setRequestType={(type) => this.setRequestType(type)}
-                        movies={movies}
-                      />
-                    </Col>
-                  );
-                }
-              }}
-            />
+                  </Col>
+                );
+              }
+            }}
+          />
 
-            <Route
-              path="/movies/:movieId"
-              render={({ match, history }) => {
-                if (!user) {
-                  return <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />; //onLoggedIn method will update the user state of the MainView component and will be called when the user has successfully logged in... to change the user state to valid instead of null?
-                }
-                if (movies.length === 0) return <div className="main-view" />;
-                return (
-                  <Col md={8}>
-                    <MovieInfoView
-                      editUserLists={(movieID, list, requestType) => this.editUserLists(movieID, list, requestType)}
-                      userData={users.find((u) => u.Username === localStorage.getItem('user'))}
-                      movieData={movies.find((movie) => movie._id === match.params.movieId)}
-                      onBackClick={() => history.goBack()}
-                    />
-                  </Col>
-                );
-              }}
-            />
-            <Route
-              path="/directors/:name"
-              render={({ match, history }) => {
-                if (!user) {
-                  return <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />; //onLoggedIn method will update the user state of the MainView component and will be called when the user has successfully logged in... to change the user state to valid instead of null?
-                }
-                if (movies.length === 0) return <div className="main-view" />;
-                return (
-                  <Col md={8}>
-                    <DirectorView
-                      directorData={movies.find((movie) => movie.Director.Name === match.params.name).Director}
-                      onBackClick={() => history.goBack()}
-                    />
-                  </Col>
-                );
-              }}
-            />
-            <Route
-              path="/genres/:name"
-              render={({ match, history }) => {
-                if (!user) {
-                  return <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />; //onLoggedIn method will update the user state of the MainView component and will be called when the user has successfully logged in... to change the user state to valid instead of null?
-                }
-                if (movies.length === 0) return <div className="main-view" />; //make sure movies are available before rendering anything.
-                return (
-                  <Col md={8}>
-                    <GenreView
-                      genreData={movies.find((movie) => movie.Genre.Name === match.params.name).Genre}
-                      onBackClick={() => history.goBack()}
-                    />
-                  </Col>
-                );
-              }}
-            />
-          </Row>
-        </Router>
+          <Route
+            path="/movies/:movieId"
+            render={({ match, history }) => {
+              if (!user) {
+                return <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />; //onLoggedIn method will update the user state of the MainView component and will be called when the user has successfully logged in... to change the user state to valid instead of null?
+              }
+              if (movies.length === 0) return <div className="main-view" />;
+              return (
+                <Col md={8}>
+                  <MovieInfoView
+                    editUserLists={(movieID, list, requestType) => this.editUserLists(movieID, list, requestType)}
+                    userData={users.find((u) => u.Username === localStorage.getItem('user'))}
+                    movieData={movies.find((movie) => movie._id === match.params.movieId)}
+                    onBackClick={() => history.goBack()}
+                  />
+                </Col>
+              );
+            }}
+          />
+          <Route
+            path="/directors/:name"
+            render={({ match, history }) => {
+              if (!user) {
+                return <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />; //onLoggedIn method will update the user state of the MainView component and will be called when the user has successfully logged in... to change the user state to valid instead of null?
+              }
+              if (movies.length === 0) return <div className="main-view" />;
+              return (
+                <Col md={8}>
+                  <DirectorView
+                    directorData={movies.find((movie) => movie.Director.Name === match.params.name).Director}
+                    onBackClick={() => history.goBack()}
+                  />
+                </Col>
+              );
+            }}
+          />
+          <Route
+            path="/genres/:name"
+            render={({ match, history }) => {
+              if (!user) {
+                return <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />; //onLoggedIn method will update the user state of the MainView component and will be called when the user has successfully logged in... to change the user state to valid instead of null?
+              }
+              if (movies.length === 0) return <div className="main-view" />; //make sure movies are available before rendering anything.
+              return (
+                <Col md={8}>
+                  <GenreView
+                    genreData={movies.find((movie) => movie.Genre.Name === match.params.name).Genre}
+                    onBackClick={() => history.goBack()}
+                  />
+                </Col>
+              );
+            }}
+          />
+        </Row>
+      </Router>
     );
   }
 }

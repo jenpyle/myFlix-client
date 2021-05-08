@@ -7,46 +7,47 @@ import axios from 'axios';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import './movie-info-view.scss';
-
-export const addAndRemoveButtons = (props) => {
-  //valid functional component
-  let btnColor1 = 'info';
-  let btnColor2 = 'info';
-  let text1 = 'Add to Favorite Movies';
-  let text2 = 'Add to Watch List';
-  let requestType1 = 'post';
-  let requestType2 = 'post';
-
-  if (props.userData.FavoriteMovies.includes(props.movieData._id)) {
-    btnColor1 = 'danger';
-    text1 = 'Remove from Favorites';
-    requestType1 = 'delete';
-  }
-
-  if (props.userData.ToWatch.includes(props.movieData._id)) {
-    btnColor2 = 'danger';
-    text2 = 'Remove from To Watch';
-    requestType2 = 'delete';
-  }
-  return (
-    <React.Fragment>
-      <Button
-        variant={btnColor1}
-        onClick={() => props.editUserLists(props.movieData._id, 'favoritemovies', requestType1)}
-      >
-        {text1}
-      </Button>
-
-      <Button variant={btnColor2} onClick={() => props.editUserLists(props.movieData._id, 'towatch', requestType2)}>
-        {text2}
-      </Button>
-    </React.Fragment>
-  );
-};
-
+//everything in the file is accessible to these functional components
+//import and export is an ES6 thing
 export function MovieInfoView(props) {
+  //when exporting don't use arrow syntax
   const { movieData, onBackClick, userData } = props;
-  console.log(props);
+
+  const addAndRemoveButtons = (props) => {
+    //valid functional component
+    let btnColor1 = 'info';
+    let btnColor2 = 'info';
+    let text1 = 'Add to Favorite Movies';
+    let text2 = 'Add to Watch List';
+    let requestType1 = 'post';
+    let requestType2 = 'post';
+
+    if (props.userData.FavoriteMovies.includes(props.movieData._id)) {
+      btnColor1 = 'danger';
+      text1 = 'Remove from Favorites';
+      requestType1 = 'delete';
+    }
+
+    if (props.userData.ToWatch.includes(props.movieData._id)) {
+      btnColor2 = 'danger';
+      text2 = 'Remove from To Watch';
+      requestType2 = 'delete';
+    }
+    return (
+      <React.Fragment>
+        <Button
+          variant={btnColor1}
+          onClick={() => props.editUserLists(props.movieData._id, 'favoritemovies', requestType1)}
+        >
+          {text1}
+        </Button>
+
+        <Button variant={btnColor2} onClick={() => props.editUserLists(props.movieData._id, 'towatch', requestType2)}>
+          {text2}
+        </Button>
+      </React.Fragment>
+    );
+  };
 
   return (
     <Container>
