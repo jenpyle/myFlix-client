@@ -11,7 +11,6 @@ import './movie-cards.scss';
 export function MovieCards(props) {
   // const { movieData } = this.props;
   return (
-    <Container fluid className="movie-cards">
       <Card>
         <Card.Img variant="top" src={props.movieData.ImagePath} />
         <Card.Body>
@@ -23,7 +22,6 @@ export function MovieCards(props) {
           </Link>
         </Card.Body>
       </Card>
-    </Container>
   );
 }
 // These values help specify how MovieCard's props should look
