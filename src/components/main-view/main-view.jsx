@@ -170,11 +170,13 @@ export class MainView extends React.Component {
     console.log('user =', user);
 
     return (
-      <Container fluid>
         <Router>
-          <div className="header-container">
-            <h1 className="title">MyFlix</h1>
+          <Row>
+            <Col md="10">
+              <h1 className="title">MyFlix</h1>
+            </Col>
 
+            <Col md="2">
             <div className="profile-logout-btns">
               <Link to={`/`}>
                 <Button variant="link">Home</Button>
@@ -190,7 +192,9 @@ export class MainView extends React.Component {
                 </Button>
               </Link>
             </div>
-          </div>
+            </Col>
+
+          </Row>
           <Row className="main-view justify-content-md-center">
             <Route
               exact
@@ -306,7 +310,6 @@ export class MainView extends React.Component {
             />
           </Row>
         </Router>
-      </Container>
     );
   }
 }
