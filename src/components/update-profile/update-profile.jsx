@@ -62,8 +62,8 @@ export function UpdateProfile(props) {
           const data = response.data;
           console.log('...............updated profile data', data);
           localStorage.setItem('user', data.Username);
+          props.setRequestType(null);
           window.open(`/users/${localStorage.getItem('user')}`, '_self');
-          //props.setRequestType(null);
         })
         .then(() => {
           alert('Profile successfully updated.');
