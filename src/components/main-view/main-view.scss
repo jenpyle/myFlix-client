@@ -21,16 +21,16 @@
 #bootstrap-overrides .header-container .title {
 }
 
-#bootstrap-overrides .header-container .profile-logout-btns button.btn.btn-secondary {
+#bootstrap-overrides .profile-logout-btns button.btn.btn-secondary {
   // display: inline-flex;
   justify-content: flex-end !important;
   display: inline-block;
-  width: 70%;
+  width: 100%;
 }
 
-#bootstrap-overrides .header-container .profile-logout-btns button.btn.btn-link {
+#bootstrap-overrides .profile-logout-btns button.btn.btn-link {
   // display: inline-flex;
   justify-content: flex-end !important;
   display: inline-block;
-  width: 70%;
+  width: 100%;
 }
