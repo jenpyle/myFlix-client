@@ -63,6 +63,7 @@ export function UpdateProfile(props) {
           console.log('...............updated profile data', data);
           localStorage.setItem('user', data.Username);
           props.setRequestType(null);
+          console.log();
           window.open(`/users/${localStorage.getItem('user')}`, '_self');
         })
         .then(() => {
@@ -203,7 +204,7 @@ export function UpdateProfile(props) {
           <Button
             variant="info"
             onClick={() => {
-              props.setRequestType(null);
+              props.setRequestType(undefined);
             }}
           >
             Back

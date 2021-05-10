@@ -199,7 +199,7 @@ export class MainView extends React.Component {
                 <Button variant="link">Home</Button>
               </Link>
               <Link to={`/users/${localStorage.getItem('user')}`}>
-                <Button variant="link" onClick={() => this.setRequestType(null)}>
+                <Button variant="link" onClick={() => this.setRequestType(undefined)}>
                   Profile
                 </Button>
               </Link>
@@ -256,7 +256,7 @@ export class MainView extends React.Component {
                   />
                 ); //onLoggedIn method will update the user state of the MainView component and will be called when the user has successfully logged in... to change the user state to valid instead of null?
               }
-              if (requestType === null) {
+              if (requestType === undefined) {
                 return (
                   <Col md={10}>
                     <ProfileView
