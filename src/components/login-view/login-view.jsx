@@ -20,13 +20,15 @@ export function LoginView(props) {
     axios
       .post('https://jennysflix.herokuapp.com/login', { Username: username, Password: password }) //POST request is made to the login endpoint by passing the username and password
       .then((response) => {
+        console.log('HERE');
         //If there’s a match, the onLoggedIn method that was passed through the props is called
+        console.log('response=', response);
         const data = response.data; //contains the token that was generated...and more
         props.onLoggedIn(data); //which provides the username to our parent component (child to parent communication)
       })
       .catch((e) => {
         alert('Incorrect Username or Password. Please try again or register if you are a new user.');
-        window.open('/', '_self');
+        window.open('/login', '_self');
         console.log('User not found');
       });
   };

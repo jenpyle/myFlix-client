@@ -47,7 +47,7 @@ export function RegistrationView(props) {
           Birthday: birthday,
         })
         .then(() => {
-          window.open('/', '_self');
+          window.open('/login', '_self');
         })
         .catch((e) => {
           alert(e);

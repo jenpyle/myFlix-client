@@ -63,6 +63,8 @@ export class MainView extends React.Component {
     localStorage.setItem('user', authData.user.Username);
     this.getMovies(authData.token);
     this.getUsers(authData.token);
+    console.log('Here2');
+    window.open(`/movies`, '_self');
   }
 
   onLoggedOut() {
@@ -73,6 +75,7 @@ export class MainView extends React.Component {
 
       requestType: null,
     });
+    window.open(`/login`, '_self');
     console.log('this.state after onLoggedOut=', this.state);
   }
 
@@ -195,7 +198,7 @@ export class MainView extends React.Component {
 
           <Col md="2">
             <div className="profile-logout-btns">
-              <Link to={`/`}>
+              <Link to={`/movies`}>
                 <Button variant="link">Home</Button>
               </Link>
               <Link to={`/users/${localStorage.getItem('user')}`}>
@@ -203,7 +206,7 @@ export class MainView extends React.Component {
                   Profile
                 </Button>
               </Link>
-              <Link to={`/`}>
+              <Link to={`/login`}>
                 <Button variant="secondary" type="button" onClick={() => this.onLoggedOut()}>
                   Log Out
                 </Button>
@@ -211,10 +214,24 @@ export class MainView extends React.Component {
             </div>
           </Col>
         </Row>
+
+        <Route
+          exact
+          path="/login"
+          render={() => {
+            if (user) return <Redirect to="/movies" />;
+            return (
+              <Col>
+                <LoginView onBackClick={() => history.goBack()} onLoggedIn={(user) => this.onLoggedIn(user)} />
+              </Col>
+            );
+          }}
+        />
+
         <Row className="main-view justify-content-md-center">
           <Route
             exact
-            path="/"
+            path="/movies"
             render={() => {
               if (!user) {
                 return <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />; //onLoggedIn method will update the user state of the MainView component and will be called when the user has successfully logged in... to change the user state to valid instead of null?
@@ -232,7 +249,7 @@ export class MainView extends React.Component {
             exact
             path="/users"
             render={({ history }) => {
-              if (user) return <Redirect to="/" />;
+              if (user) return <Redirect to="/movies" />;
               return (
                 <Col>
                   <RegistrationView onBackClick={() => history.goBack()} />
