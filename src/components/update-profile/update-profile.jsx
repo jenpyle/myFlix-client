@@ -87,7 +87,7 @@ export function UpdateProfile(props) {
       .then(() => {
         localStorage.removeItem('token');
         localStorage.removeItem('user');
-        window.open('/', '_self');
+        window.open('/login', '_self');
       })
       .then(() => {
         alert('Profile successfully deleted.');

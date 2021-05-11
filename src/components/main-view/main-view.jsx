@@ -32,6 +32,7 @@ export class MainView extends React.Component {
       user: null,
       isFav: false,
       isWatch: false,
+      requestType: undefined,
     };
     // this.onLoggedOut = this.onLoggedOut.bind(this);
   }
