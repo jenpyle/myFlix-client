@@ -1,14 +1,23 @@
-import React, { useState } from 'react'; //useState is a react hook
-
-import PropTypes from 'prop-types';
+import React from 'react'; //useState is a react hook
 import { Link } from 'react-router-dom';
 import { Container, Card, Row, Col, Button, Form } from 'react-bootstrap';
 import axios from 'axios';
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 
+import { connect } from 'react-redux';
+//#0
+import { setMovies } from '../../actions/actions';
+//we haven't written this one yet
+import MoviesList from '../movies-list/movies-list';
+/* 
+  #1 The rest of components import statements but without the MovieCard's 
+  because it will be imported and used in the MoviesList component rather
+  than in here. 
+*/
+
 import { RegistrationView } from '../registration-view/registration-view';
 import { LoginView } from '../login-view/login-view'; //LoginView will need to get the user details from the MainView. If LoginView is not imported here, there would be no way of passing the user details to it
-import { MovieCards } from '../movie-cards/movie-cards';
+// import { MovieCards } from '../movie-cards/movie-cards';
 import { MovieInfoView } from '../movie-info-view/movie-info-view';
 import { DirectorView } from '../director-view/director-view';
 import { GenreView } from '../genre-view/genre-view';
@@ -18,16 +27,17 @@ import { UpdateProfile } from '../update-profile/update-profile';
 import './main-view.scss';
 
 /*essentially telling React to create a new MainView component using the generic React.Component template as its foundation */
-export class MainView extends React.Component {
-  /*the export keyword exposes the MainView component, and the rest of the line creates the MainView component, extends from React.Component */
-
+// export class MainView extends React.Component {
+/*the export keyword exposes the MainView component, and the rest of the line creates the MainView component, extends from React.Component */
+//REMOVE EXPORT KEYWORD
+class MainView extends React.Component {
   constructor() {
     /*where you initialize a state's values */
     super(); /*means call the constructor of the parent class(React.Component) ...  initializes your component’s state, and without it, you’ll get an error if you try to use this.state inside constructor()*/
 
     this.state = {
       /*represents the moment a component is created in the memory */
-      movies: [],
+      // movies: [],
       users: [],
       user: null,
       isFav: false,
@@ -87,9 +97,14 @@ export class MainView extends React.Component {
       })
       .then((response) => {
         //Assign the result to the state
-        this.setState({
-          movies: response.data,
-        });
+        // this.setState({
+        //   movies: response.data,
+        // });
+        this.props.setMovies(
+          response.data
+        ); /*this.props.setMovies is NOT THE SAME as setMovies imported from the actions
+        this.props.setMovies is passed to props thru connect() and its wrapped into the dispatch() function of the store(a way for the store to know that the action has been called).
+        the regular setMovies is given as a prop to the MainView component bc its wrapped in the connect() function at the bottom*/
       })
       .catch(function (error) {
         console.log(error);
@@ -186,7 +201,9 @@ export class MainView extends React.Component {
   }
 
   render() {
-    const { movies, users, user, requestType } = this.state;
+    const { users, user, requestType } = this.state;
+    // #5 movies is extracted from this.props rather than from the this.state
+    let { movies } = this.props;
 
     console.log('user =', user);
 
@@ -218,30 +235,40 @@ export class MainView extends React.Component {
             </Col>
           ) : null}
         </Row>
-        {user ? (
-          <Row className="profile-logout-btns-mobile" style={{ display: 'none' }}>
-            <Col>
-              <Link to={`/movies`}>
-                <Button variant="link">Home</Button>
-              </Link>
 
-              <Link to={`/users/${localStorage.getItem('user')}`}>
-                <Button variant="link" onClick={() => this.setRequestType(undefined)}>
-                  Profile
-                </Button>
-              </Link>
-
+        <Row className="profile-logout-btns-mobile" style={{ display: 'none' }}>
+          <Col>
+            <Link to={`/movies`}>
+              <Button variant="link">Home</Button>
+            </Link>
+            <Link to={`/users/${localStorage.getItem('user')}`}>
+              <Button variant="link" onClick={() => this.setRequestType(undefined)}>
+                Profile
+              </Button>
+            </Link>
+            {user ? (
               <Link to={`/login`}>
                 <Button variant="secondary" type="button" onClick={() => this.onLoggedOut()}>
                   Log Out
                 </Button>
               </Link>
-            </Col>
-            <Col>
-              <h1 className="title">MyFlix</h1>
-            </Col>
-          </Row>
-        ) : null}
+            ) : null}
+          </Col>
+          <Col>
+            <h1 className="title">MyFlix</h1>
+          </Col>
+        </Row>
+
+        <Route
+          exact
+          path="/"
+          render={() => {
+            if (!user)
+              return <LoginView onBackClick={() => history.goBack()} onLoggedIn={(user) => this.onLoggedIn(user)} />;
+            return <MoviesList movies={movies} />;
+          }}
+        />
+
         <Route
           exact
           path="/login"
@@ -264,11 +291,13 @@ export class MainView extends React.Component {
                 return <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />; //onLoggedIn method will update the user state of the MainView component and will be called when the user has successfully logged in... to change the user state to valid instead of null?
               }
               if (movies.length === 0) return <div className="main-view" />;
-              return movies.map((m) => (
-                <Col md={4} key={m._id}>
-                  <MovieCards movieData={m} />
-                </Col>
-              ));
+              // #6
+              return <MoviesList movies={movies} />;
+              // return movies.map((m) => (
+              //   <Col md={4} key={m._id}>
+              //     <MovieCards movieData={m} />
+              //   </Col>
+              // ));
             }}
           />
 
@@ -374,4 +403,15 @@ export class MainView extends React.Component {
   }
 }
 
-export default MainView; /* without the default keyword, we'd have to use curly braces when importing MainView.. Can only do this once per file */
+// #7if defined—will allow the component (the one you want to connect)
+// to subscribe to store updates. Any time the store is updated, this function will be called.
+// so instead of component accessing state directly, it accesses state passed to props by the store
+let mapStateToProps = (state) => {
+  return { movies: state.movies };
+};
+
+// #8 HOVER over this 'connect' and you can see the actions bc its now connected to the store
+export default connect(mapStateToProps, { setMovies })(MainView);
+/*this.props.setMovies is NOT THE SAME as setMovies imported from the actions
+        this.props.setMovies is passed to props thru connect() and its wrapped into the dispatch() function of the store(a way for the store to know that the action has been called).
+        the regular setMovies is given as a prop to the MainView component bc its wrapped in the connect() function at the bottom*/

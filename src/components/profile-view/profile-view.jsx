@@ -18,14 +18,6 @@ export function ProfileView(props) {
     <Container>
       <Row className="user-view">
         <Col md={7}>
-          {/* <Button
-            variant="info"
-            onClick={() => {
-              props.onBackClick();
-            }}
-          >
-            Back
-          </Button> */}
           <Link to={`/`}>
             <Button variant="info">Back</Button>
           </Link>
