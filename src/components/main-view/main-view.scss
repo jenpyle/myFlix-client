@@ -21,6 +21,11 @@
 #bootstrap-overrides .row {
   flex-wrap: nowrap;
 }
+@media (max-width: 1007px) {
+  #bootstrap-overrides .row {
+    flex-wrap: wrap;
+  }
+}
 
 #bootstrap-overrides .profile-logout-btns button.btn.btn-secondary {
   // display: inline-flex;
