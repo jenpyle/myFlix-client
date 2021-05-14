@@ -1,48 +1,29 @@
-// #bootstrap-overrides .header-container {
-//   display: inline-flex;
-//   flex: 1;
-//   max-width: 100%;
-//   width: 100%;
-//   .title {
-//     // display: inline;
-//     justify-content: flex-start;
-//   }
-//   .btn .profile-logout-btns {
-//     // display: inline-flex;
-//     justify-content: flex-end !important;
-//     display: inline-block;
-//     margin-right: 20px;
-//   }
-// }
+$primary-background-color: bisque;
+$primary-button-color: thistle;
+$border-color: violet;
+$title-color: black;
+$grey: lightslategray;
+$primary-accent-color: Rosybrown;
+$selected-link-color: #489c79;
+$visited-color: #05676e;
+$font-weight: bold;
 
-#bootstrap-overrides .header-container {
-  display: inline-flex;
+#bootstrap-overrides {
+  .row {
+    flex-wrap: nowrap;
+  }
 }
-#bootstrap-overrides .row {
-  flex-wrap: nowrap;
-}
+
 @media (max-width: 1007px) {
-  #bootstrap-overrides .row {
-    flex-wrap: wrap;
+  #bootstrap-overrides {
+    .row {
+      flex-wrap: wrap;
+    }
+    .profile-logout-btns-mobile {
+      display: block !important;
+    }
+    .profile-logout-btns-desktop {
+      display: none !important;
+    }
   }
-  #bootstrap-overrides .profile-logout-btns-mobile {
-    display: block !important;
-  }
-  #bootstrap-overrides .profile-logout-btns-desktop {
-    display: none !important;
-  }
-}
-
-#bootstrap-overrides .profile-logout-btns button.btn.btn-secondary {
-  // display: inline-flex;
-  justify-content: flex-end !important;
-  display: inline-block;
-  width: 100%;
-}
-
-#bootstrap-overrides .profile-logout-btns button.btn.btn-link {
-  // display: inline-flex;
-  justify-content: flex-end !important;
-  display: inline-block;
-  width: 100%;
 }

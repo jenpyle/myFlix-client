@@ -13,7 +13,7 @@ export function ProfileView(props) {
 
   const favMovies = movies.filter((movie) => userData.FavoriteMovies.includes(movie._id));
   const toWatch = movies.filter((movie) => userData.ToWatch.includes(movie._id));
-
+  // console.log('HERE...', onBackClick());
   return (
     <Container>
       <Row className="user-view">
@@ -62,11 +62,6 @@ export function ProfileView(props) {
                   ))}
                 </span>
               </Card.Body>
-              {/* <Link to={`/users/${userData.Username}`}>
-                <Button variant="link" onClick={() => props.setRequestType('put')}>
-                  Edit Profile Info
-                </Button>
-              </Link> */}
               <Button
                 variant="info"
                 onClick={() => {

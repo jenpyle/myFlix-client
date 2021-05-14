@@ -8,16 +8,13 @@ $selected-link-color: #489c79;
 $visited-color: #05676e;
 $font-weight: bold;
 
-.title {
-  font-family: 'Chango', cursive;
-  color: $title-color;
-  font-size: 6rem;
-}
-
-#bootstrap-overrides .form-control {
-  border: 1px solid $grey;
-}
-
-#bootstrap-overrides .btn-info {
-  background-color: $primary-button-color;
+#bootstrap-overrides {
+  .title {
+    font-family: 'Chango', cursive;
+    color: $title-color;
+    font-size: 6rem;
+  }
+  .form-control {
+    border: 1px solid $grey;
+  }
 }

@@ -20,54 +20,50 @@ body {
   background-color: $primary-background-color;
 }
 
-.app-container {
-  background-color: $primary-background-color;
-  height: 100%;
-}
-
-#bootstrap-overrides .btn {
-  font-size: larger;
-  border-color: $border-color;
-  padding: 10px;
-  margin: 4px;
-  // margin-right: 10px;
-}
-
-button.btn.btn-link {
-  width: 100%;
-}
-
-button.btn.btn-info {
-  width: 100%;
-}
-
-#bootstrap-overrides img {
-  border-style: solid;
-  border-color: $border-color;
-}
-
-#bootstrap-overrides .card {
-  background-color: $card-background-color;
-  border-color: $border-color;
-  min-width: 14rem;
-  margin: 10px;
-  .card-body {
+#bootstrap-overrides {
+  .app-container {
+    background-color: $primary-background-color;
+    height: 100%;
+  }
+  .btn {
+    font-size: larger;
+    border-color: $border-color;
+    padding: 10px;
+    margin: 4px;
+  }
+  .btn-info {
+    background-color: $primary-button-color;
+  }
+  button.btn.btn-link,
+  button.btn.btn-info,
+  button.btn.btn-danger,
+  button.btn.btn-secondary {
+    margin-left: 0px;
+    margin-right: 0px;
+    width: 100%;
+  }
+  img {
+    border-style: solid;
+    border-color: $border-color;
+  }
+  .card {
     background-color: $card-background-color;
+    border-color: $border-color;
+    min-width: 14rem;
+    margin: 10px;
+    .card-body {
+      background-color: $card-background-color;
+    }
+    .card-header {
+      font-size: 3rem;
+    }
+    .card-title {
+      padding-top: 10px;
+    }
+    .card-subtitle {
+      color: $grey;
+      padding-bottom: 10px;
+      font-size: 1.4em;
+    }
   }
-  .card-header {
-    font-size: 3rem;
-  }
-  .card-title {
-    padding-top: 10px;
-  }
-}
-
-#bootstrap-overrides .card-subtitle {
-  color: $grey;
-  padding-bottom: 10px;
-  font-size: 1.4em;
-}
-
-#bootstrap-overrides .card-body {
-  background-color: $card-background-color;
 }

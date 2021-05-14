@@ -65,9 +65,12 @@ export function MovieInfoView(props) {
           {addAndRemoveButtons(props)}
         </Col>
         <Col md={7}>
-          <Card style={{ width: '38rem' }}>
+          <Card>
             <div className="movie-data">
-              <Card.Header>{props.movieData.Title}</Card.Header>
+              <Card.Header>
+                {props.movieData.Title}
+                {/* {addAndRemoveButtons(props)} */}
+              </Card.Header>
 
               <Card.Body className="movie-description">
                 <Card.Text>Description: </Card.Text>
