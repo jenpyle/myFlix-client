@@ -9,7 +9,7 @@ import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 export function ProfileView(props) {
   console.log('inside of profile view');
   console.log('props.userData inside of profile-view= ', props.userData);
-  const { userData, movies } = props; //obj destructuring
+  const { userData, movies, onBackClick } = props; //obj destructuring
 
   const favMovies = movies.filter((movie) => userData.FavoriteMovies.includes(movie._id));
   const toWatch = movies.filter((movie) => userData.ToWatch.includes(movie._id));
@@ -17,10 +17,15 @@ export function ProfileView(props) {
   return (
     <Container>
       <Row className="user-view">
-        <Col md={7}>
-          <Link to={`/`}>
-            <Button variant="info">Back</Button>
-          </Link>
+        <Col>
+          <Button
+            variant="info"
+            onClick={() => {
+              onBackClick();
+            }}
+          >
+            Back
+          </Button>
           <Card>
             <div className="user-view-info">
               <Card.Header>Profile Information</Card.Header>
@@ -57,11 +62,19 @@ export function ProfileView(props) {
                   ))}
                 </span>
               </Card.Body>
-              <Link to={`/users/${userData.Username}`}>
+              {/* <Link to={`/users/${userData.Username}`}>
                 <Button variant="link" onClick={() => props.setRequestType('put')}>
                   Edit Profile Info
                 </Button>
-              </Link>
+              </Link> */}
+              <Button
+                variant="info"
+                onClick={() => {
+                  props.setRequestType('put');
+                }}
+              >
+                Edit Profile Info
+              </Button>
             </div>
           </Card>
         </Col>
