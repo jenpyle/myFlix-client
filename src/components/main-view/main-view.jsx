@@ -192,12 +192,10 @@ export class MainView extends React.Component {
 
     return (
       <Router>
-        <Row>
-          {/* <div className="profile-logout-btns"> */}
+        <Row className="profile-logout-btns-desktop">
           <Col md="6">
             <h1 className="title">MyFlix</h1>
           </Col>
-
           <Col md="2">
             <Link to={`/movies`}>
               <Button variant="link">Home</Button>
@@ -217,7 +215,29 @@ export class MainView extends React.Component {
               </Button>
             </Link>
           </Col>
-          {/* </div> */}
+        </Row>
+
+        <Row className="profile-logout-btns-mobile" style={{ display: 'none' }}>
+          <Col>
+            <Link to={`/movies`}>
+              <Button variant="link">Home</Button>
+            </Link>
+
+            <Link to={`/users/${localStorage.getItem('user')}`}>
+              <Button variant="link" onClick={() => this.setRequestType(undefined)}>
+                Profile
+              </Button>
+            </Link>
+
+            <Link to={`/login`}>
+              <Button variant="secondary" type="button" onClick={() => this.onLoggedOut()}>
+                Log Out
+              </Button>
+            </Link>
+          </Col>
+          <Col>
+            <h1 className="title">MyFlix</h1>
+          </Col>
         </Row>
 
         <Route

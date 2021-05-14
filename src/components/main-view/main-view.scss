@@ -25,6 +25,12 @@
   #bootstrap-overrides .row {
     flex-wrap: wrap;
   }
+  #bootstrap-overrides .profile-logout-btns-mobile {
+    display: block !important;
+  }
+  #bootstrap-overrides .profile-logout-btns-desktop {
+    display: none !important;
+  }
 }
 
 #bootstrap-overrides .profile-logout-btns button.btn.btn-secondary {
