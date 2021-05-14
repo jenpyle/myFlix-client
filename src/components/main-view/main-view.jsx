@@ -263,9 +263,8 @@ class MainView extends React.Component {
           exact
           path="/"
           render={() => {
-            if (!user)
-              return <LoginView onBackClick={() => history.goBack()} onLoggedIn={(user) => this.onLoggedIn(user)} />;
-            return <MoviesList movies={movies} />;
+            if (!user) return <Redirect to="/login" />;
+            if (user) return <Redirect to="/movies" />;
           }}
         />
 
@@ -274,11 +273,7 @@ class MainView extends React.Component {
           path="/login"
           render={() => {
             if (user) return <Redirect to="/movies" />;
-            return (
-              <Col>
-                <LoginView onBackClick={() => history.goBack()} onLoggedIn={(user) => this.onLoggedIn(user)} />
-              </Col>
-            );
+            return <LoginView onBackClick={() => history.goBack()} onLoggedIn={(user) => this.onLoggedIn(user)} />;
           }}
         />
 
@@ -293,11 +288,6 @@ class MainView extends React.Component {
               if (movies.length === 0) return <div className="main-view" />;
               // #6
               return <MoviesList movies={movies} />;
-              // return movies.map((m) => (
-              //   <Col md={4} key={m._id}>
-              //     <MovieCards movieData={m} />
-              //   </Col>
-              // ));
             }}
           />
 
@@ -306,11 +296,7 @@ class MainView extends React.Component {
             path="/users"
             render={({ history }) => {
               if (user) return <Redirect to="/movies" />;
-              return (
-                <Col>
-                  <RegistrationView onBackClick={() => history.goBack()} />
-                </Col>
-              );
+              return <RegistrationView onBackClick={() => history.goBack()} />;
             }}
           />
 
@@ -331,14 +317,12 @@ class MainView extends React.Component {
               }
               if (requestType === undefined) {
                 return (
-                  <Col md={10}>
-                    <ProfileView
-                      userData={users.find((u) => u.Username === localStorage.getItem('user'))}
-                      onBackClick={() => history.goBack()}
-                      setRequestType={(type) => this.setRequestType(type)}
-                      movies={movies}
-                    />
-                  </Col>
+                  <ProfileView
+                    userData={users.find((u) => u.Username === localStorage.getItem('user'))}
+                    onBackClick={() => history.goBack()}
+                    setRequestType={(type) => this.setRequestType(type)}
+                    movies={movies}
+                  />
                 );
               }
             }}
@@ -352,14 +336,12 @@ class MainView extends React.Component {
               }
               if (movies.length === 0) return <div className="main-view" />;
               return (
-                <Col md={8}>
-                  <MovieInfoView
-                    editUserLists={(movieID, list, requestType) => this.editUserLists(movieID, list, requestType)}
-                    userData={users.find((u) => u.Username === localStorage.getItem('user'))}
-                    movieData={movies.find((movie) => movie._id === match.params.movieId)}
-                    onBackClick={() => history.goBack()}
-                  />
-                </Col>
+                <MovieInfoView
+                  editUserLists={(movieID, list, requestType) => this.editUserLists(movieID, list, requestType)}
+                  userData={users.find((u) => u.Username === localStorage.getItem('user'))}
+                  movieData={movies.find((movie) => movie._id === match.params.movieId)}
+                  onBackClick={() => history.goBack()}
+                />
               );
             }}
           />
@@ -371,12 +353,10 @@ class MainView extends React.Component {
               }
               if (movies.length === 0) return <div className="main-view" />;
               return (
-                <Col md={8}>
-                  <DirectorView
-                    directorData={movies.find((movie) => movie.Director.Name === match.params.name).Director}
-                    onBackClick={() => history.goBack()}
-                  />
-                </Col>
+                <DirectorView
+                  directorData={movies.find((movie) => movie.Director.Name === match.params.name).Director}
+                  onBackClick={() => history.goBack()}
+                />
               );
             }}
           />
@@ -388,12 +368,10 @@ class MainView extends React.Component {
               }
               if (movies.length === 0) return <div className="main-view" />; //make sure movies are available before rendering anything.
               return (
-                <Col md={8}>
-                  <GenreView
-                    genreData={movies.find((movie) => movie.Genre.Name === match.params.name).Genre}
-                    onBackClick={() => history.goBack()}
-                  />
-                </Col>
+                <GenreView
+                  genreData={movies.find((movie) => movie.Genre.Name === match.params.name).Genre}
+                  onBackClick={() => history.goBack()}
+                />
               );
             }}
           />
