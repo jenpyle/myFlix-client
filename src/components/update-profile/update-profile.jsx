@@ -137,7 +137,7 @@ export function UpdateProfile(props) {
           </Modal.Body>
 
           <Modal.Footer>
-            <Button variant="info" onClick={setModalIsOpenToFalse}>
+            <Button variant="secondary" onClick={setModalIsOpenToFalse}>
               Back
             </Button>
             <Button variant="danger" onClick={handleDelete}>
@@ -202,7 +202,7 @@ export function UpdateProfile(props) {
           </Button>
 
           <Button
-            variant="info"
+            variant="secondary"
             onClick={() => {
               props.setRequestType(undefined);
             }}

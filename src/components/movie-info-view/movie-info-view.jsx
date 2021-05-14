@@ -53,24 +53,21 @@ export function MovieInfoView(props) {
     <Container>
       <Row className="movie-view">
         <Col className="movie-poster" md={5}>
+          <img src={props.movieData.ImagePath} />
+          {addAndRemoveButtons(props)}
+        </Col>
+        <Col md={7}>
           <Button
-            variant="info"
+            variant="secondary"
             onClick={() => {
               onBackClick();
             }}
           >
             Back
           </Button>
-          <img src={props.movieData.ImagePath} />
-          {addAndRemoveButtons(props)}
-        </Col>
-        <Col md={7}>
           <Card>
             <div className="movie-data">
-              <Card.Header>
-                {props.movieData.Title}
-                {/* {addAndRemoveButtons(props)} */}
-              </Card.Header>
+              <Card.Header>{props.movieData.Title}</Card.Header>
 
               <Card.Body className="movie-description">
                 <Card.Text>Description: </Card.Text>

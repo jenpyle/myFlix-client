@@ -215,12 +215,12 @@ class MainView extends React.Component {
           </Col>
           <Col md="2">
             <Link to={`/movies`}>
-              <Button variant="link">Home</Button>
+              <Button variant="info">Home</Button>
             </Link>
           </Col>
           <Col md="2">
             <Link to={`/users/${localStorage.getItem('user')}`}>
-              <Button variant="link" onClick={() => this.setRequestType(undefined)}>
+              <Button variant="info" onClick={() => this.setRequestType(undefined)}>
                 Profile
               </Button>
             </Link>
@@ -239,10 +239,10 @@ class MainView extends React.Component {
         <Row className="profile-logout-btns-mobile" style={{ display: 'none' }}>
           <Col>
             <Link to={`/movies`}>
-              <Button variant="link">Home</Button>
+              <Button variant="info">Home</Button>
             </Link>
             <Link to={`/users/${localStorage.getItem('user')}`}>
-              <Button variant="link" onClick={() => this.setRequestType(undefined)}>
+              <Button variant="info" onClick={() => this.setRequestType(undefined)}>
                 Profile
               </Button>
             </Link>

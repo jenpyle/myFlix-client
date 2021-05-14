@@ -13,6 +13,11 @@ $font-weight: bold;
     flex-wrap: nowrap;
   }
 }
+.profile-logout-btns-mobile,
+.profile-logout-btns-desktop {
+  border-bottom: 1px solid rosybrown;
+  margin-bottom: 20px;
+}
 
 @media (max-width: 1007px) {
   #bootstrap-overrides {

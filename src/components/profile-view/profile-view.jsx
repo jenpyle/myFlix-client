@@ -13,19 +13,11 @@ export function ProfileView(props) {
 
   const favMovies = movies.filter((movie) => userData.FavoriteMovies.includes(movie._id));
   const toWatch = movies.filter((movie) => userData.ToWatch.includes(movie._id));
-  // console.log('HERE...', onBackClick());
+
   return (
     <Container>
       <Row className="user-view">
         <Col>
-          <Button
-            variant="info"
-            onClick={() => {
-              onBackClick();
-            }}
-          >
-            Back
-          </Button>
           <Card>
             <div className="user-view-info">
               <Card.Header>Profile Information</Card.Header>
@@ -62,6 +54,7 @@ export function ProfileView(props) {
                   ))}
                 </span>
               </Card.Body>
+
               <Button
                 variant="info"
                 onClick={() => {
@@ -69,6 +62,14 @@ export function ProfileView(props) {
                 }}
               >
                 Edit Profile Info
+              </Button>
+              <Button
+                variant="secondary"
+                onClick={() => {
+                  onBackClick();
+                }}
+              >
+                Back
               </Button>
             </div>
           </Card>
