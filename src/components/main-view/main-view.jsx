@@ -213,18 +213,22 @@ class MainView extends React.Component {
           <Col md="6">
             <h1 className="title">MyFlix</h1>
           </Col>
-          <Col md="2">
-            <Link to={`/movies`}>
-              <Button variant="info">Home</Button>
-            </Link>
-          </Col>
-          <Col md="2">
-            <Link to={`/users/${localStorage.getItem('user')}`}>
-              <Button variant="info" onClick={() => this.setRequestType(undefined)}>
-                Profile
-              </Button>
-            </Link>
-          </Col>
+          {user ? (
+            <Col md="2">
+              <Link to={`/movies`}>
+                <Button variant="info">Home</Button>
+              </Link>
+            </Col>
+          ) : null}
+          {user ? (
+            <Col md="2">
+              <Link to={`/users/${localStorage.getItem('user')}`}>
+                <Button variant="info" onClick={() => this.setRequestType(undefined)}>
+                  Profile
+                </Button>
+              </Link>
+            </Col>
+          ) : null}
           {user ? (
             <Col md="2">
               <Link to={`/login`}>
@@ -237,23 +241,24 @@ class MainView extends React.Component {
         </Row>
 
         <Row className="profile-logout-btns-mobile" style={{ display: 'none' }}>
-          <Col>
-            <Link to={`/movies`}>
-              <Button variant="info">Home</Button>
-            </Link>
-            <Link to={`/users/${localStorage.getItem('user')}`}>
-              <Button variant="info" onClick={() => this.setRequestType(undefined)}>
-                Profile
-              </Button>
-            </Link>
-            {user ? (
+          {user ? (
+            <Col>
+              <Link to={`/movies`}>
+                <Button variant="info">Home</Button>
+              </Link>
+              <Link to={`/users/${localStorage.getItem('user')}`}>
+                <Button variant="info" onClick={() => this.setRequestType(undefined)}>
+                  Profile
+                </Button>
+              </Link>
+
               <Link to={`/login`}>
                 <Button variant="secondary" type="button" onClick={() => this.onLoggedOut()}>
                   Log Out
                 </Button>
               </Link>
-            ) : null}
-          </Col>
+            </Col>
+          ) : null}
           <Col>
             <h1 className="title">MyFlix</h1>
           </Col>

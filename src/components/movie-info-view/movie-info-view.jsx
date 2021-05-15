@@ -53,8 +53,8 @@ export function MovieInfoView(props) {
     <Container>
       <Row className="movie-view">
         <Col className="movie-poster" md={5}>
-          <img src={props.movieData.ImagePath} />
           {addAndRemoveButtons(props)}
+          <img src={props.movieData.ImagePath} />
         </Col>
         <Col md={7}>
           <Button

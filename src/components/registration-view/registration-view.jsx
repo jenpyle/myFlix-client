@@ -86,7 +86,7 @@ export function RegistrationView(props) {
             Submit
           </Button>
           <Button
-            variant="info"
+            variant="secondary"
             onClick={() => {
               props.onBackClick();
             }}

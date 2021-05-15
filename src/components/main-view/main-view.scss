@@ -12,11 +12,18 @@ $font-weight: bold;
   .row {
     flex-wrap: nowrap;
   }
-}
-.profile-logout-btns-mobile,
-.profile-logout-btns-desktop {
-  border-bottom: 1px solid rosybrown;
-  margin-bottom: 20px;
+  .profile-logout-btns-desktop {
+    button.btn.btn-info,
+    button.btn.btn-secondary {
+      width: 100%;
+    }
+  }
+  .profile-logout-btns-mobile,
+  .profile-logout-btns-desktop {
+    border-bottom: 1px solid rosybrown;
+    margin-bottom: 70px;
+    align-items: center;
+  }
 }
 
 @media (max-width: 1007px) {
@@ -26,6 +33,11 @@ $font-weight: bold;
     }
     .profile-logout-btns-mobile {
       display: block !important;
+      button.btn.btn-info,
+      button.btn.btn-secondary {
+        width: 30%;
+        margin: 3px;
+      }
     }
     .profile-logout-btns-desktop {
       display: none !important;

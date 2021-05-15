@@ -11,7 +11,7 @@ export function GenreView(props) {
   return (
     <Container>
       <Button
-        variant="info"
+        variant="secondary"
         onClick={() => {
           props.onBackClick();
         }}
