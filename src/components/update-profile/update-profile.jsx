@@ -1,10 +1,7 @@
 import React, { useState } from 'react'; //useState is a react hook
 
-import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-import { Container, Card, Row, Col, Button, Form, Modal } from 'react-bootstrap';
+import { Container, Button, Form, Modal } from 'react-bootstrap';
 import axios from 'axios';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import './update-profile.scss';
 
@@ -23,7 +20,6 @@ export function UpdateProfile(props) {
     if (formData.Username.length < 5) isValid = 'Username must be at least 5 characters long';
     if (checked && formData.Password === '') isValid = 'Password cannot be empty';
     if (formData.Email.includes('.') === false || formData.Email.includes('@') === false) isValid = 'Email is invalid';
-    console.log('isValid=', isValid);
     return isValid;
   };
 
@@ -31,7 +27,6 @@ export function UpdateProfile(props) {
     e.preventDefault(); //prevents the default refresh/change of the page
     const formData = {};
     username ? (formData.Username = username) : (formData.Username = props.userData.Username);
-    // checked ? (formData.Password = password) : (formData.Password = props.userData.Password);
     if (checked) formData.Password = password;
     email ? (formData.Email = email) : (formData.Email = props.userData.Email);
     birthday ? (formData.Birthday = birthday) : (formData.Birthday = props.userData.Birthday.substr(0, 10));
@@ -42,16 +37,13 @@ export function UpdateProfile(props) {
       alert(isValid);
     }
 
-    console.log('========in handleSubmit of UPDATE PROFILE');
     e.preventDefault(); //prevents the default refresh/change of the page
-    console.log('form data = ', formData);
     let accessToken = localStorage.getItem('token');
-    console.log(accessToken);
-
     let urlString = `https://jennysflix.herokuapp.com/users/${props.userData.Username}`;
+
     if (checked) urlString = `https://jennysflix.herokuapp.com/users/${props.userData.Username}/password`;
-    console.log('urlString=', urlString);
-    if (isValid) {
+
+    if (isValid === 'valid') {
       axios
         .put(urlString, formData, {
           headers: {
@@ -59,17 +51,15 @@ export function UpdateProfile(props) {
           },
         })
         .then((response) => {
-          const data = response.data;
-          console.log('...............updated profile data', data);
-          localStorage.setItem('user', data.Username);
+          localStorage.setItem('user', response.data.Username);
           props.setRequestType(null);
-          console.log();
           window.open(`/users/${localStorage.getItem('user')}`, '_self');
         })
         .then(() => {
           alert('Profile successfully updated.');
         })
-        .catch((e) => {
+        .catch((err) => {
+          if (isValid === 'valid') alert(err.response.data);
           console.log('Something went wrong with profile update! check that fields are valid');
         });
     }
