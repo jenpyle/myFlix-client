@@ -38,11 +38,10 @@ export function LoginView(props) {
       '===============inside handleRegister from LOGIN-VIEW... set newUser from null to undefined(or whatever you type in form) username(AKA newUser)=',
       username
     );
-    // props.onRegisterNewUser(username);
   };
 
   return (
-    <Container>
+    <Container className="login-container">
       <h4 className="login-subtitle">Login or create an account</h4>
       <Form>
         <Form.Group controlId="formUsername">

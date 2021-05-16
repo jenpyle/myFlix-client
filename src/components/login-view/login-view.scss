@@ -9,6 +9,9 @@ $visited-color: #05676e;
 $font-weight: bold;
 
 #bootstrap-overrides {
+  .login-container {
+    padding-top: 11rem;
+  }
   .form-control {
     border: 1px solid $grey;
   }

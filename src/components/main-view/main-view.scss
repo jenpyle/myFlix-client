@@ -35,8 +35,13 @@ $font-weight: bold;
     padding-right: 30px;
   }
   .movie-cards {
+    //////////////////////////////////////////////////////////////////////
+    //HERE
+    justify-content: right !important;
+    /////////////////////////////////////////////////////////////////////
     flex-wrap: nowrap;
     padding-top: 8rem;
+    right: 0;
   }
   .movie-card {
     flex-shrink: 1;
@@ -69,6 +74,14 @@ $font-weight: bold;
     }
     .profile-logout-btns-desktop {
       display: none !important;
+    }
+  }
+}
+@media (max-width: 600px) {
+  #bootstrap-overrides {
+    .profile-logout-btns-mobile {
+      right: 0;
+      left: 0;
     }
   }
 }

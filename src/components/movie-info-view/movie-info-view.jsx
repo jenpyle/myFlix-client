@@ -94,10 +94,11 @@ export function MovieInfoView(props) {
               </Card.Body>
               <div className="director-genre-btn">
                 <span>
-                  <Link to={`/directors/${props.movieData.Director.Name}`}>
-                    <Button variant="link">{props.movieData.Director.Name}</Button>
-                  </Link>
-
+                  {props.movieData.Director.Name ? (
+                    <Link to={`/directors/${props.movieData.Director.Name}`}>
+                      <Button variant="link">{props.movieData.Director.Name}</Button>
+                    </Link>
+                  ) : null}
                   <Link to={`/genres/${props.movieData.Genre.Name}`}>
                     <Button variant="link">{props.movieData.Genre.Name}</Button>
                   </Link>
