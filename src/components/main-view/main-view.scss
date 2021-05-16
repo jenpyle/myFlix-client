@@ -9,13 +9,16 @@ $visited-color: #05676e;
 $font-weight: bold;
 
 #bootstrap-overrides {
-  .row {
-    flex-wrap: nowrap;
+  .title {
+    font-family: 'Chango', cursive;
+    color: $title-color;
+    font-size: 6rem;
   }
   .profile-logout-btns-desktop {
     button.btn.btn-info,
     button.btn.btn-secondary {
       width: 100%;
+      margin: 10px;
     }
   }
   .profile-logout-btns-mobile,
@@ -23,19 +26,44 @@ $font-weight: bold;
     border-bottom: 1px solid rosybrown;
     margin-bottom: 70px;
     align-items: center;
+    z-index: 999;
+    background-color: $primary-background-color;
+    position: fixed;
+    right: 0px;
+    left: 0px;
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+  .movie-cards {
+    flex-wrap: nowrap;
+    padding-top: 8rem;
+  }
+  .movie-card {
+    flex-shrink: 1;
   }
 }
 
 @media (max-width: 1007px) {
   #bootstrap-overrides {
-    .row {
+    .title {
+      font-size: 4rem;
+    }
+    .movie-cards {
       flex-wrap: wrap;
+      padding-top: 13rem;
     }
     .profile-logout-btns-mobile {
+      border-bottom: 2px solid rosybrown;
       display: block !important;
+      text-align: center;
+      padding-left: 0px;
+      padding-right: 0px;
+      right: 2rem;
+      left: 2rem;
+
       button.btn.btn-info,
       button.btn.btn-secondary {
-        width: 30%;
+        width: 32%;
         margin: 3px;
       }
     }

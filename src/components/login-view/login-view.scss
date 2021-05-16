@@ -9,11 +9,6 @@ $visited-color: #05676e;
 $font-weight: bold;
 
 #bootstrap-overrides {
-  .title {
-    font-family: 'Chango', cursive;
-    color: $title-color;
-    font-size: 6rem;
-  }
   .form-control {
     border: 1px solid $grey;
   }
