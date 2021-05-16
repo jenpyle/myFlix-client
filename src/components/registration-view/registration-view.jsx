@@ -49,8 +49,8 @@ export function RegistrationView(props) {
         .then(() => {
           window.open('/login', '_self');
         })
-        .catch((e) => {
-          alert(e);
+        .catch((err) => {
+          alert(err.response.data);
           console.log('Something went wrong with user registration! check that fields are valid');
         });
     }
