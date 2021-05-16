@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { Container } from 'react-bootstrap';
 import MainView from './components/main-view/main-view';
 import { createStore } from 'redux'; //You create the store in the top-most file of your application to pass it to all the other views and components:
-import { Provider } from 'react-redux'; //these two lines <- and ^ import the connect() function and React Redux.
+import { Provider } from 'react-redux'; //these two lines <- and ^ import the connect() function and React Redux.. provider makes the store accessible throughout your app
 //Provider makes the store available to all the components
 import moviesApp from './reducers/reducers';
 import { devToolsEnhancer } from 'redux-devtools-extension';

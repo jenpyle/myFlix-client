@@ -1,6 +1,8 @@
 import React from 'react';
-import Col from 'react-bootstrap/Col';
+import { Container, Card, Row, Col, Button, Form } from 'react-bootstrap';
 import { connect } from 'react-redux';
+
+import VisibilityFilterInput from '../visibility-filter-input/visibility-filter-input'; //importing compenent
 
 import { MovieCards } from '../movie-cards/movie-cards';
 
@@ -9,7 +11,7 @@ import { MovieCards } from '../movie-cards/movie-cards';
 // so instead of component accessing state directly, it accesses state passed to props by the store
 const mapStateToProps = (state) => {
   const { visibilityFilter } = state;
-  return { visibilityFilter }; //now a prop
+  return { visibilityFilter }; //extracted visibilityFilter into a prop
 };
 
 function MoviesList(props) {
@@ -22,11 +24,19 @@ function MoviesList(props) {
 
   if (!movies) return <div className="main-view" />;
 
-  return filteredMovies.map((m) => (
-    <Col className="movie-card" md={4} key={m._id}>
-      <MovieCards movieData={m} />
-    </Col>
-  ));
+  return (
+    <Row>
+      <Col md={12} style={{ margin: '1em' }}>
+        <VisibilityFilterInput visibilityFilter={visibilityFilter} />
+      </Col>
+
+      {filteredMovies.map((m) => (
+        <Col className="movie-card" md={3} key={m._id}>
+          <MovieCards movieData={m} />
+        </Col>
+      ))}
+    </Row>
+  );
 }
 
 export default connect(mapStateToProps, null)(MoviesList);
