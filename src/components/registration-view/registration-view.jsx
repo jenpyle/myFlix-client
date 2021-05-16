@@ -54,7 +54,7 @@ export function RegistrationView(props) {
   };
 
   return (
-    <Container>
+    <Container className="reg-container">
       <br></br>
       <div id="registration-container">
         <h3>Register new user</h3>

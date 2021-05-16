@@ -16,3 +16,10 @@ $font-weight: bold;
     border: 1px solid $grey;
   }
 }
+@media (max-width: 1007px) {
+  #bootstrap-overrides {
+    .login-container {
+      padding-top: 8rem;
+    }
+  }
+}
