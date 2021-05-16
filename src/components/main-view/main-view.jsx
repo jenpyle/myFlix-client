@@ -6,7 +6,7 @@ import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 
 import { connect } from 'react-redux';
 //#0
-import { setMovies } from '../../actions/actions';
+import { setMovies, getUsers, setUser } from '../../actions/actions';
 //we haven't written this one yet
 import MoviesList from '../movies-list/movies-list';
 /* 
@@ -38,8 +38,8 @@ class MainView extends React.Component {
     this.state = {
       /*represents the moment a component is created in the memory */
       // movies: [],
-      users: [],
-      user: null,
+      // users: [],
+      // user: null,
       isFav: false,
       isWatch: false,
       requestType: undefined,
@@ -66,12 +66,13 @@ class MainView extends React.Component {
   onLoggedIn(authData) {
     //This happens the moment the user logs in
     //This updates the state with the logged in authData
+    localStorage.setItem('token', authData.token); //store token and username in localStorage: a way to store data in client's browser. Next time the user opens their browser, localStorage will contain stored authentication information (token and username), and the user won’t be required to log in again
+    localStorage.setItem('user', authData.user.Username);
     console.log('-----------------------inside onLoggedIn MAIN-VIEW', '....authUser = ', authData);
     this.setState({
       user: authData.user.Username, //the user's username is stored in the user state
     });
-    localStorage.setItem('token', authData.token); //store token and username in localStorage: a way to store data in client's browser. Next time the user opens their browser, localStorage will contain stored authentication information (token and username), and the user won’t be required to log in again
-    localStorage.setItem('user', authData.user.Username);
+
     this.getMovies(authData.token);
     this.getUsers(authData.token);
     console.log('Here2');
@@ -96,10 +97,6 @@ class MainView extends React.Component {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((response) => {
-        //Assign the result to the state
-        // this.setState({
-        //   movies: response.data,
-        // });
         this.props.setMovies(
           response.data
         ); /*this.props.setMovies is NOT THE SAME as setMovies imported from the actions
@@ -117,33 +114,29 @@ class MainView extends React.Component {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((response) => {
-        //Assign the result to the state
-        this.setState({
-          users: response.data,
-        });
-        console.log('this.state after getUsers', this.state);
+        this.props.getUsers(response.data);
+        console.log('this.props after getUsers', this.props);
+        this.getOneUser(token);
       })
       .catch(function (error) {
         console.log('error in get users axios request: ', error);
       });
   }
 
-  // getOneUser(token) {
-  //   axios
-  //     .get(`https://jennysflix.herokuapp.com/users/${localStorage.getItem('user')}`, {
-  //       headers: { Authorization: `Bearer ${token}` },
-  //     })
-  //     .then((response) => {
-  //       //Assign the result to the state
-  //       this.setState({
-  //         user: response.data,
-  //       });
-  //       console.log('this.state after getUsers', this.state.user);
-  //     })
-  //     .catch(function (error) {
-  //       console.log('error in get users axios request: ', error);
-  //     });
-  // }
+  getOneUser(token) {
+    console.log('IN GETONEUSER');
+    axios
+      .get(`https://jennysflix.herokuapp.com/users/${localStorage.getItem('user')}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        this.props.setUser(response.data);
+        console.log('Set the one user');
+      })
+      .catch(function (error) {
+        console.log('error in get users axios request: ', error);
+      });
+  }
 
   editUserLists(movieID, list, requestType) {
     let accessToken = localStorage.getItem('token');
@@ -201,9 +194,9 @@ class MainView extends React.Component {
   }
 
   render() {
-    const { users, user, requestType } = this.state;
+    const { requestType } = this.state;
     // #5 movies is extracted from this.props rather than from the this.state
-    let { movies } = this.props;
+    let { movies, users, user } = this.props;
 
     console.log('user =', user);
 
@@ -213,14 +206,14 @@ class MainView extends React.Component {
           <Col md="6">
             <h1 className="title">MyFlix</h1>
           </Col>
-          {user ? (
+          {users.length !== 0 ? (
             <Col md="2">
               <Link to={`/movies`}>
                 <Button variant="info">Home</Button>
               </Link>
             </Col>
           ) : null}
-          {user ? (
+          {users.length !== 0 ? (
             <Col md="2">
               <Link to={`/users/${localStorage.getItem('user')}`}>
                 <Button variant="info" onClick={() => this.setRequestType(undefined)}>
@@ -229,7 +222,7 @@ class MainView extends React.Component {
               </Link>
             </Col>
           ) : null}
-          {user ? (
+          {users.length !== 0 ? (
             <Col md="2">
               <Link to={`/login`}>
                 <Button variant="secondary" type="button" onClick={() => this.onLoggedOut()}>
@@ -241,7 +234,7 @@ class MainView extends React.Component {
         </Row>
 
         <Row className="profile-logout-btns-mobile" style={{ display: 'none' }}>
-          {user ? (
+          {user.length === 0 || user === null ? (
             <Col>
               <Link to={`/movies`}>
                 <Button variant="info">Home</Button>
@@ -268,8 +261,8 @@ class MainView extends React.Component {
           exact
           path="/"
           render={() => {
-            if (!user) return <Redirect to="/login" />;
-            if (user) return <Redirect to="/movies" />;
+            if (user.length === 0) return <Redirect to="/login" />;
+            if (user.length === 1) return <Redirect to="/movies" />;
           }}
         />
 
@@ -277,7 +270,7 @@ class MainView extends React.Component {
           exact
           path="/login"
           render={() => {
-            if (user) return <Redirect to="/movies" />;
+            if (user.length !== 0 && user !== null) return <Redirect to="/movies" />;
             return <LoginView onBackClick={() => history.goBack()} onLoggedIn={(user) => this.onLoggedIn(user)} />;
           }}
         />
@@ -287,9 +280,10 @@ class MainView extends React.Component {
             exact
             path="/movies"
             render={() => {
-              if (!user) {
-                return <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />; //onLoggedIn method will update the user state of the MainView component and will be called when the user has successfully logged in... to change the user state to valid instead of null?
-              }
+              if (user.length === 0 || user === null) <Redirect to="/login" />;
+
+              // return <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />; //onLoggedIn method will update the user state of the MainView component and will be called when the user has successfully logged in... to change the user state to valid instead of null?
+
               if (movies.length === 0) return <div className="main-view" />;
               // #6
               return <MoviesList movies={movies} />;
@@ -300,7 +294,7 @@ class MainView extends React.Component {
             exact
             path="/users"
             render={({ history }) => {
-              if (user) return <Redirect to="/movies" />;
+              if (user.length !== 0) return <Redirect to="/movies" />;
               return <RegistrationView onBackClick={() => history.goBack()} />;
             }}
           />
@@ -309,9 +303,10 @@ class MainView extends React.Component {
             path="/users/:username"
             render={({ match, history }) => {
               if (users.length === 0 || movies.length === 0) return <div className="main-view" />;
-              if (!user) {
-                return <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />; //onLoggedIn method will update the user state of the MainView component and will be called when the user has successfully logged in... to change the user state to valid instead of null?
-              }
+              // if (!user) {
+              //   return <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />; //onLoggedIn method will update the user state of the MainView component and will be called when the user has successfully logged in... to change the user state to valid instead of null?
+              // }
+              if (user.length === 0 || user === null) <Redirect to="/login" />; /////////////////////
               if (requestType === 'put') {
                 return (
                   <UpdateProfile
@@ -336,9 +331,10 @@ class MainView extends React.Component {
           <Route
             path="/movies/:movieId"
             render={({ match, history }) => {
-              if (!user) {
-                return <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />; //onLoggedIn method will update the user state of the MainView component and will be called when the user has successfully logged in... to change the user state to valid instead of null?
-              }
+              // if (!user) {
+              //   return <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />; //onLoggedIn method will update the user state of the MainView component and will be called when the user has successfully logged in... to change the user state to valid instead of null?
+              // }
+              if (user.length === 0 || user === null) <Redirect to="/login" />; //////////////////////////////////
               if (movies.length === 0) return <div className="main-view" />;
               return (
                 <MovieInfoView
@@ -390,11 +386,14 @@ class MainView extends React.Component {
 // to subscribe to store updates. Any time the store is updated, this function will be called.
 // so instead of component accessing state directly, it accesses state passed to props by the store
 let mapStateToProps = (state) => {
-  return { movies: state.movies };
-};
+  return { movies: state.movies, users: state.users, user: state.user };
+}; //gets state from store and passes it as props to the component that is connected to/wrapped by the store
+//mapping state to the props of the main-view component
+//movies is now a prop
 
+//connecting component main-view to the store, so you can use the action call setMovies in the getMovies request
 // #8 HOVER over this 'connect' and you can see the actions bc its now connected to the store
-export default connect(mapStateToProps, { setMovies })(MainView);
+export default connect(mapStateToProps, { setMovies, getUsers, setUser })(MainView);
 /*this.props.setMovies is NOT THE SAME as setMovies imported from the actions
         this.props.setMovies is passed to props thru connect() and its wrapped into the dispatch() function of the store(a way for the store to know that the action has been called).
         the regular setMovies is given as a prop to the MainView component bc its wrapped in the connect() function at the bottom*/

@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 
-import { SET_FILTER, SET_MOVIES } from '../actions/actions';
+import { SET_FILTER, SET_MOVIES, GET_USERS, SET_USER } from '../actions/actions';
 
 //each reducer takes a state and an action
 //each reducer only cares about what it’s responsible for. When concerned by the action, reducers simply return a new value.
@@ -25,6 +25,26 @@ function movies(state = [], action) {
       return state;
   }
 }
+
+function users(state = [], action) {
+  switch (action.type) {
+    case GET_USERS:
+      console.log('GET_USERS reducer reached');
+      return action.value;
+    default:
+      return state;
+  }
+}
+
+function user(state = [], action) {
+  switch (action.type) {
+    case SET_USER:
+      console.log('SET_USER reducer reached');
+      return action.value;
+    default:
+      return state;
+  }
+}
 //Combined Reducer
 //This groups all the reducers together and only passes them the state they’re concerned with: the filter for the first reducer and the movies for the second one
 //both reducers pass the previous state and an action, and based on that it decided what the next state is going to look like
@@ -37,6 +57,8 @@ function movies(state = [], action) {
 const moviesApp = combineReducers({
   visibilityFilter,
   movies,
+  users,
+  user,
 });
 
 export default moviesApp;
