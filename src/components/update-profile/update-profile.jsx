@@ -1,9 +1,16 @@
 import React, { useState } from 'react'; //useState is a react hook
-
+import { setUser } from '../../actions/actions';
+import { connect } from 'react-redux';
 import { Container, Button, Form, Modal } from 'react-bootstrap';
 import axios from 'axios';
 
 import './update-profile.scss';
+
+const mapStateToProps = (state) => {
+  return { userData: state.user };
+}; //gets state from store and passes it as props to the component that is connected to/wrapped by the store
+//mapping state to the props of the Update-Profile component
+//user is now a prop can do let {user}=props
 
 export function UpdateProfile(props) {
   console.log('inside of Update profile');
@@ -51,15 +58,24 @@ export function UpdateProfile(props) {
           },
         })
         .then((response) => {
+          console.log('response.data=', response.data);
           localStorage.setItem('user', response.data.Username);
+          console.log('Above the getOneUser prop in update profile');
+          // props.getOneUser(accessToken);
+          this.props.setUser(response.data);
+
+          //console.log('userData =', userData);
           props.setRequestType(null);
-          window.open(`/users/${localStorage.getItem('user')}`, '_self');
+          // window.open(`/users/${localStorage.getItem('user')}`, '_self');
+          window.open(`/users/${userData.Username}`, '_self');
         })
         .then(() => {
           alert('Profile successfully updated.');
         })
         .catch((err) => {
-          if (isValid === 'valid') alert(err.response.data);
+          console.log(err);
+          //if (isValid === 'valid') alert(err);
+          // if (isValid === 'valid') alert(err.response.data);
           console.log('Something went wrong with profile update! check that fields are valid');
         });
     }
@@ -207,3 +223,4 @@ export function UpdateProfile(props) {
     </Container>
   );
 }
+export default connect(mapStateToProps, { setUser })(UpdateProfile);

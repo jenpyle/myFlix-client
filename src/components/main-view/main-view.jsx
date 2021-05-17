@@ -69,22 +69,21 @@ class MainView extends React.Component {
     localStorage.setItem('token', authData.token); //store token and username in localStorage: a way to store data in client's browser. Next time the user opens their browser, localStorage will contain stored authentication information (token and username), and the user won’t be required to log in again
     localStorage.setItem('user', authData.user.Username);
     console.log('-----------------------inside onLoggedIn MAIN-VIEW', '....authUser = ', authData);
-    this.setState({
-      user: authData.user.Username, //the user's username is stored in the user state
-    });
-
+    // this.setState({
+    //   user: authData.user.Username, //the user's username is stored in the user state
+    // });
+    this.props.setUser(authData.user);
     this.getMovies(authData.token);
     this.getUsers(authData.token);
-    console.log('Here2');
+
     window.open(`/movies`, '_self');
   }
 
   onLoggedOut() {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
+    this.props.setUser(null);
     this.setState({
-      user: null,
-
       requestType: null,
     });
     window.open(`/login`, '_self');
@@ -131,7 +130,7 @@ class MainView extends React.Component {
       })
       .then((response) => {
         this.props.setUser(response.data);
-        console.log('Set the one user');
+        console.log('In getOneUser= ', response.data);
       })
       .catch(function (error) {
         console.log('error in get users axios request: ', error);
@@ -206,14 +205,14 @@ class MainView extends React.Component {
           <Col md="6">
             <h1 className="title">MyFlix</h1>
           </Col>
-          {users.length !== 0 ? (
+          {user.length !== 0 ? (
             <Col md="2">
               <Link to={`/movies`}>
                 <Button variant="info">Home</Button>
               </Link>
             </Col>
           ) : null}
-          {users.length !== 0 ? (
+          {user.length !== 0 ? (
             <Col md="2">
               <Link to={`/users/${localStorage.getItem('user')}`}>
                 <Button variant="info" onClick={() => this.setRequestType(undefined)}>
@@ -222,7 +221,7 @@ class MainView extends React.Component {
               </Link>
             </Col>
           ) : null}
-          {users.length !== 0 ? (
+          {user.length !== 0 ? (
             <Col md="2">
               <Link to={`/login`}>
                 <Button variant="secondary" type="button" onClick={() => this.onLoggedOut()}>
@@ -234,24 +233,22 @@ class MainView extends React.Component {
         </Row>
 
         <Row className="profile-logout-btns-mobile" style={{ display: 'none' }}>
-          {user.length === 0 || user === null ? (
-            <Col>
-              <Link to={`/movies`}>
-                <Button variant="info">Home</Button>
-              </Link>
-              <Link to={`/users/${localStorage.getItem('user')}`}>
-                <Button variant="info" onClick={() => this.setRequestType(undefined)}>
-                  Profile
-                </Button>
-              </Link>
+          <Col>
+            <Link to={`/movies`}>
+              <Button variant="info">Home</Button>
+            </Link>
+            <Link to={`/users/${localStorage.getItem('user')}`}>
+              <Button variant="info" onClick={() => this.setRequestType(undefined)}>
+                Profile
+              </Button>
+            </Link>
+            <Link to={`/login`}>
+              <Button variant="secondary" type="button" onClick={() => this.onLoggedOut()}>
+                Log Out
+              </Button>
+            </Link>
+          </Col>
 
-              <Link to={`/login`}>
-                <Button variant="secondary" type="button" onClick={() => this.onLoggedOut()}>
-                  Log Out
-                </Button>
-              </Link>
-            </Col>
-          ) : null}
           <Col>
             <h1 className="title">MyFlix</h1>
           </Col>
@@ -280,10 +277,7 @@ class MainView extends React.Component {
             exact
             path="/movies"
             render={() => {
-              if (user.length === 0 || user === null) <Redirect to="/login" />;
-
-              // return <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />; //onLoggedIn method will update the user state of the MainView component and will be called when the user has successfully logged in... to change the user state to valid instead of null?
-
+              if (user.length === 0) <Redirect to="/login" />;
               if (movies.length === 0) return <div className="main-view" />;
               // #6
               return <MoviesList movies={movies} />;
@@ -303,22 +297,22 @@ class MainView extends React.Component {
             path="/users/:username"
             render={({ match, history }) => {
               if (users.length === 0 || movies.length === 0) return <div className="main-view" />;
-              // if (!user) {
-              //   return <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />; //onLoggedIn method will update the user state of the MainView component and will be called when the user has successfully logged in... to change the user state to valid instead of null?
-              // }
               if (user.length === 0 || user === null) <Redirect to="/login" />; /////////////////////
               if (requestType === 'put') {
                 return (
                   <UpdateProfile
-                    userData={users.find((u) => u.Username === localStorage.getItem('user'))}
+                    // userData={users.find((u) => u.Username === localStorage.getItem('user'))}
+                    userData={user}
+                    getOneUser={(token) => this.getOneUser(token)}
                     setRequestType={(type) => this.setRequestType(type)}
                   />
-                ); //onLoggedIn method will update the user state of the MainView component and will be called when the user has successfully logged in... to change the user state to valid instead of null?
+                );
               }
               if (requestType === undefined) {
                 return (
                   <ProfileView
-                    userData={users.find((u) => u.Username === localStorage.getItem('user'))}
+                    // userData={users.find((u) => u.Username === localStorage.getItem('user'))}
+                    userData={user}
                     onBackClick={() => history.goBack()}
                     setRequestType={(type) => this.setRequestType(type)}
                     movies={movies}

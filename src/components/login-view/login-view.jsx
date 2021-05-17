@@ -9,14 +9,11 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import './login-view.scss';
 
 export function LoginView(props) {
-  console.log('HERE IN LOGIN VIEW');
   //excluding the 'extends React.Component' bc this is a function component, not class component. And can use hooks
   const [username, setUsername] = useState(''); // assigns an empty string to the username variable—and assigns to the setUsername variable a method to update the username variable
   const [password, setPassword] = useState('');
 
   const handleSubmit = (e) => {
-    console.log('===============inside handleSubmit in LOGIN-VIEW..username, password = ', username, password);
-
     e.preventDefault();
     axios
       .post('https://jennysflix.herokuapp.com/login', { Username: username, Password: password }) //POST request is made to the login endpoint by passing the username and password
