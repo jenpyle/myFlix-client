@@ -19,7 +19,7 @@ function visibilityFilter(state = '', action) {
 function movies(state = [], action) {
   switch (action.type) {
     case SET_MOVIES:
-      console.log('SET_MOVIES reducer reached');
+      console.log('SET_MOVIES reducer reached', action.value);
       return action.value;
     default:
       return state;
@@ -36,15 +36,25 @@ function users(state = [], action) {
   }
 }
 
-function user(state = [], action) {
+function user(state = {}, action) {
   switch (action.type) {
     case SET_USER:
       console.log('SET_USER reducer reached');
-      return action.value;
+      return { ...state, ...action.value };
     default:
       return state;
   }
 }
+
+// function user(state = {}, action) {
+//   switch (action.type) {
+//     case SET_USER:
+//       console.log('SET_USER reducer reached', action.value);
+//       return action.value;
+//     default:
+//       return state;
+//   }
+// }
 //Combined Reducer
 //This groups all the reducers together and only passes them the state they’re concerned with: the filter for the first reducer and the movies for the second one
 //both reducers pass the previous state and an action, and based on that it decided what the next state is going to look like

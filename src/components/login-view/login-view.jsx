@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { Container, Card, Row, Col, Button, Form } from 'react-bootstrap';
 import axios from 'axios';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { getMoviesFromApi, getUsersFromApi, getOneUser, editUserLists } from '../../api/api';
 
 import './login-view.scss';
 
@@ -14,14 +15,16 @@ export function LoginView(props) {
   const [password, setPassword] = useState('');
 
   const handleSubmit = (e) => {
+    console.log('HELLO');
     e.preventDefault();
     axios
       .post('https://jennysflix.herokuapp.com/login', { Username: username, Password: password }) //POST request is made to the login endpoint by passing the username and password
       .then((response) => {
-        console.log('HERE');
+        console.log('HERE in handle submit');
         //If there’s a match, the onLoggedIn method that was passed through the props is called
         console.log('response=', response);
         const data = response.data; //contains the token that was generated...and more
+        getOneUser(data.token, data.user.Username);
         props.onLoggedIn(data); //which provides the username to our parent component (child to parent communication)
       })
       .catch((e) => {
