@@ -11,8 +11,8 @@ export function ProfileView(props) {
   console.log('props.userData inside of profile-view= ', props.userData);
   const { userData, movies, onBackClick } = props; //obj destructuring
 
-  const favMovies = movies.filter((movie) => userData.FavoriteMovies.includes(movie._id));
-  const toWatch = movies.filter((movie) => userData.ToWatch.includes(movie._id));
+  const favMovies = movies.filter((movie) => userData.FavoriteMovies && userData.FavoriteMovies.includes(movie._id));
+  const toWatch = movies.filter((movie) => userData.ToWatch && userData.ToWatch.includes(movie._id));
 
   return (
     <Container>

@@ -53,9 +53,10 @@ class MainView extends React.Component {
     let accessToken = localStorage.getItem('token');
     if (accessToken !== null) {
       //if the access token is present it means the user is already logged in
-      this.setState({
-        user: localStorage.getItem('user'), //
-      });
+      // this.setState({
+      //   user: localStorage.getItem('user'), //
+      // });
+      this.props.setUser(localStorage.getItem('user'));
       this.getMovies(accessToken); //only if the user is logged in you make the getMovies request
       this.getUsers(accessToken);
       console.log('this.state after componentDidMount()', this.state);

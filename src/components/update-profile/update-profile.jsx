@@ -26,7 +26,7 @@ export function UpdateProfile(props) {
     let isValid = 'valid';
     if (formData.Username.length < 5) isValid = 'Username must be at least 5 characters long';
     if (checked && formData.Password === '') isValid = 'Password cannot be empty';
-    if (formData.Email.includes('.') === false || formData.Email.includes('@') === false) isValid = 'Email is invalid';
+    // if (formData.Email.includes('.') === false || formData.Email.includes('@') === false) isValid = 'Email is invalid';
     return isValid;
   };
 
@@ -62,12 +62,12 @@ export function UpdateProfile(props) {
           localStorage.setItem('user', response.data.Username);
           console.log('Above the getOneUser prop in update profile');
           // props.getOneUser(accessToken);
-          this.props.setUser(response.data);
+          // props.setUser(response.data);
 
           //console.log('userData =', userData);
           props.setRequestType(null);
           // window.open(`/users/${localStorage.getItem('user')}`, '_self');
-          window.open(`/users/${userData.Username}`, '_self');
+          window.open(`/users/${response.data.Username}`, '_self');
         })
         .then(() => {
           alert('Profile successfully updated.');
