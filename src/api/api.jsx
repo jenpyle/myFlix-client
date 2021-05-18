@@ -1,12 +1,13 @@
 import axios from 'axios';
-
 import { setMovies, getUsers, setUser } from '../actions/actions';
+import { useDispatch, useSelector } from 'react-redux';
+
 export const getMoviesFromApi = async (token) => {
   try {
     const response = await axios.get('https://jennysflix.herokuapp.com/movies', {
       headers: { Authorization: `Bearer ${token}` },
     });
-    setMovies(response.data);
+    useDispatch(setMovies(response.data));
   } catch (err) {
     console.log(err);
   }
@@ -18,7 +19,7 @@ export const getOneUser = async (token, username) => {
       headers: { Authorization: `Bearer ${token}` },
     });
     console.log('In getOneUser= ', response.data);
-    props.setUser(response.data);
+    userDispatch(setUser(response.data));
   } catch (err) {
     console.log('error in get users axios request: ', err);
   }
@@ -29,8 +30,7 @@ export const getUsersFromApi = async (token) => {
     const response = await axios.get('https://jennysflix.herokuapp.com/users', {
       headers: { Authorization: `Bearer ${token}` },
     });
-    getUsersFromApi(response.data);
-    getOneUser(token);
+    console.log('nothing to respond');
   } catch (err) {
     console.log('error in get users axios request: ', err);
   }

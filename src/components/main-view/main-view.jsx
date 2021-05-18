@@ -36,7 +36,7 @@ const MainView = () => {
     getMoviesFromApi(authData.token);
     // getOneUser(authData.token);
     // getUsersFromApi(authData.token);
-    props.setUser(authData.user);
+    dispatch(setUser(authData.user));
     console.log('HERE=', authData.user);
 
     window.open(`/movies`, '_self');
@@ -54,7 +54,7 @@ const MainView = () => {
     console.log('USER=', user.Username);
     let accessToken = localStorage.getItem('token');
     if (accessToken !== null) {
-      setMovies(getMoviesFromApi(accessToken));
+      dispatch(setMovies(getMoviesFromApi(accessToken)));
       // getUsersFromApi(accessToken);
     }
   }, []);
