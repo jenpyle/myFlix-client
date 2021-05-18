@@ -7,7 +7,8 @@ export const getMoviesFromApi = async (token) => {
     const response = await axios.get('https://jennysflix.herokuapp.com/movies', {
       headers: { Authorization: `Bearer ${token}` },
     });
-    useDispatch(setMovies(response.data));
+    console.log('RESPONSE==', response);
+    // useDispatch(setMovies(response.data));
   } catch (err) {
     console.log(err);
   }

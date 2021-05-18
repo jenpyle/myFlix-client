@@ -1,6 +1,7 @@
 import React from 'react';
 import { Row, Col } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
+import { getMoviesFromApi, getUsersFromApi, getOneUser, editUserLists } from '../../api/api';
 
 import VisibilityFilterInput from '../visibility-filter-input/visibility-filter-input'; //importing compenent
 
@@ -10,7 +11,8 @@ const MoviesList = () => {
   // grabbing state slices: visibilityFilter and movies
   const visibilityFilter = useSelector((state) => state.visibilityFilter);
   const movies = useSelector((state) => state.movies);
-
+  // let movies = await getMoviesFromApi(localStorage.getItem('token'));
+  console.log('MOVIES=', movies);
   let filteredMovies = movies;
 
   if (visibilityFilter !== '') {
@@ -25,11 +27,12 @@ const MoviesList = () => {
         <VisibilityFilterInput visibilityFilter={visibilityFilter} />
       </Col>
 
-      {filteredMovies.map((m) => (
-        <Col className="movie-card" md={3} key={m._id}>
-          <MovieCards movieData={m} />
-        </Col>
-      ))}
+      {filteredMovies &&
+        filteredMovies.map((m) => (
+          <Col className="movie-card" md={3} key={m._id}>
+            <MovieCards movieData={m} />
+          </Col>
+        ))}
     </Row>
   );
 };

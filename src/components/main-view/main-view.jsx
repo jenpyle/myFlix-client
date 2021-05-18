@@ -29,11 +29,12 @@ const MainView = () => {
   const users = useSelector((state) => state.users);
   const user = useSelector((state) => state.user);
 
-  const onLoggedIn = (authData) => {
+  const onLoggedIn = async (authData) => {
     console.log('IN onloggedin');
     localStorage.setItem('token', authData.token);
     localStorage.setItem('user', authData.user.Username);
-    getMoviesFromApi(authData.token);
+    const movies = await getMoviesFromApi(authData.token);
+    dispatch(setMovies(movies));
     // getOneUser(authData.token);
     // getUsersFromApi(authData.token);
     dispatch(setUser(authData.user));
