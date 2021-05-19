@@ -6,9 +6,9 @@ import axios from 'axios';
 
 import './update-profile.scss';
 
-const mapStateToProps = (state) => {
-  return { userData: state.user };
-}; //gets state from store and passes it as props to the component that is connected to/wrapped by the store
+// const mapStateToProps = (state) => {
+//   return { userData: state.user };
+// }; //gets state from store and passes it as props to the component that is connected to/wrapped by the store
 //mapping state to the props of the Update-Profile component
 //user is now a prop can do let {user}=props
 
@@ -61,16 +61,15 @@ export function UpdateProfile(props) {
           console.log('response.data=', response.data);
           localStorage.setItem('user', response.data.Username);
           console.log('Above the getOneUser prop in update profile');
-          // props.getOneUser(accessToken);
+          props.getOneUser(accessToken);
           // props.setUser(response.data);
 
-          //console.log('userData =', userData);
-          props.setRequestType(null);
+          props.setRequestType(undefined);
           // window.open(`/users/${localStorage.getItem('user')}`, '_self');
-          window.open(`/users/${response.data.Username}`, '_self');
         })
         .then(() => {
           alert('Profile successfully updated.');
+          window.open(`/users/${response.data.Username}`, '_self');
         })
         .catch((err) => {
           console.log(err);
@@ -223,4 +222,4 @@ export function UpdateProfile(props) {
     </Container>
   );
 }
-export default connect(mapStateToProps, { setUser })(UpdateProfile);
+// export default connect(mapStateToProps, { setUser })(UpdateProfile);

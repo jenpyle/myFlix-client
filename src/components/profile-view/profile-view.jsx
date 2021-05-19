@@ -7,9 +7,9 @@ import axios from 'axios';
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 
 export function ProfileView(props) {
-  console.log('inside of profile view');
-  console.log('props.userData inside of profile-view= ', props.userData);
   const { userData, movies, onBackClick } = props; //obj destructuring
+  console.log('inside of profile view');
+  console.log('props.userData inside of profile-view= ', userData);
 
   const favMovies = movies.filter((movie) => userData.FavoriteMovies && userData.FavoriteMovies.includes(movie._id));
   const toWatch = movies.filter((movie) => userData.ToWatch && userData.ToWatch.includes(movie._id));
@@ -30,7 +30,7 @@ export function ProfileView(props) {
                 <span className="value">{userData.Email}</span>
 
                 <Card.Title>Birthday: </Card.Title>
-                <span className="value">{userData.Birthday.substr(0, 10)}</span>
+                <span className="value">{userData && userData.Birthday.substr(0, 10)}</span>
 
                 <Card.Title>Favorite Movies: </Card.Title>
                 <span className="value">
