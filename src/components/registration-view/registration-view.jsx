@@ -6,6 +6,7 @@ import axios from 'axios';
 import './registration-view.scss';
 
 export function RegistrationView(props) {
+  const { onBackClick } = props;
   //excluding the 'extends React.Component' bc this is a function component, not class component. And can use hooks
   const [username, setUsername] = useState(''); // assigns an empty string to the username variable—and assigns to the setUsername variable a method to update the username variable
   const [password, setPassword] = useState('');
@@ -85,7 +86,7 @@ export function RegistrationView(props) {
           <Button
             variant="secondary"
             onClick={() => {
-              props.onBackClick();
+              onBackClick();
             }}
           >
             Back

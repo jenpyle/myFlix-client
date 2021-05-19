@@ -1,16 +1,9 @@
-import React, { useState } from 'react'; //useState is a react hook
-
-import PropTypes from 'prop-types';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { Container, Card, Row, Col, Button, Form } from 'react-bootstrap';
-import axios from 'axios';
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
+import { Container, Card, Row, Col, Button } from 'react-bootstrap';
 
 export function ProfileView(props) {
   const { userData, movies, onBackClick } = props; //obj destructuring
-  console.log('inside of profile view');
-  console.log('props.userData inside of profile-view= ', userData);
-
   const favMovies = movies.filter((movie) => userData.FavoriteMovies && userData.FavoriteMovies.includes(movie._id));
   const toWatch = movies.filter((movie) => userData.ToWatch && userData.ToWatch.includes(movie._id));
 

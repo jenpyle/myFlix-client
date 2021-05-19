@@ -1,42 +1,43 @@
 import React, { useState } from 'react'; //useState is a react hook
-import { setUser } from '../../actions/actions';
-import { connect } from 'react-redux';
 import { Container, Button, Form, Modal } from 'react-bootstrap';
 import axios from 'axios';
-
 import './update-profile.scss';
 
-// const mapStateToProps = (state) => {
-//   return { userData: state.user };
-// }; //gets state from store and passes it as props to the component that is connected to/wrapped by the store
-//mapping state to the props of the Update-Profile component
-//user is now a prop can do let {user}=props
-
 export function UpdateProfile(props) {
-  console.log('inside of Update profile');
-  //excluding the 'extends React.Component' bc this is a function component, not class component. And can use hooks
-  const [username, setUsername] = useState(''); // assigns an empty string to the username variable—and assigns to the setUsername variable a method to update the username variable
+  const { userData, setRequestType, getOneUser } = props;
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState();
   const [birthday, setBirthday] = useState('');
   const [checked, setChecked] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  let accessToken = localStorage.getItem('token');
+  let urlString = `https://jennysflix.herokuapp.com/users/${userData.Username}`;
+  const headers = {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  };
 
   const formValidation = (formData, checked) => {
     let isValid = 'valid';
     if (formData.Username.length < 5) isValid = 'Username must be at least 5 characters long';
     if (checked && formData.Password === '') isValid = 'Password cannot be empty';
-    // if (formData.Email.includes('.') === false || formData.Email.includes('@') === false) isValid = 'Email is invalid';
+    if (formData.Email.includes('.') === false || formData.Email.includes('@') === false) isValid = 'Email is invalid';
     return isValid;
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault(); //prevents the default refresh/change of the page
+    e.preventDefault();
     const formData = {};
-    username ? (formData.Username = username) : (formData.Username = props.userData.Username);
-    if (checked) formData.Password = password;
-    email ? (formData.Email = email) : (formData.Email = props.userData.Email);
-    birthday ? (formData.Birthday = birthday) : (formData.Birthday = props.userData.Birthday.substr(0, 10));
+
+    username ? (formData.Username = username) : (formData.Username = userData.Username);
+    if (checked) {
+      formData.Password = password;
+      urlString = `https://jennysflix.herokuapp.com/users/${userData.Username}/password`;
+    }
+    email ? (formData.Email = email) : (formData.Email = userData.Email);
+    birthday ? (formData.Birthday = birthday) : (formData.Birthday = userData.Birthday.substr(0, 10));
 
     let isValid = formValidation(formData, checked);
 
@@ -44,37 +45,20 @@ export function UpdateProfile(props) {
       alert(isValid);
     }
 
-    e.preventDefault(); //prevents the default refresh/change of the page
-    let accessToken = localStorage.getItem('token');
-    let urlString = `https://jennysflix.herokuapp.com/users/${props.userData.Username}`;
-
-    if (checked) urlString = `https://jennysflix.herokuapp.com/users/${props.userData.Username}/password`;
-
     if (isValid === 'valid') {
       axios
-        .put(urlString, formData, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
+        .put(urlString, formData, headers)
+        .then((response) => {
+          localStorage.setItem('user', response.data.Username);
+          getOneUser(accessToken);
+          alert('Profile successfully updated.');
         })
         .then((response) => {
-          console.log('response.data=', response.data);
-          localStorage.setItem('user', response.data.Username);
-          console.log('Above the getOneUser prop in update profile');
-          props.getOneUser(accessToken);
-          // props.setUser(response.data);
-
-          props.setRequestType(undefined);
-          // window.open(`/users/${localStorage.getItem('user')}`, '_self');
-        })
-        .then(() => {
-          alert('Profile successfully updated.');
+          setRequestType('get');
           window.open(`/users/${response.data.Username}`, '_self');
         })
         .catch((err) => {
-          console.log(err);
-          //if (isValid === 'valid') alert(err);
-          // if (isValid === 'valid') alert(err.response.data);
+          alert(err.response.data);
           console.log('Something went wrong with profile update! check that fields are valid');
         });
     }
@@ -82,13 +66,8 @@ export function UpdateProfile(props) {
 
   const handleDelete = (e) => {
     e.preventDefault();
-    let accessToken = localStorage.getItem('token');
     axios
-      .delete(`https://jennysflix.herokuapp.com/users/${props.userData.Username}`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      })
+      .delete(urlString, headers)
       .then(() => {
         localStorage.removeItem('token');
         localStorage.removeItem('user');
@@ -100,13 +79,6 @@ export function UpdateProfile(props) {
       .catch((e) => {
         console.log('Something went wrong with profile update! check that fields are valid');
       });
-  };
-
-  const setModalIsOpenToTrue = () => {
-    setModalIsOpen(true);
-  };
-  const setModalIsOpenToFalse = () => {
-    setModalIsOpen(false);
   };
 
   const displayPassworyField = (checked) => {
@@ -131,7 +103,7 @@ export function UpdateProfile(props) {
 
   return (
     <Container>
-      <Modal show={modalIsOpen} onHide={setModalIsOpenToFalse}>
+      <Modal show={modalIsOpen} onHide={() => setModalIsOpen(false)}>
         <Modal.Dialog>
           <Modal.Header>
             <Modal.Title>Are you sure?</Modal.Title>
@@ -142,7 +114,7 @@ export function UpdateProfile(props) {
           </Modal.Body>
 
           <Modal.Footer>
-            <Button variant="secondary" onClick={setModalIsOpenToFalse}>
+            <Button variant="secondary" onClick={() => setModalIsOpen(false)}>
               Back
             </Button>
             <Button variant="danger" onClick={handleDelete}>
@@ -161,7 +133,7 @@ export function UpdateProfile(props) {
               type="text"
               placeholder="Username"
               autoComplete="username"
-              defaultValue={props.userData.Username}
+              defaultValue={userData.Username}
               onChange={(e) => setUsername(e.target.value)}
             />
           </Form.Group>
@@ -186,7 +158,7 @@ export function UpdateProfile(props) {
               type="email"
               placeholder="example@email.com"
               autoComplete="email"
-              defaultValue={props.userData.Email}
+              defaultValue={userData.Email}
               onChange={(e) => setEmail(e.target.value)}
             />
           </Form.Group>
@@ -196,8 +168,7 @@ export function UpdateProfile(props) {
             <Form.Control
               type="date"
               placeholder="date"
-              // autoComplete="birthday"
-              defaultValue={props.userData.Birthday.substr(0, 10)}
+              defaultValue={userData.Birthday.substr(0, 10)}
               onChange={(e) => setBirthday(e.target.value)}
             />
           </Form.Group>
@@ -209,12 +180,12 @@ export function UpdateProfile(props) {
           <Button
             variant="secondary"
             onClick={() => {
-              props.setRequestType(undefined);
+              setRequestType('get');
             }}
           >
             Back
           </Button>
-          <Button variant="danger" type="button" onClick={setModalIsOpenToTrue}>
+          <Button variant="danger" type="button" onClick={() => setModalIsOpen(true)}>
             Delete Account
           </Button>
         </Form>
@@ -222,4 +193,3 @@ export function UpdateProfile(props) {
     </Container>
   );
 }
-// export default connect(mapStateToProps, { setUser })(UpdateProfile);

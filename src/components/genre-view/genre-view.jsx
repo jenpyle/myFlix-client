@@ -1,28 +1,23 @@
-import React, { useState } from 'react'; //useState is a react hook
-
-import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-import { Container, Card, Row, Col, Button, Form } from 'react-bootstrap';
-import axios from 'axios';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import React from 'react';
+import { Container, Card, Button } from 'react-bootstrap';
 
 export function GenreView(props) {
-  //all the views declared like this are function components
+  const { genreData, onBackClick } = props;
   return (
     <Container>
       <Button
         variant="secondary"
         onClick={() => {
-          props.onBackClick();
+          onBackClick();
         }}
       >
         Back
       </Button>
 
       <Card>
-        <Card.Header className="genre-title">{props.genreData.Name}</Card.Header>
+        <Card.Header className="genre-title">{genreData.Name}</Card.Header>
         <Card.Body>
-          <Card.Text className="genre-description">{props.genreData.Description}</Card.Text>
+          <Card.Text className="genre-description">{genreData.Description}</Card.Text>
         </Card.Body>
       </Card>
     </Container>
