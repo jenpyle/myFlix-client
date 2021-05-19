@@ -1,79 +1,44 @@
-import React from 'react'; //useState is a react hook
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { Container, Card, Row, Col, Button, Form } from 'react-bootstrap';
+import { Row, Col, Button } from 'react-bootstrap';
 import axios from 'axios';
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
-
 import { connect } from 'react-redux';
-//#0
-import { setMovies, getUsers, setUser } from '../../actions/actions';
-//we haven't written this one yet
-import MoviesList from '../movies-list/movies-list';
-/* 
-  #1 The rest of components import statements but without the MovieCard's 
-  because it will be imported and used in the MoviesList component rather
-  than in here. 
-*/
+import { setMovies, setUser, setRequest } from '../../actions/actions';
 
+import MoviesList from '../movies-list/movies-list';
 import { RegistrationView } from '../registration-view/registration-view';
-import { LoginView } from '../login-view/login-view'; //LoginView will need to get the user details from the MainView. If LoginView is not imported here, there would be no way of passing the user details to it
+import { LoginView } from '../login-view/login-view';
 import { MovieInfoView } from '../movie-info-view/movie-info-view';
 import { DirectorView } from '../director-view/director-view';
 import { GenreView } from '../genre-view/genre-view';
 import { ProfileView } from '../profile-view/profile-view';
 import { UpdateProfile } from '../update-profile/update-profile';
-
 import './main-view.scss';
 
-/*essentially telling React to create a new MainView component using the generic React.Component template as its foundation */
-// export class MainView extends React.Component {
-/*the export keyword exposes the MainView component, and the rest of the line creates the MainView component, extends from React.Component */
-//REMOVE EXPORT KEYWORD
 class MainView extends React.Component {
-  constructor() {
-    /*where you initialize a state's values */
-    super(); /*means call the constructor of the parent class(React.Component) ...  initializes your component’s state, and without it, you’ll get an error if you try to use this.state inside constructor()*/
-
-    this.state = {
-      /*represents the moment a component is created in the memory */
-      isFav: false,
-      isWatch: false,
-      requestType: undefined,
-    };
-  }
-
   componentDidMount() {
-    //this happens every time the user loads the page
-    //code executed right after component is added to the DOM
     let accessToken = localStorage.getItem('token');
     if (accessToken !== null) {
       this.getOneUser(accessToken);
-      this.getMovies(accessToken); //only if the user is logged in you make the getMovies request
+      this.getMovies(accessToken);
     }
   }
 
-  /* When a user successfully logs in, this function updates the `user` property in state to that *particular user*/
   onLoggedIn(authData) {
-    //This happens the moment the user logs in
-    //This updates the state with the logged in authData
-    localStorage.setItem('token', authData.token); //store token and username in localStorage: a way to store data in client's browser. Next time the user opens their browser, localStorage will contain stored authentication information (token and username), and the user won’t be required to log in again
+    localStorage.setItem('token', authData.token);
     localStorage.setItem('user', authData.user.Username);
-
     this.props.setUser(authData.user);
+    this.props.setRequest('get');
     this.getMovies(authData.token);
-
     window.open(`/movies`, '_self');
   }
 
   onLoggedOut() {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
-
     this.props.setUser(null);
-    this.setState({
-      requestType: null,
-    });
-
+    this.props.setRequest('');
     window.open(`/login`, '_self');
   }
 
@@ -83,11 +48,7 @@ class MainView extends React.Component {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((response) => {
-        this.props.setMovies(
-          response.data
-        ); /*this.props.setMovies is NOT THE SAME as setMovies imported from the actions
-        this.props.setMovies is passed to props thru connect() and its wrapped into the dispatch() function of the store(a way for the store to know that the action has been called).
-        the regular setMovies is given as a prop to the MainView component bc its wrapped in the connect() function at the bottom*/
+        this.props.setMovies(response.data);
       })
       .catch(function (error) {
         console.log(error);
@@ -107,48 +68,42 @@ class MainView extends React.Component {
       });
   }
 
-  editUserLists(movieID, list, requestType) {
+  editUserLists(movieID, list, requestString) {
     let accessToken = localStorage.getItem('token');
-    let user = localStorage.getItem('user');
+    let URLString = `https://jennysflix.herokuapp.com/users/${this.props.user.Username}/movies/${list}/${movieID}`;
+    const headers = {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    };
 
-    if (requestType === 'post') {
-      let message = 'Movie successfully added to Favorites List.';
-      if (list === 'towatch') {
-        message = 'Movie successfully added in To Watch List.';
-      }
+    if (requestString === 'post') {
+      this.props.setRequest('post');
+
       axios
         .post(
-          `https://jennysflix.herokuapp.com/users/${user}/movies/${list}/${movieID}`,
+          URLString,
           {},
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          }
+
+          headers
         )
         .then(() => {
-          alert(message);
           this.getOneUser(accessToken);
+          this.props.setRequest('');
         })
         .catch((e) => {
           console.log('Something went wrong with adding movie');
         });
     }
 
-    if (requestType === 'delete') {
-      let message = 'Movie successfully deleted from Favorites List.';
-      if (list === 'towatch') {
-        message = 'Movie successfully deleted from To Watch List.';
-      }
+    if (requestString === 'delete') {
+      this.props.setRequest('delete');
+
       axios
-        .delete(`https://jennysflix.herokuapp.com/users/${user}/movies/${list}/${movieID}`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        })
+        .delete(URLString, headers)
         .then(() => {
-          alert(message);
           this.getOneUser(accessToken);
+          this.props.setRequest('');
         })
         .catch((e) => {
           console.log('Something went wrong with removing movie');
@@ -156,42 +111,31 @@ class MainView extends React.Component {
     }
   }
 
-  setRequestType(type) {
-    this.setState({
-      requestType: type,
-    });
-  }
-
   render() {
-    const { requestType } = this.state;
-    // #5 movies is extracted from this.props rather than from the this.state
-    let { movies, users, user } = this.props;
-
-    console.log('user =', user);
-
+    let { movies, user, requestType } = this.props;
     return (
       <Router>
         <Row className="profile-logout-btns-desktop">
           <Col md="6">
             <h1 className="title">MyFlix</h1>
           </Col>
-          {user.length !== 0 ? (
+          {user.Username ? (
             <Col md="2">
               <Link to={`/movies`}>
                 <Button variant="info">Home</Button>
               </Link>
             </Col>
           ) : null}
-          {user.length !== 0 ? (
+          {user.Username ? (
             <Col md="2">
               <Link to={`/users/${localStorage.getItem('user')}`}>
-                <Button variant="info" onClick={() => this.setRequestType(undefined)}>
+                <Button variant="info" onClick={() => this.props.setRequest('get')}>
                   Profile
                 </Button>
               </Link>
             </Col>
           ) : null}
-          {user.length !== 0 ? (
+          {user.Username ? (
             <Col md="2">
               <Link to={`/login`}>
                 <Button variant="secondary" type="button" onClick={() => this.onLoggedOut()}>
@@ -203,13 +147,13 @@ class MainView extends React.Component {
         </Row>
 
         <Row className="profile-logout-btns-mobile" style={{ display: 'none' }}>
-          {user.length !== 0 ? (
+          {user.Username ? (
             <Col>
               <Link to={`/movies`}>
                 <Button variant="info">Home</Button>
               </Link>
               <Link to={`/users/${localStorage.getItem('user')}`}>
-                <Button variant="info" onClick={() => this.setRequestType(undefined)}>
+                <Button variant="info" onClick={() => this.props.setRequest('get')}>
                   Profile
                 </Button>
               </Link>
@@ -229,8 +173,8 @@ class MainView extends React.Component {
           exact
           path="/"
           render={() => {
-            if (user.length === 0) return <Redirect to="/login" />;
-            if (user.length === 1) return <Redirect to="/movies" />;
+            if (!user.Username) return <Redirect to="/login" />;
+            if (user.Username) return <Redirect to="/movies" />;
           }}
         />
 
@@ -238,7 +182,7 @@ class MainView extends React.Component {
           exact
           path="/login"
           render={() => {
-            if (user.length !== 0 && user !== null) return <Redirect to="/movies" />;
+            if (user.Username) return <Redirect to="/movies" />;
             return <LoginView onBackClick={() => history.goBack()} onLoggedIn={(user) => this.onLoggedIn(user)} />;
           }}
         />
@@ -248,10 +192,8 @@ class MainView extends React.Component {
             exact
             path="/movies"
             render={() => {
-              console.log('USER.LENGTH=', user.length);
-              if (user.length === 0) <Redirect to="/login" />;
+              if (!user.Username) <Redirect to="/login" />;
               if (movies.length === 0) return <div className="main-view" />;
-              // #6
               return <MoviesList movies={movies} />;
             }}
           />
@@ -260,7 +202,7 @@ class MainView extends React.Component {
             exact
             path="/users"
             render={({ history }) => {
-              if (user.length !== 0) return <Redirect to="/movies" />;
+              if (user.Username) return <Redirect to="/movies" />;
               return <RegistrationView onBackClick={() => history.goBack()} />;
             }}
           />
@@ -268,23 +210,23 @@ class MainView extends React.Component {
           <Route
             path="/users/:username"
             render={({ history }) => {
-              if (users.length === 0 || movies.length === 0) return <div className="main-view" />;
-              if (user.length === 0 || localStorage.getItem('user') === null) <Redirect to="/login" />;
+              if (movies.length === 0) return <div className="main-view" />;
+              if (!user.Username || localStorage.getItem('user') === null) <Redirect to="/login" />;
               if (requestType === 'put') {
                 return (
                   <UpdateProfile
                     userData={user}
                     getOneUser={(token) => this.getOneUser(token)}
-                    setRequestType={(type) => this.setRequestType(type)}
+                    setRequestType={(type) => this.props.setRequest(type)}
                   />
                 );
               }
-              if (requestType === undefined) {
+              if (requestType === '' || requestType === 'get') {
                 return (
                   <ProfileView
                     userData={user}
                     onBackClick={() => history.goBack()}
-                    setRequestType={(type) => this.setRequestType(type)}
+                    setRequestType={(type) => this.props.setRequest(type)}
                     movies={movies}
                   />
                 );
@@ -299,7 +241,7 @@ class MainView extends React.Component {
               if (movies.length === 0) return <div className="main-view" />;
               return (
                 <MovieInfoView
-                  editUserLists={(movieID, list, requestType) => this.editUserLists(movieID, list, requestType)}
+                  editUserLists={(movieID, list, requestString) => this.editUserLists(movieID, list, requestString)}
                   userData={user}
                   movieData={movies.find((movie) => movie._id === match.params.movieId)}
                   onBackClick={() => history.goBack()}
@@ -311,7 +253,7 @@ class MainView extends React.Component {
             path="/directors/:name"
             render={({ match, history }) => {
               if (!user) {
-                return <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />; //onLoggedIn method will update the user state of the MainView component and will be called when the user has successfully logged in... to change the user state to valid instead of null?
+                return <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />;
               }
               if (movies.length === 0) return <div className="main-view" />;
               return (
@@ -325,10 +267,10 @@ class MainView extends React.Component {
           <Route
             path="/genres/:name"
             render={({ match, history }) => {
-              if (!user) {
-                return <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />; //onLoggedIn method will update the user state of the MainView component and will be called when the user has successfully logged in... to change the user state to valid instead of null?
+              if (!user.Username) {
+                return <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />;
               }
-              if (movies.length === 0) return <div className="main-view" />; //make sure movies are available before rendering anything.
+              if (movies.length === 0) return <div className="main-view" />;
               return (
                 <GenreView
                   genreData={movies.find((movie) => movie.Genre.Name === match.params.name).Genre}
@@ -343,18 +285,8 @@ class MainView extends React.Component {
   }
 }
 
-// #7if defined—will allow the component (the one you want to connect)
-// to subscribe to store updates. Any time the store is updated, this function will be called.
-// so instead of component accessing state directly, it accesses state passed to props by the store
 let mapStateToProps = (state) => {
-  return { movies: state.movies, users: state.users, user: state.user };
-}; //gets state from store and passes it as props to the component that is connected to/wrapped by the store
-//mapping state to the props of the main-view component
-//movies is now a prop
+  return { movies: state.movies, user: state.user, requestType: state.requestType };
+};
 
-//connecting component main-view to the store, so you can use the action call setMovies in the getMovies request
-// #8 HOVER over this 'connect' and you can see the actions bc its now connected to the store
-export default connect(mapStateToProps, { setMovies, getUsers, setUser })(MainView);
-/*this.props.setMovies is NOT THE SAME as setMovies imported from the actions
-        this.props.setMovies is passed to props thru connect() and its wrapped into the dispatch() function of the store(a way for the store to know that the action has been called).
-        the regular setMovies is given as a prop to the MainView component bc its wrapped in the connect() function at the bottom*/
+export default connect(mapStateToProps, { setMovies, setUser, setRequest })(MainView);
