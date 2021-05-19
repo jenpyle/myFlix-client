@@ -1,7 +1,7 @@
 node_modules
 .cache
 # Parcel related files
-dist/
+
 .cache/
 .parcel-cache/
 scratch.jsx

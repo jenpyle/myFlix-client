@@ -1,0 +1,178 @@
+#bootstrap-overrides #registration-container {
+  border-style: solid;
+  border-radius: 5%;
+  padding: 30px;
+  background-color: antiquewhite;
+}
+#bootstrap-overrides #registration-container h3 {
+  text-align: center;
+}
+#bootstrap-overrides #registration-container form {
+  margin-top: 40px;
+  font-weight: bolder;
+}
+#bootstrap-overrides .login-container {
+  padding-top: 11rem;
+}
+#bootstrap-overrides .form-control {
+  border: 1px solid lightslategray;
+}
+
+@media (max-width: 1007px) {
+  #bootstrap-overrides .login-container {
+    padding-top: 8rem;
+  }
+}
+#bootstrap-overrides .movie-view {
+  margin-top: 20px;
+}
+#bootstrap-overrides .movie-data button.btn.btn-link {
+  margin: 0px;
+  width: 50%;
+}
+#bootstrap-overrides .movie-data .value {
+  margin-bottom: 15px;
+}
+#bootstrap-overrides .movie-data .card-text {
+  font-weight: bold;
+}
+#bootstrap-overrides .movie-data .card-text .value {
+  font-weight: 400;
+}
+#bootstrap-overrides .movie-poster button.btn.btn-link,
+#bootstrap-overrides .movie-poster button.btn.btn-info,
+#bootstrap-overrides .movie-poster button.btn.btn-danger,
+#bootstrap-overrides .movie-poster button.btn.btn-secondary {
+  width: 100%;
+}
+#bootstrap-overrides .movie-poster img {
+  width: 100%;
+}
+
+#bootstrap-overrides .title {
+  font-family: "Chango", cursive;
+  color: black;
+  font-size: 6rem;
+}
+#bootstrap-overrides .profile-logout-btns-desktop button.btn.btn-info,
+#bootstrap-overrides .profile-logout-btns-desktop button.btn.btn-secondary {
+  width: 100%;
+  margin: 10px;
+}
+#bootstrap-overrides .profile-logout-btns-mobile,
+#bootstrap-overrides .profile-logout-btns-desktop {
+  border-bottom: 1px solid rosybrown;
+  margin-bottom: 70px;
+  align-items: center;
+  z-index: 999;
+  background-color: bisque;
+  position: fixed;
+  right: 0px;
+  left: 0px;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+#bootstrap-overrides .movie-cards {
+  flex-wrap: nowrap;
+  padding-top: 8rem;
+  right: 0;
+}
+#bootstrap-overrides .movie-card {
+  flex-shrink: 1;
+}
+
+@media (max-width: 1007px) {
+  #bootstrap-overrides .title {
+    font-size: 4rem;
+  }
+  #bootstrap-overrides .movie-cards {
+    flex-wrap: wrap;
+    padding-top: 13rem;
+  }
+  #bootstrap-overrides .profile-logout-btns-mobile {
+    border-bottom: 2px solid rosybrown;
+    display: block !important;
+    text-align: center;
+    padding-left: 0px;
+    padding-right: 0px;
+    right: 2rem;
+    left: 2rem;
+  }
+  #bootstrap-overrides .profile-logout-btns-mobile button.btn.btn-info,
+#bootstrap-overrides .profile-logout-btns-mobile button.btn.btn-secondary {
+    width: 32%;
+    margin: 3px;
+  }
+  #bootstrap-overrides .profile-logout-btns-desktop {
+    display: none !important;
+  }
+}
+@media (max-width: 600px) {
+  #bootstrap-overrides .profile-logout-btns-mobile {
+    right: 0;
+    left: 0;
+  }
+}
+@media all and (min-width: 700px) and (max-width: 1000px) {
+  #bootstrap-overrides .movie-card.col-md-3 {
+    margin: 20px;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  background-color: bisque;
+}
+
+#bootstrap-overrides .app-container {
+  background-color: bisque;
+  height: 100%;
+}
+#bootstrap-overrides .btn {
+  font-size: larger;
+  border-color: violet;
+  padding: 10px;
+  margin: 4px;
+}
+#bootstrap-overrides .btn-info {
+  background-color: thistle;
+}
+#bootstrap-overrides button.btn.btn-link,
+#bootstrap-overrides button.btn.btn-info,
+#bootstrap-overrides button.btn.btn-danger,
+#bootstrap-overrides button.btn.btn-secondary {
+  margin-left: 0px;
+  margin-right: 0px;
+  width: 100%;
+}
+#bootstrap-overrides img {
+  border-style: solid;
+  border-color: violet;
+}
+#bootstrap-overrides .card {
+  background-color: whitesmoke;
+  border-color: violet;
+  min-width: 14rem;
+  margin: 10px;
+}
+#bootstrap-overrides .card .card-body {
+  background-color: whitesmoke;
+}
+#bootstrap-overrides .card .card-header {
+  font-size: 3rem;
+}
+#bootstrap-overrides .card .card-title {
+  padding-top: 10px;
+}
+#bootstrap-overrides .card .card-subtitle {
+  color: dimgrey;
+  padding-bottom: 10px;
+  font-size: 1.4em;
+}
+/*# sourceMappingURL=index.1a46e624.css.map */
