@@ -52,11 +52,10 @@ export function UpdateProfile(props) {
           localStorage.setItem('user', response.data.Username);
           getOneUser(accessToken);
           alert('Profile successfully updated.');
-        })
-        .then((response) => {
           setRequestType('get');
           window.open(`/users/${response.data.Username}`, '_self');
         })
+        .then((response) => {})
         .catch((err) => {
           alert(err.response.data);
           console.log('Something went wrong with profile update! check that fields are valid');
