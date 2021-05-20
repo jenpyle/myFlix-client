@@ -1,5 +1,5 @@
 # MyFlix-client
-This repo contains the frontend of a single page application built with React. The complete stack of this full-stack application consists of **MongoDB**, **Express**, **React**, and **Node.js**. The [server-side](https://github.com/jenpyle/myFlix-server) is hosted on Heroku and processes API requests sent to the database. Documentation for the API is available [here](https://jennysflix.herokuapp.com/documentation.html). The app is hosted on Netlify at [https://myflix-jenpyle.netlify.app/](https://myflix-jenpyle.netlify.app/)
+This repo contains the frontend of a single page application built with React. The complete stack of this full-stack application consists of **MongoDB**, **Express**, **React**, **Redux**, and **Node.js**. The [server-side](https://github.com/jenpyle/myFlix-server) is hosted on Heroku and processes API requests sent to the database. Documentation for the API is available [here](https://jennysflix.herokuapp.com/documentation.html). The app is hosted on Netlify at [https://myflix-jenpyle.netlify.app/](https://myflix-jenpyle.netlify.app/)
 
 Redux is used to manage the application's state, and navigation between different views is implimented via client-side state routing. Client-side authentication and authorization is integrated with the backend logic using Axios, along with JWT-based authentication and basic HTTP authentication. The application also uses Bootstrap as a UI library for styling and responsiveness.
 
@@ -7,12 +7,12 @@ Redux is used to manage the application's state, and navigation between differen
 **myFlix** is a movie app that allows users to sign up, log in, and view or filter through a list of movies. Users can add movies to their own 'Favorites' and 'To Watch' lists. Along with that, users can view and edit their profile information.
 
 ## How to get the project running
-This project uses Parcel for building, and Bable for transpilation.
+This project uses Parcel for building, and Babel for transpilation.
 
 To build the project in the terminal run ```parcel src/index.html```
 
 ## Project dependencies (e.g., JavaScript version, ESLint rules)
-javascript version: ???
+JavaScript version: ECMAScript 2015 (ES6)
 ```
   "dependencies": {
     "axios": "^0.21.1",
