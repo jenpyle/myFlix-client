@@ -3,6 +3,8 @@ import { setUser } from '../../actions/actions';
 import { connect } from 'react-redux';
 import { Container, Button, Form, Modal } from 'react-bootstrap';
 import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+
 
 import './update-profile.scss';
 
@@ -14,6 +16,8 @@ const mapStateToProps = (state) => {
 
 export function UpdateProfile(props) {
   console.log('inside of Update profile');
+  const dispatch = useDispatch();
+
   //excluding the 'extends React.Component' bc this is a function component, not class component. And can use hooks
   const [username, setUsername] = useState(''); // assigns an empty string to the username variable—and assigns to the setUsername variable a method to update the username variable
   const [password, setPassword] = useState('');
@@ -21,6 +25,9 @@ export function UpdateProfile(props) {
   const [birthday, setBirthday] = useState('');
   const [checked, setChecked] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
+
+  const userData = useSelector((state) => state.user);
+  console.log(userData, '!!userDataaaaa')
 
   const formValidation = (formData, checked) => {
     let isValid = 'valid';
@@ -33,10 +40,10 @@ export function UpdateProfile(props) {
   const handleSubmit = (e) => {
     e.preventDefault(); //prevents the default refresh/change of the page
     const formData = {};
-    username ? (formData.Username = username) : (formData.Username = props.userData.Username);
+    username ? (formData.Username = username) : (formData.Username = userData.Username);
     if (checked) formData.Password = password;
-    email ? (formData.Email = email) : (formData.Email = props.userData.Email);
-    birthday ? (formData.Birthday = birthday) : (formData.Birthday = props.userData.Birthday.substr(0, 10));
+    email ? (formData.Email = email) : (formData.Email = userData.Email);
+    birthday ? (formData.Birthday = birthday) : (formData.Birthday = userData.Birthday.substr(0, 10));
 
     let isValid = formValidation(formData, checked);
 
@@ -46,9 +53,9 @@ export function UpdateProfile(props) {
 
     e.preventDefault(); //prevents the default refresh/change of the page
     let accessToken = localStorage.getItem('token');
-    let urlString = `https://jennysflix.herokuapp.com/users/${props.userData.Username}`;
+    let urlString = `https://jennysflix.herokuapp.com/users/${userData.Username}`;
 
-    if (checked) urlString = `https://jennysflix.herokuapp.com/users/${props.userData.Username}/password`;
+    if (checked) urlString = `https://jennysflix.herokuapp.com/users/${userData.Username}/password`;
 
     if (isValid === 'valid') {
       axios
@@ -62,12 +69,13 @@ export function UpdateProfile(props) {
           localStorage.setItem('user', response.data.Username);
           console.log('Above the getOneUser prop in update profile');
           // props.getOneUser(accessToken);
-          this.props.setUser(response.data);
+          // this.props.setUser(response.data);
+          dispatch(setUser(response.data));
 
           //console.log('userData =', userData);
           props.setRequestType(null);
           // window.open(`/users/${localStorage.getItem('user')}`, '_self');
-          window.open(`/users/${userData.Username}`, '_self');
+          window.open(`/users/${response.data.Username}`, '_self');
         })
         .then(() => {
           alert('Profile successfully updated.');
@@ -162,7 +170,7 @@ export function UpdateProfile(props) {
               type="text"
               placeholder="Username"
               autoComplete="username"
-              defaultValue={props.userData.Username}
+              defaultValue={userData.Username}
               onChange={(e) => setUsername(e.target.value)}
             />
           </Form.Group>
@@ -187,7 +195,7 @@ export function UpdateProfile(props) {
               type="email"
               placeholder="example@email.com"
               autoComplete="email"
-              defaultValue={props.userData.Email}
+              defaultValue={userData.Email}
               onChange={(e) => setEmail(e.target.value)}
             />
           </Form.Group>
@@ -198,7 +206,7 @@ export function UpdateProfile(props) {
               type="date"
               placeholder="date"
               // autoComplete="birthday"
-              defaultValue={props.userData.Birthday.substr(0, 10)}
+              defaultValue={userData.Birthday.substr(0, 10)}
               onChange={(e) => setBirthday(e.target.value)}
             />
           </Form.Group>
@@ -223,4 +231,4 @@ export function UpdateProfile(props) {
     </Container>
   );
 }
-export default connect(mapStateToProps, { setUser })(UpdateProfile);
+// export default connect(mapStateToProps, { setUser })(UpdateProfile);

@@ -1,27 +1,46 @@
 import axios from 'axios';
 import { setMovies, getUsers, setUser } from '../actions/actions';
-import { useDispatch, useSelector } from 'react-redux';
 
-export const getMoviesFromApi = async (token) => {
-  try {
+export const getMoviesFromApi = () => {
+  // try {
+  //   const response = await axios.get('https://jennysflix.herokuapp.com/movies', {
+  //     headers: { Authorization: `Bearer ${token}` },
+  //   });
+  //   dispatch(setMovies(response.data));
+  // } catch (err) {
+  //   console.log(err);
+  // }
+  return async (dispatch, getState) => {
     const response = await axios.get('https://jennysflix.herokuapp.com/movies', {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     });
-    useDispatch(setMovies(response.data));
-  } catch (err) {
-    console.log(err);
+    console.log('!!Movies before dispatch: ', getState().movies.length)
+
+    dispatch(setMovies(response.data));
+
+    console.log('!!Movies after dispatch: ', getState().movies.length)
+
   }
 };
 
-export const getOneUser = async (token, username) => {
-  try {
-    const response = await axios.get(`https://jennysflix.herokuapp.com/users/${username}`, {
-      headers: { Authorization: `Bearer ${token}` },
+export const getOneUser = () => {
+  // try {
+  //   const response = await axios.get(`https://jennysflix.herokuapp.com/users/${username}`, {
+  //     headers: { Authorization: `Bearer ${token}` },
+  //   });
+  //   console.log('In getOneUser= ', response.data);
+  //   userDispatch(setUser(response.data));
+  // } catch (err) {
+  //   console.log('error in get users axios request: ', err);
+  // }
+  console.log('!!!aaa')
+  return async (dispatch, getState) => {
+    const response = await axios.get(`https://jennysflix.herokuapp.com/users/${localStorage.getItem('user')}`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     });
-    console.log('In getOneUser= ', response.data);
-    userDispatch(setUser(response.data));
-  } catch (err) {
-    console.log('error in get users axios request: ', err);
+    console.log('!!User before dispatch: ', getState().user)
+    dispatch(setUser(response.data));
+    console.log('!!User after dispatch: ', getState().user)
   }
 };
 

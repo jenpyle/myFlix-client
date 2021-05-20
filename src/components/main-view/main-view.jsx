@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { setUser, setMovies } from '../../actions/actions';
 import MoviesList from '../movies-list/movies-list';
-import { getMoviesFromApi, getUsersFromApi, getOneUser, editUserLists } from '../../api/api';
+import { getMoviesFromApi, getOneUser, editUserLists } from '../../api/api';
 
 import { RegistrationView } from '../registration-view/registration-view';
 import { LoginView } from '../login-view/login-view';
@@ -26,17 +26,21 @@ const MainView = () => {
   const [requestType, setRequestType] = useState(false);
 
   const movies = useSelector((state) => state.movies);
-  const users = useSelector((state) => state.users);
   const user = useSelector((state) => state.user);
 
   const onLoggedIn = (authData) => {
     console.log('IN onloggedin');
     localStorage.setItem('token', authData.token);
     localStorage.setItem('user', authData.user.Username);
-    getMoviesFromApi(authData.token);
     // getOneUser(authData.token);
-    // getUsersFromApi(authData.token);
-    dispatch(setUser(authData.user));
+    dispatch(setUser({
+      Username: authData.user.Username,
+      Password: authData.user.Password,
+      Email: authData.user.Email,
+      Birthday: authData.user.Birthday,
+      FavoriteMovies: authData.user.FavoriteMovies
+    }));
+    // dispatch(setUser(authData.user));
     console.log('HERE=', authData.user);
 
     window.open(`/movies`, '_self');
@@ -45,7 +49,7 @@ const MainView = () => {
   const onLoggedOut = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
-    setUser(null);
+    dispatch(setUser(null));
     setRequestType(null);
     window.open(`/login`, '_self');
   };
@@ -54,10 +58,12 @@ const MainView = () => {
     console.log('USER=', user.Username);
     let accessToken = localStorage.getItem('token');
     if (accessToken !== null) {
-      dispatch(setMovies(getMoviesFromApi(accessToken)));
-      // getUsersFromApi(accessToken);
+      dispatch(getMoviesFromApi());
+      dispatch(getOneUser());
     }
   }, []);
+  console.log(user, '!!user')
+  if (movies.length === 0) return <div className="main-view" />;
 
   return (
     <Router>
@@ -114,11 +120,11 @@ const MainView = () => {
           <h1 className="title">MyFlix</h1>
         </Col>
       </Row>
-
       <Route
         exact
         path="/"
         render={() => {
+          console.log('!!PATH')
           if (user.Username) return <Redirect to="/movies" />;
           return <Redirect to="/login" />;
         }}
@@ -140,7 +146,7 @@ const MainView = () => {
           render={() => {
             if (!user.Username) <Redirect to="/login" />;
             if (movies.length === 0) return <div className="main-view" />;
-            return <MoviesList movies={movies} />;
+            return <MoviesList />;
           }}
         />
 
@@ -156,24 +162,22 @@ const MainView = () => {
         <Route
           path="/users/:username"
           render={({ history }) => {
-            if (user.Username || movies.length === 0) return <div className="main-view" />;
-            if (!user.Username) <Redirect to="/login" />;
+            console.log(movies, user, requestType, '!!!LMOVIRS')
+            if (movies.length === 0 || user // 👈 null and undefined check
+              && Object.keys(user).length === 0 && user.constructor === Object) return <div className="main-view">Nothing yet</div>;
             if (requestType === 'put') {
               return (
                 <UpdateProfile
-                  userData={user}
-                  getOneUser={(token) => getOneUser(token)}
                   setRequestType={(type) => setRequestType(type)}
                 />
               );
             }
-            if (requestType === undefined) {
+            if (!requestType) {
+              console.log('!!!HERE')
               return (
                 <ProfileView
-                  userData={user}
                   onBackClick={() => history.goBack()}
                   setRequestType={(type) => setRequestType(type)}
-                  movies={movies}
                 />
               );
             }
@@ -187,9 +191,8 @@ const MainView = () => {
             if (movies.length === 0) return <div className="main-view" />;
             return (
               <MovieInfoView
+                movieId={match.params.movieId}
                 editUserLists={(movieID, list, requestType) => editUserLists(movieID, list, requestType)}
-                userData={users.find((u) => u.Username === localStorage.getItem('user'))}
-                movieData={movies.find((movie) => movie._id === match.params.movieId)}
                 onBackClick={() => history.goBack()}
               />
             );

@@ -10,7 +10,7 @@ const MoviesList = () => {
   // grabbing state slices: visibilityFilter and movies
   const visibilityFilter = useSelector((state) => state.visibilityFilter);
   const movies = useSelector((state) => state.movies);
-
+  console.log(movies, '!!moviesssss')
   let filteredMovies = movies;
 
   if (visibilityFilter !== '') {

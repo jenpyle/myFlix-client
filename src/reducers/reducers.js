@@ -26,7 +26,7 @@ function movies(state = [], action) {
   }
 }
 
-function users(state = [], action) {
+function users(state = {}, action) {
   switch (action.type) {
     case GET_USERS:
       console.log('GET_USERS reducer reached');
@@ -72,6 +72,6 @@ const moviesApp = combineReducers({
 });
 
 export default moviesApp;
-/*All you have to do is add an action and export it (in the “src/actions/actions.js” file); 
-then add the corresponding reducer; 
+/*All you have to do is add an action and export it (in the “src/actions/actions.js” file);
+then add the corresponding reducer;
 and then “register” it in the moviesApp combined reducer (in the “src/reducers/reducers.js” file). */

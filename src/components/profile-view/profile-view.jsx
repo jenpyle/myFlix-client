@@ -5,11 +5,14 @@ import { Link } from 'react-router-dom';
 import { Container, Card, Row, Col, Button, Form } from 'react-bootstrap';
 import axios from 'axios';
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
 export function ProfileView(props) {
   console.log('inside of profile view');
-  console.log('props.userData inside of profile-view= ', props.userData);
-  const { userData, movies, onBackClick } = props; //obj destructuring
+  const movies = useSelector((state) => state.movies);
+  const userData = useSelector((state) => state.user);
+  console.log(userData, '!!userData')
+  const { onBackClick } = props; //obj destructuring
 
   const favMovies = movies.filter((movie) => userData.FavoriteMovies.includes(movie._id));
   const toWatch = movies.filter((movie) => userData.ToWatch.includes(movie._id));
