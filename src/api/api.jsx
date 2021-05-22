@@ -1,6 +1,31 @@
 import axios from 'axios';
 import { setMovies, getUsers, setUser } from '../actions/actions';
 
+export const postLogin = (username, password) => {
+  try {
+    return async (dispatch, getState) => {
+      const response = await axios.post('https://jennysflix.herokuapp.com/login', {
+        Username: username,
+        Password: password,
+      });
+      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('user', response.data.user.Username);
+      dispatch(
+        setUser({
+          Username: response.data.user.Username,
+          Password: response.data.user.Password,
+          Email: response.data.user.Email,
+          Birthday: response.data.user.Birthday,
+          FavoriteMovies: response.data.user.FavoriteMovies,
+          ToWatch: response.data.user.ToWatch,
+        })
+      );
+    };
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 export const getMoviesFromApi = () => {
   // try {
   //   const response = await axios.get('https://jennysflix.herokuapp.com/movies', {
@@ -14,10 +39,10 @@ export const getMoviesFromApi = () => {
     const response = await axios.get('https://jennysflix.herokuapp.com/movies', {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     });
-    console.log('!!Movies before dispatch: ', getState().movies.length)
+    console.log('!!Movies before dispatch: ', getState().movies.length);
     dispatch(setMovies(response.data));
-    console.log('!!Movies after dispatch: ', getState().movies.length)
-  }
+    console.log('!!Movies after dispatch: ', getState().movies.length);
+  };
 };
 
 export const getOneUser = () => {
@@ -34,10 +59,10 @@ export const getOneUser = () => {
     const response = await axios.get(`https://jennysflix.herokuapp.com/users/${localStorage.getItem('user')}`, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     });
-    console.log('!!User before dispatch: ', getState().user)
+    console.log('!!User before dispatch: ', getState().user);
     dispatch(setUser(response.data));
-    console.log('!!User after dispatch: ', getState().user)
-  }
+    console.log('!!User after dispatch: ', getState().user);
+  };
 };
 
 export const getUsersFromApi = async (token) => {

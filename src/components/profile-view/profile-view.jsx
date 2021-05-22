@@ -11,11 +11,11 @@ export function ProfileView(props) {
   console.log('inside of profile view');
   const movies = useSelector((state) => state.movies);
   const userData = useSelector((state) => state.user);
-  console.log(userData, '!!userData')
+  console.log(userData, '!!userData');
   const { onBackClick } = props; //obj destructuring
 
-  const favMovies = movies.filter((movie) => userData.FavoriteMovies.includes(movie._id));
-  const toWatch = movies.filter((movie) => userData.ToWatch.includes(movie._id));
+  const favMovies = movies.filter((movie) => userData && userData.FavoriteMovies.includes(movie._id));
+  const toWatch = movies.filter((movie) => userData && userData.ToWatch.includes(movie._id));
 
   return (
     <Container>

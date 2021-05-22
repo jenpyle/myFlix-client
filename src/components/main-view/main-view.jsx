@@ -28,23 +28,25 @@ const MainView = () => {
   const movies = useSelector((state) => state.movies);
   const user = useSelector((state) => state.user);
 
-  const onLoggedIn = async (authData) => {
-    console.log('IN onloggedin')
-    localStorage.setItem('token', authData.token);
-    localStorage.setItem('user', authData.user.Username);
-    // getOneUser(authData.token);
-    dispatch(setUser({
-      Username: authData.user.Username,
-      Password: authData.user.Password,
-      Email: authData.user.Email,
-      Birthday: authData.user.Birthday,
-      FavoriteMovies: authData.user.FavoriteMovies
-    }));
-    // dispatch(setUser(authData.user));
-    console.log('HERE=', authData.user);
-
-    window.open(`/movies`, '_self');
-  };
+  // const onLoggedIn = async (authData) => {
+  //   console.log('IN onloggedin');
+  //   // localStorage.setItem('token', authData.token);
+  //   // localStorage.setItem('user', authData.user.Username);
+  //   // // getOneUser(authData.token);
+  //   // // dispatch(
+  //   // //   setUser({
+  //   // //     Username: authData.user.Username,
+  //   // //     Password: authData.user.Password,
+  //   // //     Email: authData.user.Email,
+  //   // //     Birthday: authData.user.Birthday,
+  //   // //     FavoriteMovies: authData.user.FavoriteMovies,
+  //   // //   })
+  //   // // );
+  //   // // dispatch(setUser(authData.user));
+  //   // console.log('HERE=', authData.user);
+  //   // dispatch(getMoviesFromApi());
+  //   window.open(`/movies`, '_self');
+  // };
 
   const onLoggedOut = () => {
     localStorage.removeItem('token');
@@ -62,8 +64,8 @@ const MainView = () => {
       dispatch(getOneUser());
     }
   }, []);
-  console.log(user, '!!user')
-  if (movies.length === 0) return <div className="main-view" />;
+  console.log(user, '!!user');
+  // if (movies.length === 0) return <div className="main-view" />;
 
   return (
     <Router>
@@ -124,7 +126,7 @@ const MainView = () => {
         exact
         path="/"
         render={() => {
-          console.log('!!PATH')
+          console.log('!!PATH');
           if (user.Username) return <Redirect to="/movies" />;
           return <Redirect to="/login" />;
         }}
@@ -135,7 +137,7 @@ const MainView = () => {
         path="/login"
         render={() => {
           if (user.Username) return <Redirect to="/movies" />;
-          return <LoginView onBackClick={() => history.goBack()} onLoggedIn={(user) => onLoggedIn(user)} />;
+          return <LoginView />;
         }}
       />
 
@@ -162,23 +164,21 @@ const MainView = () => {
         <Route
           path="/users/:username"
           render={({ history }) => {
-            console.log(movies, user, requestType, '!!!LMOVIRS')
-            if (movies.length === 0 || user // 👈 null and undefined check
-              && Object.keys(user).length === 0 && user.constructor === Object) return <div className="main-view">Nothing yet</div>;
+            console.log(movies, user, requestType, '!!!LMOVIRS');
+            if (
+              movies.length === 0 ||
+              (user && // 👈 null and undefined check
+                Object.keys(user).length === 0 &&
+                user.constructor === Object)
+            )
+              return <div className="main-view">Nothing yet</div>;
             if (requestType === 'put') {
-              return (
-                <UpdateProfile
-                  setRequestType={(type) => setRequestType(type)}
-                />
-              );
+              return <UpdateProfile setRequestType={(type) => setRequestType(type)} />;
             }
             if (!requestType) {
-              console.log('!!!HERE')
+              console.log('!!!HERE');
               return (
-                <ProfileView
-                  onBackClick={() => history.goBack()}
-                  setRequestType={(type) => setRequestType(type)}
-                />
+                <ProfileView onBackClick={() => history.goBack()} setRequestType={(type) => setRequestType(type)} />
               );
             }
           }}
@@ -202,7 +202,7 @@ const MainView = () => {
           path="/directors/:name"
           render={({ match, history }) => {
             if (!user.Username) {
-              return <LoginView onLoggedIn={(user) => onLoggedIn(user)} />;
+              return <LoginView />;
             }
             if (movies.length === 0) return <div className="main-view" />;
             return (
@@ -217,7 +217,7 @@ const MainView = () => {
           path="/genres/:name"
           render={({ match, history }) => {
             if (!user.Username) {
-              return <LoginView onLoggedIn={(user) => onLoggedIn(user)} />;
+              return <LoginView />;
             }
             if (movies.length === 0) return <div className="main-view" />;
             return (
