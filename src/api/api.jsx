@@ -15,11 +15,8 @@ export const getMoviesFromApi = () => {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     });
     console.log('!!Movies before dispatch: ', getState().movies.length)
-
     dispatch(setMovies(response.data));
-
     console.log('!!Movies after dispatch: ', getState().movies.length)
-
   }
 };
 
@@ -33,7 +30,6 @@ export const getOneUser = () => {
   // } catch (err) {
   //   console.log('error in get users axios request: ', err);
   // }
-  console.log('!!!aaa')
   return async (dispatch, getState) => {
     const response = await axios.get(`https://jennysflix.herokuapp.com/users/${localStorage.getItem('user')}`, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },

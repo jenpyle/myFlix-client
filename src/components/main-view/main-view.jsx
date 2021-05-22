@@ -28,8 +28,8 @@ const MainView = () => {
   const movies = useSelector((state) => state.movies);
   const user = useSelector((state) => state.user);
 
-  const onLoggedIn = (authData) => {
-    console.log('IN onloggedin');
+  const onLoggedIn = async (authData) => {
+    console.log('IN onloggedin')
     localStorage.setItem('token', authData.token);
     localStorage.setItem('user', authData.user.Username);
     // getOneUser(authData.token);

@@ -28,8 +28,8 @@ export function LoginView(props) {
         props.onLoggedIn(data); //which provides the username to our parent component (child to parent communication)
       })
       .catch((e) => {
-        alert('Incorrect Username or Password. Please try again or register if you are a new user.');
-        window.open('/login', '_self');
+        // alert('Incorrect Username or Password. Please try again or register if you are a new user.');
+        // window.open('/login', '_self');
         console.log('User not found');
       });
   };
