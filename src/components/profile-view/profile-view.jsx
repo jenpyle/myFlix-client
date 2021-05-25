@@ -1,19 +1,16 @@
-import React, { useState } from 'react'; //useState is a react hook
-
-import PropTypes from 'prop-types';
+import React from 'react'; //useState is a react hook
 import { Link } from 'react-router-dom';
-import { Container, Card, Row, Col, Button, Form } from 'react-bootstrap';
-import axios from 'axios';
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
+import { Container, Card, Row, Col, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
+import { setProfileReq } from '../../actions/actions';
 
 export function ProfileView(props) {
-  console.log('inside of profile view');
-  const movies = useSelector((state) => state.movies);
-  const userData = useSelector((state) => state.user);
-  console.log(userData, '!!userData');
   const { onBackClick } = props; //obj destructuring
 
+  const dispatch = useDispatch();
+  const profileRequest = useSelector((state) => state.profileRequest);
+  const movies = useSelector((state) => state.movies);
+  const userData = useSelector((state) => state.user);
   const favMovies = movies.filter((movie) => userData && userData.FavoriteMovies.includes(movie._id));
   const toWatch = movies.filter((movie) => userData && userData.ToWatch.includes(movie._id));
 
@@ -61,7 +58,7 @@ export function ProfileView(props) {
               <Button
                 variant="info"
                 onClick={() => {
-                  props.setRequestType('put');
+                  dispatch(setProfileReq('put'));
                 }}
               >
                 Edit Profile Info

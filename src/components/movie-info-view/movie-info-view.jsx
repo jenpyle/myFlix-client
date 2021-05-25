@@ -1,11 +1,8 @@
-import React, { useState } from 'react'; //useState is a react hook
-
-import PropTypes from 'prop-types';
+import React from 'react'; //useState is a react hook
+import { Container, Card, Row, Col, Button } from 'react-bootstrap';
+import { editUserLists } from '../../api/api';
 import { Link } from 'react-router-dom';
-import { Container, Card, Row, Col, Button, Form } from 'react-bootstrap';
-import axios from 'axios';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import './movie-info-view.scss';
 //everything in the file is accessible to these functional components
@@ -13,11 +10,11 @@ import './movie-info-view.scss';
 export function MovieInfoView(props) {
   const movies = useSelector((state) => state.movies);
   const userData = useSelector((state) => state.user);
+  const dispatch = useDispatch();
   //when exporting don't use arrow syntax
   const { onBackClick, movieId } = props;
 
-  const movieData = movies.find(m => m._id == movieId);
-
+  const movieData = movies.find((m) => m._id == movieId);
 
   const addAndRemoveButtons = (props) => {
     //valid functional component
@@ -38,17 +35,15 @@ export function MovieInfoView(props) {
       btnColor2 = 'danger';
       text2 = 'Remove from To Watch';
       requestType2 = 'delete';
+      console.log('HELLO');
     }
     return (
       <React.Fragment>
-        <Button
-          variant={btnColor1}
-          onClick={() => props.editUserLists(movieData._id, 'favoritemovies', requestType1)}
-        >
+        <Button variant={btnColor1} onClick={editUserLists(movieData._id, 'favoritemovies', requestType1)}>
           {text1}
         </Button>
 
-        <Button variant={btnColor2} onClick={() => props.editUserLists(movieData._id, 'towatch', requestType2)}>
+        <Button variant={btnColor2} onClick={editUserLists(movieData._id, 'towatch', requestType2)}>
           {text2}
         </Button>
       </React.Fragment>
@@ -100,16 +95,13 @@ export function MovieInfoView(props) {
               </Card.Body>
               <div className="director-genre-btn">
                 <span>
-                  {movieData.Director ? (
-                    <Link to={`/directors/${movieData.Director}`}>
-                      <Button variant="link">{movieData.Director}</Button>
-                    </Link>
-                  ) : null}
-                  {movieData.Genre ? (
-                    <Link to={`/genres/${movieData.Genre.Name}`}>
-                      <Button variant="link">{movieData.Genre.Name}</Button>
-                    </Link>
-                  ) : null }
+                  <Link to={`/directors/${movieData.Director.Name}`}>
+                    <Button variant="link">{movieData.Director.Name}</Button>
+                  </Link>
+
+                  <Link to={`/genres/${movieData.Genre.Name}`}>
+                    <Button variant="link">{movieData.Genre.Name}</Button>
+                  </Link>
                 </span>
               </div>
             </div>

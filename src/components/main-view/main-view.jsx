@@ -3,8 +3,7 @@ import { Link } from 'react-router-dom';
 import { Row, Col, Button } from 'react-bootstrap';
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-
-import { setUser, setMovies } from '../../actions/actions';
+import { setUser, setProfileReq } from '../../actions/actions';
 import MoviesList from '../movies-list/movies-list';
 import { getMoviesFromApi, getOneUser, editUserLists } from '../../api/api';
 
@@ -15,57 +14,29 @@ import { DirectorView } from '../director-view/director-view';
 import { GenreView } from '../genre-view/genre-view';
 import { ProfileView } from '../profile-view/profile-view';
 import { UpdateProfile } from '../update-profile/update-profile';
-
 import './main-view.scss';
 
 const MainView = () => {
   const dispatch = useDispatch();
-
-  const [isFav, setIsFav] = useState(false);
-  const [isWatch, setIsWatch] = useState(false);
   const [requestType, setRequestType] = useState(false);
-
   const movies = useSelector((state) => state.movies);
   const user = useSelector((state) => state.user);
-
-  // const onLoggedIn = async (authData) => {
-  //   console.log('IN onloggedin');
-  //   // localStorage.setItem('token', authData.token);
-  //   // localStorage.setItem('user', authData.user.Username);
-  //   // // getOneUser(authData.token);
-  //   // // dispatch(
-  //   // //   setUser({
-  //   // //     Username: authData.user.Username,
-  //   // //     Password: authData.user.Password,
-  //   // //     Email: authData.user.Email,
-  //   // //     Birthday: authData.user.Birthday,
-  //   // //     FavoriteMovies: authData.user.FavoriteMovies,
-  //   // //   })
-  //   // // );
-  //   // // dispatch(setUser(authData.user));
-  //   // console.log('HERE=', authData.user);
-  //   // dispatch(getMoviesFromApi());
-  //   window.open(`/movies`, '_self');
-  // };
+  const profileRequest = useSelector((state) => state.profileRequest);
 
   const onLoggedOut = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     dispatch(setUser(null));
-    setRequestType(null);
     window.open(`/login`, '_self');
   };
 
   useEffect(() => {
-    console.log('USER=', user.Username);
     let accessToken = localStorage.getItem('token');
     if (accessToken !== null) {
       dispatch(getMoviesFromApi());
       dispatch(getOneUser());
     }
   }, []);
-  console.log(user, '!!user');
-  // if (movies.length === 0) return <div className="main-view" />;
 
   return (
     <Router>
@@ -83,7 +54,7 @@ const MainView = () => {
         {user.Username ? (
           <Col md="2">
             <Link to={`/users/${localStorage.getItem('user')}`}>
-              <Button variant="info" onClick={() => setRequestType(undefined)}>
+              <Button variant="info" onClick={() => dispatch(setProfileReq('get'))}>
                 Profile
               </Button>
             </Link>
@@ -107,7 +78,7 @@ const MainView = () => {
               <Button variant="info">Home</Button>
             </Link>
             <Link to={`/users/${localStorage.getItem('user')}`}>
-              <Button variant="info" onClick={() => setRequestType(undefined)}>
+              <Button variant="info" onClick={() => dispatch(setProfileReq('get'))}>
                 Profile
               </Button>
             </Link>
@@ -164,7 +135,6 @@ const MainView = () => {
         <Route
           path="/users/:username"
           render={({ history }) => {
-            console.log(movies, user, requestType, '!!!LMOVIRS');
             if (
               movies.length === 0 ||
               (user && // 👈 null and undefined check
@@ -172,11 +142,12 @@ const MainView = () => {
                 user.constructor === Object)
             )
               return <div className="main-view">Nothing yet</div>;
-            if (requestType === 'put') {
-              return <UpdateProfile setRequestType={(type) => setRequestType(type)} />;
+            if (profileRequest === 'put') {
+              return (
+                <UpdateProfile setRequestType={(type) => setRequestType(type)} onLoggedOut={() => onLoggedOut()} />
+              );
             }
-            if (!requestType) {
-              console.log('!!!HERE');
+            if (profileRequest === '' || profileRequest === 'get') {
               return (
                 <ProfileView onBackClick={() => history.goBack()} setRequestType={(type) => setRequestType(type)} />
               );

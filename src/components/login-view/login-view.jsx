@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { Container, Button, Form } from 'react-bootstrap';
 import { getMoviesFromApi, postLogin } from '../../api/api';
 import { useDispatch } from 'react-redux';
-
 import './login-view.scss';
 
 export function LoginView() {
@@ -24,7 +23,6 @@ export function LoginView() {
           <Form.Label>Username:</Form.Label>
           <Form.Control type="text" autoComplete="username" onChange={(e) => setUsername(e.target.value)} />
         </Form.Group>
-
         <Form.Group controlId="formPassword">
           <Form.Label>Password:</Form.Label>
           <Form.Control type="password" autoComplete="password" onChange={(e) => setPassword(e.target.value)} />

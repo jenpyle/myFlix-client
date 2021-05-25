@@ -1,10 +1,7 @@
 import React from 'react';
 import { Row, Col } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
-import { getMoviesFromApi, getUsersFromApi, getOneUser, editUserLists } from '../../api/api';
-
 import VisibilityFilterInput from '../visibility-filter-input/visibility-filter-input'; //importing compenent
-
 import { MovieCards } from '../movie-cards/movie-cards';
 
 const MoviesList = () => {
