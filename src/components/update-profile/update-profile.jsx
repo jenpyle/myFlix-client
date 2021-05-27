@@ -34,18 +34,18 @@ export function UpdateProfile(props) {
 
     let isValid = formValidation(formData, checked);
     let urlString = `https://jennysflix.herokuapp.com/users/${userData.Username}`;
-
     if (checked) urlString = `https://jennysflix.herokuapp.com/users/${userData.Username}/password`;
 
-    isValid === 'valid' ? putUpdateProfile(urlString, formData).then(dispatch(setProfileReq(''))) : alert(isValid);
+    console.log('form data=', formData);
+    console.log('URLSTRING=', urlString);
+    if (isValid === 'valid') dispatch(putUpdateProfile(urlString, formData));
+    if (isValid !== 'valid') alert(isValid);
   };
 
   const handleDelete = (e) => {
     e.preventDefault();
     let urlString = `https://jennysflix.herokuapp.com/users/${userData.Username}`;
-    deleteUser(urlString).then((response) => {
-      alert(response);
-    });
+    dispatch(deleteUser(urlString));
   };
 
   const setModalIsOpenToTrue = () => {

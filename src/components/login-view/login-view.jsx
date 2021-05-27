@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Container, Button, Form } from 'react-bootstrap';
-import { getMoviesFromApi, postLogin } from '../../api/api';
+import { getMoviesFromApi } from '../../api/api';
+import { postLogin } from '../../api/api';
+
 import { useDispatch } from 'react-redux';
 import './login-view.scss';
 
@@ -12,7 +14,7 @@ export function LoginView() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(postLogin(username, password)).then(() => dispatch(getMoviesFromApi()));
+    dispatch(postLogin(username, password));
   };
 
   return (

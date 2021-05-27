@@ -20,22 +20,39 @@ export const postLogin = (username, password) => {
           ToWatch: response.data.user.ToWatch,
         })
       );
+      dispatch(getMoviesFromApi());
     };
   } catch (err) {
+    ///////////////////////////alert is not showing up
+    alert('Incorrect username or password. If you are a new user please register.');
     console.log(err);
   }
 };
 
 export const putUpdateProfile = (urlString, formData) => {
+  console.log('FORM DATA', formData);
+  console.log('typeof urlString=', typeof urlString, urlString);
+  console.log('urlString=', urlString);
+  // const headers = {
+  //   headers: {
+  //     Authorization: `Bearer ${localStorage.getItem('token')}`,
+  //   },
+  // };
   try {
-    async (dispatch, getState) => {
-      const response = await axios.put(urlString, formData, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      });
+    return async (dispatch, getState) => {
+      // const response = await axios.put(urlString, formData, headers);
+      const response = await axios.put(
+        'https://jennysflix.herokuapp.com/users/jenny12345',
+        { Username: 'jenny123456', Email: 'jenny@gmail.com', Birthday: '10/31/1996' },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        }
+      );
       localStorage.setItem('user', response.data.Username);
       dispatch(setUser(response.data));
+      dispatch(setProfileReq(''));
       window.open(`/users/${response.data.Username}`, '_self');
     };
   } catch (err) {
@@ -51,7 +68,10 @@ export const deleteUser = (urlString) => {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
       });
-      console.log('RESPONSE', response);
+      alert(response.data);
+      window.open(`/login`, '_self');
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
     };
   } catch (err) {
     console.log(err);
@@ -77,9 +97,7 @@ export const getOneUser = () => {
       const response = await axios.get(`https://jennysflix.herokuapp.com/users/${localStorage.getItem('user')}`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       });
-      console.log('!!User before dispatch: ', getState().user);
       dispatch(setUser(response.data));
-      console.log('!!User after dispatch: ', getState().user);
     };
   } catch (err) {
     console.log(err);
@@ -87,7 +105,7 @@ export const getOneUser = () => {
 };
 
 export const editUserLists = (movieID, list, requestType) => {
-  console.log('MADE IT TO EDITUSERLISTS');
+  console.log('MADE IT TO EDITUSERLISTS', requestType);
   let accessToken = localStorage.getItem('token');
   let user = localStorage.getItem('user');
 

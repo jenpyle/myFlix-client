@@ -1,7 +1,7 @@
-import React, { useState } from 'react'; //useState is a react hook
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react'; //useState is a react hook
 import { Link } from 'react-router-dom';
 import { Card, Button } from 'react-bootstrap';
+
 import './movie-cards.scss';
 
 export function MovieCards(props) {
