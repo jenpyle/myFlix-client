@@ -142,7 +142,6 @@ export function UpdateProfile(props) {
             <Form.Control
               type="date"
               placeholder="date"
-              // autoComplete="birthday"
               defaultValue={userData.Birthday.substr(0, 10)}
               onChange={(e) => setBirthday(e.target.value)}
             />
@@ -168,4 +167,3 @@ export function UpdateProfile(props) {
     </Container>
   );
 }
-// export default connect(mapStateToProps, { setUser })(UpdateProfile);

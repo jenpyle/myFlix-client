@@ -35,15 +35,17 @@ export function MovieInfoView(props) {
       btnColor2 = 'danger';
       text2 = 'Remove from To Watch';
       requestType2 = 'delete';
-      console.log('HELLO');
     }
     return (
       <React.Fragment>
-        <Button variant={btnColor1} onClick={editUserLists(movieData._id, 'favoritemovies', requestType1)}>
+        <Button
+          variant={btnColor1}
+          onClick={() => dispatch(editUserLists(movieData._id, 'favoritemovies', requestType1))}
+        >
           {text1}
         </Button>
 
-        <Button variant={btnColor2} onClick={editUserLists(movieData._id, 'towatch', requestType2)}>
+        <Button variant={btnColor2} onClick={() => dispatch(editUserLists(movieData._id, 'towatch', requestType2))}>
           {text2}
         </Button>
       </React.Fragment>

@@ -1,8 +1,8 @@
 import React, { useState } from 'react'; //useState is a react hook
+import { Container, Button, Form } from 'react-bootstrap';
+import { useDispatch } from 'react-redux';
 
-import { Container, Card, Row, Col, Button, Form } from 'react-bootstrap';
-import axios from 'axios';
-
+import { postRegistration } from '../../api/api';
 import './registration-view.scss';
 
 export function RegistrationView(props) {
@@ -11,6 +11,7 @@ export function RegistrationView(props) {
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const [birthday, setBirthday] = useState('');
+  const dispatch = useDispatch();
 
   const formValidation = (formData) => {
     let isValid = 'valid';
@@ -36,20 +37,7 @@ export function RegistrationView(props) {
       return;
     }
     if (isValid === 'valid') {
-      axios
-        .post('https://jennysflix.herokuapp.com/users', {
-          Username: username,
-          Password: password,
-          Email: email,
-          Birthday: birthday,
-        })
-        .then(() => {
-          window.open('/login', '_self');
-        })
-        .catch((err) => {
-          alert(err.response.data);
-          console.log('Something went wrong with user registration! check that fields are valid');
-        });
+      dispatch(postRegistration(formData));
     }
   };
 

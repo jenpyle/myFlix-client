@@ -4,15 +4,15 @@ import { Row, Col, Button } from 'react-bootstrap';
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser, setProfileReq } from '../../actions/actions';
-import MoviesList from '../movies-list/movies-list';
-import { getMoviesFromApi, getOneUser, editUserLists } from '../../api/api';
 
-import { RegistrationView } from '../registration-view/registration-view';
+import { DirectorView } from '../director-view/director-view';
+import { editUserLists, getMoviesFromApi, getOneUser } from '../../api/api';
+import { GenreView } from '../genre-view/genre-view';
 import { LoginView } from '../login-view/login-view';
 import { MovieInfoView } from '../movie-info-view/movie-info-view';
-import { DirectorView } from '../director-view/director-view';
-import { GenreView } from '../genre-view/genre-view';
+import MoviesList from '../movies-list/movies-list';
 import { ProfileView } from '../profile-view/profile-view';
+import { RegistrationView } from '../registration-view/registration-view';
 import { UpdateProfile } from '../update-profile/update-profile';
 import './main-view.scss';
 

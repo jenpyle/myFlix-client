@@ -152,3 +152,16 @@ export const editUserLists = (movieID, list, requestType) => {
     }
   }
 };
+
+export const postRegistration = (formData) => {
+  console.log('FORM DATA111=', formData);
+  try {
+    return async (dispatch, getState) => {
+      const response = await axios.post('https://jennysflix.herokuapp.com/users', formData);
+      window.open('/login', '_self');
+    };
+  } catch (err) {
+    alert(err.response.data);
+    console.log('Something went wrong with user registration! check that fields are valid');
+  }
+};

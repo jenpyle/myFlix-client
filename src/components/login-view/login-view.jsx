@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { Container, Button, Form } from 'react-bootstrap';
-import { getMoviesFromApi } from '../../api/api';
-import { postLogin } from '../../api/api';
+import { Link } from 'react-router-dom';
 
-import { useDispatch } from 'react-redux';
 import './login-view.scss';
+import { postLogin } from '../../api/api';
+import { useDispatch } from 'react-redux';
 
 export function LoginView() {
   const dispatch = useDispatch();
