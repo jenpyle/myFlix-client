@@ -33,26 +33,20 @@ export const putUpdateProfile = (urlString, formData) => {
   console.log('FORM DATA', formData);
   console.log('typeof urlString=', typeof urlString, urlString);
   console.log('urlString=', urlString);
-  // const headers = {
-  //   headers: {
-  //     Authorization: `Bearer ${localStorage.getItem('token')}`,
-  //   },
-  // };
+  const headers = {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    },
+  };
   try {
     return async (dispatch, getState) => {
-      // const response = await axios.put(urlString, formData, headers);
-      const response = await axios.put(
-        'https://jennysflix.herokuapp.com/users/jenny12345',
-        { Username: 'jenny123456', Email: 'jenny@gmail.com', Birthday: '10/31/1996' },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        }
-      );
+      const response = await axios.put(urlString, formData,{
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
       localStorage.setItem('user', response.data.Username);
       dispatch(setUser(response.data));
-      dispatch(setProfileReq(''));
       window.open(`/users/${response.data.Username}`, '_self');
     };
   } catch (err) {

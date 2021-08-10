@@ -26,6 +26,7 @@ export function UpdateProfile(props) {
   };
 
   const handleSubmit = (e) => {
+    e.preventDefault();
     const formData = {};
     username ? (formData.Username = username) : (formData.Username = userData.Username);
     if (checked) formData.Password = password;
@@ -38,7 +39,10 @@ export function UpdateProfile(props) {
 
     console.log('form data=', formData);
     console.log('URLSTRING=', urlString);
-    if (isValid === 'valid') dispatch(putUpdateProfile(urlString, formData));
+    if (isValid === 'valid'){
+      dispatch(putUpdateProfile(urlString, formData));
+      localStorage.setItem('user', formData.Username);
+    } 
     if (isValid !== 'valid') alert(isValid);
   };
 
