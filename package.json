@@ -19,8 +19,6 @@
 	"dependencies": {
 		"axios": "^0.21.1",
 		"bootstrap": "^4.6.0",
-		"parcel": "^2.0.0-rc.0",
-		"parcel-bundler": "^1.12.5",
 		"prop-types": "^15.7.2",
 		"react": "^17.0.2",
 		"react-bootstrap": "^1.5.2",
@@ -32,11 +30,8 @@
 		"redux-thunk": "^2.3.0"
 	},
 	"devDependencies": {
-		"babel-core": "^6.26.3",
-		"babel-plugin-transform-class-properties": "^6.24.1",
-		"babel-preset-env": "^1.7.0",
-		"babel-preset-react": "^6.24.1",
-		"sass": "^1.32.12"
+		"parcel-bundler": "^1.12.5",
+		"sass": "^1.41.1"
 	},
 	"browserslist": [
 		"last 1 Chrome versions"
