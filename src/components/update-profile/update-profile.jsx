@@ -36,8 +36,6 @@ export function UpdateProfile(props) {
 		let urlString = `https://jennysflix.herokuapp.com/users/${userData.Username}`;
 		if (checked) urlString = `https://jennysflix.herokuapp.com/users/${userData.Username}/password`;
 
-		console.log('form data=', formData);
-		console.log('URLSTRING=', urlString);
 		if (isValid === 'valid') {
 			dispatch(setLoading(true));
 			dispatch(putUpdateProfile(urlString, formData));

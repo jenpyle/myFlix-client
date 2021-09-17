@@ -59,7 +59,7 @@ export const putUpdateProfile = (urlString, formData) => {
 			}
 		};
 	} catch (err) {
-		console.log('err', err, response);
+		console.log(err);
 	}
 };
 
@@ -108,8 +108,6 @@ export const getOneUser = () => {
 };
 
 export const editUserLists = (movieID, list, requestType) => {
-	console.log('MADE IT TO EDITUSERLISTS', requestType);
-	let accessToken = localStorage.getItem('token');
 	let user = localStorage.getItem('user');
 
 	if (requestType === 'post') {
@@ -162,7 +160,6 @@ export const postRegistration = (formData) => {
 				dispatch(setLoading(false));
 				caught = true;
 			});
-			console.log('caught = ', caught);
 			caught ? null : window.open(`/login`, '_self');
 		};
 	} catch (err) {
