@@ -64,8 +64,8 @@ export const putUpdateProfile = (urlString, formData) => {
 };
 
 export const deleteUser = (urlString) => {
-	try {
-		return async (dispatch, getState) => {
+	return async (dispatch, getState) => {
+		try {
 			const response = await axios.delete(urlString, {
 				headers: {
 					Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -75,10 +75,10 @@ export const deleteUser = (urlString) => {
 			window.open(`/login`, '_self');
 			localStorage.removeItem('token');
 			localStorage.removeItem('user');
-		};
-	} catch (err) {
-		console.log(err);
-	}
+		} catch (err) {
+			alert('Something went wrong with deleting user');
+		}
+	};
 };
 
 export const getMoviesFromApi = () => {
@@ -87,6 +87,7 @@ export const getMoviesFromApi = () => {
 			const response = await axios.get('https://jennysflix.herokuapp.com/movies', {
 				headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
 			});
+			console.log('HERE!!!!!!');
 			dispatch(setMovies(response.data));
 		};
 	} catch (err) {
@@ -152,29 +153,20 @@ export const editUserLists = (movieID, list, requestType) => {
 };
 
 export const postRegistration = (formData) => {
-	let caught = false;
-	try {
-		return async (dispatch, getState) => {
-			const response = await axios.post('https://jennysflix.herokuapp.com/users', formData).catch((error) => {
-				alert('Username already exists');
+	return async (dispatch, getState) => {
+		try {
+			const response = await axios.post('https://jennysflix.herokuapp.com/users', formData);
+			window.open('/login', '_self');
+		} catch (err) {
+			if (err.response.status === 409) {
+				alert(err.response.data);
 				dispatch(setLoading(false));
-				caught = true;
-			});
-			caught ? null : window.open(`/login`, '_self');
-		};
-	} catch (err) {
-		console.log('Something went wrong with user registration! check that fields are valid');
-	}
+			}
+			if (err.response.status === 422) {
+				alert(err.response.data.errors[0].msg);
+				dispatch(setLoading(false));
+			}
+			console.log('check that fields are valid');
+		}
+	};
 };
-
-// export const postRegistration = (formData) => {
-// 	try {
-// 		return async (dispatch, getState) => {
-// 			const response = await axios.post('https://jennysflix.herokuapp.com/users', formData);
-// 			window.open('/login', '_self');
-// 		};
-// 	} catch (err) {
-// 		alert(err.response.data);
-// 		console.log('Something went wrong with user registration! check that fields are valid');
-// 	}
-// };
