@@ -151,29 +151,30 @@ export const editUserLists = (movieID, list, requestType) => {
 	}
 };
 
-// export const postRegistration = (formData) => {
-// 	let caught = false;
-// 	try {
-// 		return async (dispatch, getState) => {
-// 			const response = await axios.post('https://jennysflix.herokuapp.com/users', formData).catch((error) => {
-// 				alert('Username already exists');
-// 				dispatch(setLoading(false));
-// 				caught = true;
-// 			});
-// 			caught ? null : window.open(`/login`, '_self');
-// 		};
-// 	} catch (err) {
-// 		console.log('Something went wrong with user registration! check that fields are valid');
-// 	}
-// };
 export const postRegistration = (formData) => {
+	let caught = false;
 	try {
 		return async (dispatch, getState) => {
-			const response = await axios.post('https://jennysflix.herokuapp.com/users', formData);
-			window.open('/login', '_self');
+			const response = await axios.post('https://jennysflix.herokuapp.com/users', formData).catch((error) => {
+				alert('Username already exists');
+				dispatch(setLoading(false));
+				caught = true;
+			});
+			caught ? null : window.open(`/login`, '_self');
 		};
 	} catch (err) {
-		alert(err.response.data);
 		console.log('Something went wrong with user registration! check that fields are valid');
 	}
 };
+
+// export const postRegistration = (formData) => {
+// 	try {
+// 		return async (dispatch, getState) => {
+// 			const response = await axios.post('https://jennysflix.herokuapp.com/users', formData);
+// 			window.open('/login', '_self');
+// 		};
+// 	} catch (err) {
+// 		alert(err.response.data);
+// 		console.log('Something went wrong with user registration! check that fields are valid');
+// 	}
+// };
