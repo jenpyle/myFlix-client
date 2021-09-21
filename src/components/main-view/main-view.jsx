@@ -126,8 +126,11 @@ const MainView = () => {
 					exact
 					path="/users"
 					render={({ history }) => {
-						if (user.Username) return <Redirect to="/movies" />;
-						return <RegistrationView onBackClick={() => history.goBack()} />;
+						if (user.Username) {
+							return <Redirect to="/movies" />;
+						} else {
+							return <RegistrationView onBackClick={() => history.goBack()} />;
+						}
 					}}
 				/>
 
@@ -142,9 +145,11 @@ const MainView = () => {
 						)
 							return <div className="main-view">Nothing yet</div>;
 						if (profileRequest === 'put') {
+							window.scrollTo(0, 0);
 							return <UpdateProfile setRequestType={(type) => setRequestType(type)} onLoggedOut={() => onLoggedOut()} />;
 						}
 						if (profileRequest === '' || profileRequest === 'get') {
+							window.scrollTo(0, 0);
 							return <ProfileView onBackClick={() => history.goBack()} setRequestType={(type) => setRequestType(type)} />;
 						}
 					}}

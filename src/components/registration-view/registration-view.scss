@@ -1,13 +1,16 @@
+@-ms-viewport {
+	width: device-width;
+}
 #bootstrap-overrides #registration-container {
-  border-style: solid;
-  border-radius: 5%;
-  padding: 30px;
-  background-color: antiquewhite;
-  h3 {
-    text-align: center;
-  }
-  form {
-    margin-top: 40px;
-    font-weight: bolder;
-  }
+	border-style: solid;
+	border-radius: 5%;
+	padding: 30px;
+	background-color: whitesmoke;
+	h3 {
+		text-align: center;
+	}
+	form {
+		margin-top: 40px;
+		font-weight: bolder;
+	}
 }

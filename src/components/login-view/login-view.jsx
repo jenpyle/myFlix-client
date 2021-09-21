@@ -32,7 +32,7 @@ export function LoginView() {
 					<Form.Label>Password:</Form.Label>
 					<Form.Control type="password" autoComplete="password" onChange={(e) => setPassword(e.target.value)} />
 				</Form.Group>
-				{loading ? <Spinner animation="border" /> : null}
+				{loading ? <Spinner className="spinner" animation="border" /> : null}
 				<Button variant="info" type="submit" onClick={handleSubmit}>
 					Submit
 				</Button>

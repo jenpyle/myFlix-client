@@ -1,92 +1,124 @@
-$primary-background-color: bisque;
 $primary-button-color: thistle;
 $border-color: violet;
-$title-color: black;
-$grey: lightslategray;
-$primary-accent-color: Rosybrown;
+$title-color: #d100d1;
+$title-color2: black;
 $selected-link-color: #489c79;
 $visited-color: #05676e;
 $font-weight: bold;
-
+@-ms-viewport {
+	width: device-width;
+	height: device-height;
+}
 #bootstrap-overrides {
-  .title {
-    font-family: 'Chango', cursive;
-    color: $title-color;
-    font-size: 6rem;
-  }
-
-  .profile-logout-btns-desktop {
-    button.btn.btn-info,
-    button.btn.btn-secondary {
-      width: 100%;
-      margin: 10px;
-    }
-  }
-  .profile-logout-btns-mobile,
-  .profile-logout-btns-desktop {
-    border-bottom: 1px solid rosybrown;
-    margin-bottom: 70px;
-    align-items: center;
-    z-index: 999;
-    background-color: $primary-background-color;
-    position: fixed;
-    right: 0px;
-    left: 0px;
-    padding-left: 30px;
-    padding-right: 30px;
-  }
-  .movie-cards {
-    flex-wrap: nowrap;
-    padding-top: 8rem;
-    right: 0;
-  }
-  .movie-card {
-    flex-shrink: 1;
-  }
+	.title {
+		font-family: 'Chango', cursive;
+		color: $title-color;
+		text-shadow: 2px 2px white;
+		font-size: 6rem;
+	}
+	h4.login-subtitle {
+		color: whitesmoke;
+	}
+	.login-container .spinner {
+		color: white;
+	}
+	.login-container label.form-label {
+		color: $primary-button-color;
+	}
+	.profile-logout-btns-desktop {
+		button.btn.btn-info,
+		button.btn.btn-secondary {
+			width: 100%;
+			margin: 10px;
+		}
+	}
+	.profile-logout-btns-mobile,
+	.profile-logout-btns-desktop {
+		border-bottom: 1px solid #f20089;
+		margin-bottom: 70px;
+		align-items: center;
+		z-index: 999;
+		background-color: inherit;
+		position: fixed;
+		right: 0px;
+		left: 0px;
+		padding-left: 30px;
+		padding-right: 30px;
+	}
+	.movie-cards {
+		flex-wrap: nowrap;
+		padding-top: 8rem;
+		right: 0;
+	}
+	.movie-card {
+		flex-shrink: 1;
+	}
 }
 
 @media (max-width: 1007px) {
-  #bootstrap-overrides {
-    .title {
-      font-size: 4rem;
-    }
-    .movie-cards {
-      flex-wrap: wrap;
-      padding-top: 13rem;
-    }
-    .profile-logout-btns-mobile {
-      border-bottom: 2px solid rosybrown;
-      display: block !important;
-      text-align: center;
-      padding-left: 0px;
-      padding-right: 0px;
-      right: 2rem;
-      left: 2rem;
+	#bootstrap-overrides {
+		.title {
+			font-size: 4rem;
+		}
+		.movie-cards {
+			flex-wrap: wrap;
+			padding-top: 8.5rem;
+		}
 
-      button.btn.btn-info,
-      button.btn.btn-secondary {
-        width: 32%;
-        margin: 3px;
-      }
-    }
-    .profile-logout-btns-desktop {
-      display: none !important;
-    }
-  }
+		.profile-logout-btns-mobile {
+			border-bottom: 2px solid #f20089;
+			display: block !important;
+			text-align: center;
+			padding-left: 0px;
+			padding-right: 0px;
+			right: 2rem;
+			left: 2rem;
+
+			button.btn.btn-info,
+			button.btn.btn-secondary {
+				flex-wrap: nowrap;
+				width: 32%;
+				margin: 0.1rem;
+			}
+		}
+		.profile-logout-btns-desktop {
+			display: none !important;
+		}
+	}
 }
 @media (max-width: 600px) {
-  #bootstrap-overrides {
-    .profile-logout-btns-mobile {
-      right: 0;
-      left: 0;
-    }
-  }
+	#bootstrap-overrides {
+		.profile-logout-btns-mobile {
+			right: 0;
+			left: 0;
+		}
+		button.btn.btn-info,
+		button.btn.btn-secondary {
+			width: 32%;
+			margin: 0.05rem;
+		}
+	}
+}
+
+@media (max-width: 300px) {
+	#bootstrap-overrides {
+		.title {
+			text-shadow: 2px 2px white;
+			font-size: 3.5rem;
+		}
+		button.btn.btn-info,
+		button.btn.btn-secondary {
+			font-size: small;
+			width: 30%;
+			margin: 0.05rem;
+		}
+	}
 }
 
 @media all and (min-width: 700px) and (max-width: 1000px) {
-  #bootstrap-overrides {
-    .movie-card.col-md-3 {
-      margin: 20px;
-    }
-  }
+	#bootstrap-overrides {
+		.movie-card.col-md-3 {
+			margin: 20px;
+		}
+	}
 }

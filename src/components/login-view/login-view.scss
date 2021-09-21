@@ -1,25 +1,17 @@
-$primary-background-color: bisque;
-$primary-button-color: thistle;
-$border-color: violet;
-$title-color: black;
-$grey: lightslategray;
-$primary-accent-color: Rosybrown;
-$selected-link-color: #489c79;
-$visited-color: #05676e;
-$font-weight: bold;
+$grey: violet;
 
 #bootstrap-overrides {
-  .login-container {
-    padding-top: 11rem;
-  }
-  .form-control {
-    border: 1px solid $grey;
-  }
+	.login-container {
+		padding-top: 11rem;
+	}
+	.form-control {
+		border: 1px solid $grey;
+	}
 }
 @media (max-width: 1007px) {
-  #bootstrap-overrides {
-    .login-container {
-      padding-top: 8rem;
-    }
-  }
+	#bootstrap-overrides {
+		.login-container {
+			padding-top: 8rem;
+		}
+	}
 }
