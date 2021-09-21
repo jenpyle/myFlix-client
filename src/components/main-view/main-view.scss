@@ -1,3 +1,5 @@
+$primary-background-color: #000000;
+$primary-background-image: linear-gradient(360deg, #000000 0%, #434343 74%);
 $primary-button-color: thistle;
 $border-color: violet;
 $title-color: #d100d1;
@@ -5,6 +7,7 @@ $title-color2: black;
 $selected-link-color: #489c79;
 $visited-color: #05676e;
 $font-weight: bold;
+
 @-ms-viewport {
 	width: device-width;
 	height: device-height;
@@ -25,6 +28,20 @@ $font-weight: bold;
 	.login-container label.form-label {
 		color: $primary-button-color;
 	}
+
+	.profile-logout-btns-desktop,
+	.profile-logout-btns-mobile {
+		transition: all 0.6s ease-in-out;
+	}
+	.profile-logout-btns-desktop.active,
+	.profile-logout-btns-mobile.active {
+		background: $primary-background-color;
+		background-image: $primary-background-image;
+		-webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
+		-moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
+		box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
+	}
+
 	.profile-logout-btns-desktop {
 		button.btn.btn-info,
 		button.btn.btn-secondary {
@@ -69,10 +86,6 @@ $font-weight: bold;
 			border-bottom: 2px solid #f20089;
 			display: block !important;
 			text-align: center;
-			padding-left: 0px;
-			padding-right: 0px;
-			right: 2rem;
-			left: 2rem;
 
 			button.btn.btn-info,
 			button.btn.btn-secondary {

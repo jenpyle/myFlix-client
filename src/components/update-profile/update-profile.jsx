@@ -3,11 +3,10 @@ import { Button, Container, Form, Modal, Spinner } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { setLoading, setProfileReq } from '../../actions/actions';
 import { deleteUser, putUpdateProfile } from '../../api/api';
-import './update-profile.scss';
 
 export function UpdateProfile(props) {
 	const dispatch = useDispatch();
-	const [username, setUsername] = useState(''); // assigns an empty string to the username variable—and assigns to the setUsername variable a method to update the username variable
+	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
 	const [email, setEmail] = useState();
 	const [birthday, setBirthday] = useState('');

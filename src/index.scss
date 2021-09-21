@@ -1,20 +1,15 @@
-// $primary-background-color: bisque;
 $primary-background-color: #000000;
 $primary-background-image: linear-gradient(147deg, #000000 0%, #434343 74%);
-// $primary-background-image: linear-gradient(-147deg, #434343 0%, #000000 74%);
-
 $primary-button-color: thistle;
-
 $secondary-button-color: red;
 $border-color: violet;
 $title-color: #d100d1;
-
 $grey: dimgrey;
-
 $selected-link-color: #489c79;
 $visited-color: #05676e;
 $font-weight: bold;
-$card-background-color: whitesmoke; //rgb(229, 253, 247);
+$card-background-color: whitesmoke;
+
 @-ms-viewport {
 	width: device-width;
 }
@@ -27,7 +22,6 @@ body {
 	height: 100%;
 	width: 100%;
 	background-color: $primary-background-color;
-
 	background-image: $primary-background-image;
 	background-repeat: no-repeat;
 	background-attachment: fixed;
@@ -36,9 +30,6 @@ body {
 
 #bootstrap-overrides {
 	.app-container {
-		// background-color: $primary-background-color;
-		// background-image: $primary-background-image;
-
 		height: 100%;
 	}
 	.btn {

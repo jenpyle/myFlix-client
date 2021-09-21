@@ -15,6 +15,7 @@ import { ProfileView } from '../profile-view/profile-view';
 import { RegistrationView } from '../registration-view/registration-view';
 import { UpdateProfile } from '../update-profile/update-profile';
 import './main-view.scss';
+import $ from 'jquery';
 
 const MainView = () => {
 	const dispatch = useDispatch();
@@ -36,6 +37,20 @@ const MainView = () => {
 			dispatch(getMoviesFromApi());
 			dispatch(getOneUser());
 		}
+	}, []);
+
+	useEffect(() => {
+		//fix transparent header when scrolling
+		$(window).on('scroll', function () {
+			if ($(window).scrollTop() > 50) {
+				$('.profile-logout-btns-desktop').addClass('active');
+				$('.profile-logout-btns-mobile').addClass('active');
+			} else {
+				//remove the background property so it comes transparent again (defined in your css)
+				$('.profile-logout-btns-desktop').removeClass('active');
+				$('.profile-logout-btns-mobile').removeClass('active');
+			}
+		});
 	}, []);
 
 	return (
@@ -160,6 +175,7 @@ const MainView = () => {
 					render={({ match, history }) => {
 						if (!user.Username) <Redirect to="/login" />;
 						if (movies.length === 0) return <div className="main-view" />;
+						window.scrollTo(0, 0);
 						return <MovieInfoView movieId={match.params.movieId} editUserLists={(movieID, list, requestType) => editUserLists(movieID, list, requestType)} onBackClick={() => history.goBack()} />;
 					}}
 				/>
@@ -170,6 +186,7 @@ const MainView = () => {
 							return <LoginView />;
 						}
 						if (movies.length === 0) return <div className="main-view" />;
+						window.scrollTo(0, 0);
 						return <DirectorView directorData={movies.find((movie) => movie.Director.Name === match.params.name).Director} onBackClick={() => history.goBack()} />;
 					}}
 				/>
@@ -180,6 +197,7 @@ const MainView = () => {
 							return <LoginView />;
 						}
 						if (movies.length === 0) return <div className="main-view" />;
+						window.scrollTo(0, 0);
 						return <GenreView genreData={movies.find((movie) => movie.Genre.Name === match.params.name).Genre} onBackClick={() => history.goBack()} />;
 					}}
 				/>
