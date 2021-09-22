@@ -4,7 +4,7 @@ A movie app that allows users to sign up, log in, and view or filter through a l
 **[Click here to View App](https://myflix-jenpyle.netlify.app/)**
 
 <p align="center">
-<img alt="Demo video" src="./src/img/myFlix-main.PNG" height="600">
+<img alt="Demo video" src="./src/img/myFlix-main.PNG" height="auto" width="auto">
 </p>
 
 ## Technical Details
